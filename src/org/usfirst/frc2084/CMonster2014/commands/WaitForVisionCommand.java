@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2084.CMonster2014.TargetTrackingCommunication;
 
 /**
- *
+ * 
  */
 public class WaitForVisionCommand extends Command {
 
