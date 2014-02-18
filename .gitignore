@@ -3,5 +3,4 @@
 
 # ignore netbeans files
 /nbproject/private/
-/build
-/dist
+/build/
