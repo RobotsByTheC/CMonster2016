@@ -57,7 +57,20 @@ public class FunCommand extends Command {
         ADXL345_I2C.AllAxes accel = RobotMap.driveSubsystemAccelerometer.getAccelerations();
         SmartDashboard.putNumber("X Acceleration", accel.XAxis);
         SmartDashboard.putNumber("Y Acceleration", accel.YAxis);
-        SmartDashboard.putString("Goal State", TargetTrackingCommunication.getState().toString());
+        String targetState;
+        switch (TargetTrackingCommunication.getState().value) {
+            case TargetTrackingCommunication.State.HOT_VALUE:
+                targetState = "Hot";
+                break;
+            case TargetTrackingCommunication.State.NOT_HOT_VALUE:
+                targetState = "Not hot";
+                break;
+            default:
+            case TargetTrackingCommunication.State.UNKNOWN_VALUE:
+                targetState = "Unknown";
+                break;
+        }
+        SmartDashboard.putString("Goal State", targetState);
         
         SmartDashboard.putNumber("Encoder Distance", RobotMap.driveSubsystemRearRightEncoder.getDistance());
     }
