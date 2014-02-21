@@ -65,10 +65,8 @@ public class Robot extends IterativeRobot {
         autonomousChooser.addDefault("Front Left Goal", new FrontAutonomousCommandGroup(true));
         autonomousChooser.addObject("Front Right Goal", new FrontAutonomousCommandGroup(false));
         SmartDashboard.putData("Autonomous Mode", autonomousChooser);
-
         // Make sure the DS laptop is not reporting vision to the robot
         TargetTrackingCommunication.setAutonomousVisionRunning(false);
-
         // Enable the camera on the DS laptop when the robot starts
         TargetTrackingCommunication.setCameraEnabled(true);
     }
@@ -97,7 +95,6 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit() {
-        LedStripController.off();
         TargetTrackingCommunication.setAutonomousVisionRunning(false);
         TargetTrackingCommunication.setCameraEnabled(false);
         // This makes sure that the autonomous stops running when
