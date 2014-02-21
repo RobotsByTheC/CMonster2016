@@ -79,6 +79,8 @@ public class FunCommand extends Command {
         SmartDashboard.putString("Goal State", targetState);
 
         SmartDashboard.putNumber("Encoder Distance", RobotMap.driveSubsystemRearRightEncoder.getDistance());
+        
+        SmartDashboard.putNumber("Temperature", RobotMap.driveSubsystemSteeringGyroTemp.getTemp());
     }
 
     // Make this return true when this Command no longer needs to run execute()
