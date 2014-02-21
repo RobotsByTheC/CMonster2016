@@ -266,29 +266,6 @@ Children:
     Properties:
       Default Command: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
         name: Default Command, type: Command, validators: null, value: None}
-  - Name: Led Subsystem
-    Base: Subsystem
-    Children:
-    - Name: Red
-      Base: Digital Output
-      Children: []
-      Properties:
-        Output Module (Digital): !!robotbuilder.data.properties.ChoicesProperty
-          choices: ['1', '2']
-          default: '1'
-          name: Output Module (Digital)
-          validators: [DigitalChannel]
-          value: '1'
-        Output Channel (Digital): !!robotbuilder.data.properties.ChoicesProperty
-          choices: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12',
-            '13', '14']
-          default: '1'
-          name: Output Channel (Digital)
-          validators: [DigitalChannel]
-          value: '4'
-    Properties:
-      Default Command: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
-        name: Default Command, type: Command, validators: null, value: None}
   Properties: {}
 - Name: Operator Interface
   Base: OI
