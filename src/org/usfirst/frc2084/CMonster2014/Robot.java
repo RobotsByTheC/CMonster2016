@@ -9,6 +9,8 @@
 // it from being updated in the future.
 package org.usfirst.frc2084.CMonster2014;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -65,12 +67,12 @@ public class Robot extends IterativeRobot {
         autonomousChooser.addDefault("Front Left Goal", new FrontAutonomousCommandGroup(true));
         autonomousChooser.addObject("Front Right Goal", new FrontAutonomousCommandGroup(false));
         SmartDashboard.putData("Autonomous Mode", autonomousChooser);
-
         // Make sure the DS laptop is not reporting vision to the robot
         TargetTrackingCommunication.setAutonomousVisionRunning(false);
-
         // Enable the camera on the DS laptop when the robot starts
         TargetTrackingCommunication.setCameraEnabled(true);
+
+        Robot.ledSubsystem.sendCode(LedSubsystem.OFF_CODE);
     }
 
     public void autonomousInit() {
@@ -87,6 +89,15 @@ public class Robot extends IterativeRobot {
         } else {
             System.out.println("No autonomous mode selected.");
         }
+
+        Alliance alliance = DriverStation.getInstance().getAlliance();
+        if (alliance.value == Alliance.kBlue_val) {
+            Robot.ledSubsystem.sendCode(LedSubsystem.SOLID_BLUE_CODE);
+        } else if (alliance.value == Alliance.kRed_val) {
+            Robot.ledSubsystem.sendCode(LedSubsystem.SOLID_RED_CODE);
+        } else {
+            Robot.ledSubsystem.sendCode(LedSubsystem.OFF_CODE);
+        }
     }
 
     /**
@@ -97,7 +108,6 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit() {
-        LedStripController.off();
         TargetTrackingCommunication.setAutonomousVisionRunning(false);
         TargetTrackingCommunication.setCameraEnabled(false);
         // This makes sure that the autonomous stops running when
@@ -125,6 +135,7 @@ public class Robot extends IterativeRobot {
     }
 
     public void disabledInit() {
+        Robot.ledSubsystem.sendCode(LedSubsystem.OFF_CODE);
     }
 
     public void disabledPeriodic() {
