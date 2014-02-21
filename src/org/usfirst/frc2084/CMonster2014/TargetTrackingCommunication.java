@@ -1,4 +1,3 @@
-
 package org.usfirst.frc2084.CMonster2014;
 
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
@@ -19,12 +18,12 @@ public class TargetTrackingCommunication {
     static {
         init();
     }
-    
+
     public static void init() {
         setState(State.UNKNOWN);
-        
+
     }
-    
+
     public static class State {
 
         public static final int HOT_VALUE = 1;
@@ -75,7 +74,7 @@ public class TargetTrackingCommunication {
     public static void setState(State state) {
         targetTable.putNumber(TARGET_TABLE_STATE_KEY, state.value);
     }
-    
+
     public static State getState() {
         return new State((int) targetTable.getNumber(TARGET_TABLE_STATE_KEY, State.UNKNOWN_VALUE));
     }
@@ -91,7 +90,7 @@ public class TargetTrackingCommunication {
     public static void setCameraEnabled(boolean enabled) {
         targetTable.putBoolean(TARGET_TABLE_ENABLE_CAMERA_KEY, enabled);
     }
-    
+
     public static boolean isCameraEnabled() {
         return targetTable.getBoolean(TARGET_TABLE_ENABLE_CAMERA_KEY, true);
     }

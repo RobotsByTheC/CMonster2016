@@ -47,9 +47,7 @@ public class FrontAutonomousDriveCommand extends Command {
      * wall in order to minimize bouncing.
      */
     private static final double WALL_PUSH_TIME = 0.2;
-
     private final boolean leftGoal;
-
     private double currentSpeed = 0.0;
     private boolean hitWall = false;
     private double hitWallTime = 0.0;
@@ -76,9 +74,7 @@ public class FrontAutonomousDriveCommand extends Command {
         if (currentSpeed < DRIVING_SPEED) {
             currentSpeed = timeSinceInitialized() * ACCELERATION;
         }
-
         double gForce = RobotMap.driveSubsystemAccelerometer.getAcceleration(ADXL345_I2C.Axes.kX);
-
         // If the gForce is greater than a limit, set the hit wall flag and 
         // record the time.
         if (GFORCE_LIMIT < 0 ? gForce < GFORCE_LIMIT : gForce > GFORCE_LIMIT) {
