@@ -18,7 +18,8 @@ public class FrontAutonomousDriveCommand extends Command {
     private static final double DRIVING_SPEED = 0.4;
     /**
      * The speed at which the robot should push itself against the wall to
-     * maintain a straight path.
+     * maintain a straight path. Competition experience has shown that this is
+     * not really necessary.
      */
     private static final double SIDEWAYS_SPEED = 0.2;
     /**
@@ -90,7 +91,7 @@ public class FrontAutonomousDriveCommand extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        // Was the goal hot at the beginning of autonomous?
+        // Was the goal not hot at the beginning of autonomous?
         boolean notHot = TargetTrackingCommunication.getState().equals(TargetTrackingCommunication.State.NOT_HOT);
         return (hitWall && (timeSinceInitialized() - hitWallTime > WALL_PUSH_TIME))
                 && (notHot ? DriverStation.getInstance().getMatchTime() >= WAIT_FOR_HOT_TIME : true);
