@@ -47,7 +47,7 @@ public class FrontAutonomousDriveCommand extends Command {
      * The amount of time the robot should continue driving after it hits the
      * wall in order to minimize bouncing.
      */
-    private static final double WALL_PUSH_TIME = 0.2;
+    private static final double WALL_PUSH_TIME = 0.3;
     private final boolean leftGoal;
     private double currentSpeed = 0.0;
     private boolean hitWall = false;
