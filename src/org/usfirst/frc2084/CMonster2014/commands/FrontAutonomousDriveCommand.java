@@ -15,7 +15,7 @@ public class FrontAutonomousDriveCommand extends Command {
     /**
      * The speed to drive at.
      */
-    private static final double DRIVING_SPEED = 0.4;
+    private static final double DRIVING_SPEED = 0.6;
     /**
      * The speed at which the robot should push itself against the wall to
      * maintain a straight path. Competition experience has shown that this is
@@ -85,7 +85,7 @@ public class FrontAutonomousDriveCommand extends Command {
         if (hitWall && (timeSinceInitialized() - hitWallTime > WALL_PUSH_TIME)) {
             Robot.driveSubsystem.getRobotDrive().stopMotor();
         } else {
-            Robot.driveSubsystem.getRobotDrive().mecanumDrive_Cartesian(leftGoal ? SIDEWAYS_SPEED : -SIDEWAYS_SPEED, currentSpeed);
+            Robot.driveSubsystem.getRobotDrive().mecanumDrive_Orientation(leftGoal ? SIDEWAYS_SPEED : -SIDEWAYS_SPEED, currentSpeed, 0);
         }
     }
 

@@ -76,7 +76,7 @@ public class Robot extends IterativeRobot {
         // Enable the camera on the DS laptop when the robot starts
         TargetTrackingCommunication.setCameraEnabled(true);
 
-        Robot.ledSubsystem.sendCode(LedSubsystem.OFF_CODE);
+        Robot.ledSubsystem.sendCode(LedSubsystem.DISABLE_CODE);
     }
 
     public void autonomousInit() {
@@ -85,7 +85,8 @@ public class Robot extends IterativeRobot {
         TargetTrackingCommunication.setCameraEnabled(true);
         // Tell the DS laptop to starting detecting the hot target
         TargetTrackingCommunication.setAutonomousVisionRunning(true);
-        Robot.driveSubsystem.getRobotDrive().resetGyro();
+//        Removed this and put it in the autonomous command
+//        Robot.driveSubsystem.getRobotDrive().resetGyro();
         Object selection = autonomousChooser.getSelected();
         if (selection != null && selection instanceof Command) {
             autonomousCommand = (Command) selection;
@@ -100,7 +101,7 @@ public class Robot extends IterativeRobot {
         } else if (alliance.value == Alliance.kRed_val) {
             Robot.ledSubsystem.sendCode(LedSubsystem.SOLID_RED_CODE);
         } else {
-            Robot.ledSubsystem.sendCode(LedSubsystem.OFF_CODE);
+            Robot.ledSubsystem.sendCode(LedSubsystem.DISABLE_CODE);
         }
     }
 
@@ -139,7 +140,7 @@ public class Robot extends IterativeRobot {
     }
 
     public void disabledInit() {
-        Robot.ledSubsystem.sendCode(LedSubsystem.OFF_CODE);
+        Robot.ledSubsystem.sendCode(LedSubsystem.DISABLE_CODE);
     }
 
     public void disabledPeriodic() {
