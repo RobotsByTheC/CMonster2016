@@ -17,15 +17,6 @@ public abstract class TimedCommand extends Command {
         super(time);
     }
 
-    protected void initialize() {
-        run();
-    }
-
-    protected abstract void run();
-
-    protected final void execute() {
-    }
-
     protected boolean isFinished() {
         return false;
     }

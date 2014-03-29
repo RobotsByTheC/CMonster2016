@@ -26,6 +26,11 @@ public class WaitForVisionCommand extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
         TargetTrackingCommunication.setState(TargetTrackingCommunication.State.UNKNOWN);
+        // Last ditch effort to bring the camera up on the DS laptop, probably
+        // is too late.
+        TargetTrackingCommunication.setCameraEnabled(true);
+        // Tell the DS laptop to starting detecting the hot target
+        TargetTrackingCommunication.setAutonomousVisionRunning(true);
     }
 
     // Called repeatedly when this Command is scheduled to run

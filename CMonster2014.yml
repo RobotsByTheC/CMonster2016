@@ -98,24 +98,6 @@ Children:
           name: Output Channel (PWM)
           validators: *id005
           value: '4'
-    - Name: Steering Gyro
-      Base: Gyro
-      Children: []
-      Properties:
-        Sensitivity: !!robotbuilder.data.properties.DoubleProperty {default: 0.007,
-          name: Sensitivity, validators: null, value: 0.007}
-        Input Module (Analog): !!robotbuilder.data.properties.ChoicesProperty
-          choices: ['1']
-          default: '1'
-          name: Input Module (Analog)
-          validators: [AnalogInput]
-          value: '1'
-        Input Channel (Analog): !!robotbuilder.data.properties.ChoicesProperty
-          choices: ['1', '2']
-          default: '1'
-          name: Input Channel (Analog)
-          validators: [AnalogInput]
-          value: '1'
     - Name: Rear Right Encoder
       Base: Quadrature Encoder
       Children: []
@@ -678,6 +660,12 @@ Children:
 - Name: Commands
   Base: Commands
   Children:
+  - Name: WaitForVisionCommandGroup
+    Base: Command Group
+    Children: []
+    Properties:
+      Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
+        name: Button on SmartDashboard, validators: null, value: false}
   - Name: WaitForVisionCommand
     Base: Command
     Children: []
@@ -845,6 +833,6 @@ Properties:
     validators: null, value: 2084}
   Export Commands: !!robotbuilder.data.properties.BooleanProperty {default: true,
     name: Export Commands, validators: null, value: true}
-  Java Project Directory: !!robotbuilder.data.properties.FileProperty {default: /home/ben/NetBeansProjects,
+  Java Project Directory: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\Robot\NetBeansProjects',
     extension: null, folder: true, name: Java Project Directory, validators: null,
     value: ../}

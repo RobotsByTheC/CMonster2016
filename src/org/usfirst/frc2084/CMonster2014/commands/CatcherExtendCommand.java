@@ -26,8 +26,11 @@ public class CatcherExtendCommand extends TimedCommand {
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void run() {
+    protected void initialize() {
         Robot.catcherSubsytem.extend();
+    }
+
+    protected void execute() {
     }
 
     protected void end() {

@@ -26,8 +26,11 @@ public class CatcherRetractCommand extends TimedCommand {
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void run() {
+    protected void initialize() {
         Robot.catcherSubsytem.retract();
+    }
+
+    protected void execute() {
     }
 
     protected void end() {
