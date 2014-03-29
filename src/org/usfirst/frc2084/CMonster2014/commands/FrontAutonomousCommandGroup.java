@@ -33,7 +33,7 @@ public class FrontAutonomousCommandGroup extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
         addSequential(new ResetGyroComand());
-        addSequential(new WaitForVisionCommand());
+        addParallel(new WaitForVisionCommand());
         addSequential(new FrontAutonomousDriveCommand(leftGoal));
         addSequential(new SweeperEjectCommand());
     }

@@ -12,7 +12,7 @@ public class WaitForVisionCommand extends Command {
      * The maximum amount of time to wait for information from the vision
      * processing algorithm on the driver station laptop.
      */
-    private static final double MAX_TIME = 0.8;
+    private static final double MAX_TIME = 1.0;
 
     public WaitForVisionCommand() {
         super(MAX_TIME);
