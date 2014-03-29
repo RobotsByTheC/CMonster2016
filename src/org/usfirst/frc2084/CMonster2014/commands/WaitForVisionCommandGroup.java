@@ -37,5 +37,6 @@ public class WaitForVisionCommandGroup extends CommandGroup {
         // arm.
         
         addSequential(new WaitCommand(VISION_PAUSE_TIME));
+        addSequential(new WaitForVisionCommand());
     }
 }
