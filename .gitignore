@@ -1,5 +1,6 @@
 # ignore file backups
 *~
+*.bak.xml
 
 # ignore netbeans files
 /nbproject/private/
