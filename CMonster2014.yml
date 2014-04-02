@@ -660,13 +660,13 @@ Children:
 - Name: Commands
   Base: Commands
   Children:
-  - Name: WaitForVisionCommandGroup
+  - Name: Front Autonomous Drive And Vision Command Group
     Base: Command Group
     Children: []
     Properties:
       Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
         name: Button on SmartDashboard, validators: null, value: false}
-  - Name: WaitForVisionCommand
+  - Name: Wait For Vision Command
     Base: Command
     Children: []
     Properties:
@@ -833,6 +833,6 @@ Properties:
     validators: null, value: 2084}
   Export Commands: !!robotbuilder.data.properties.BooleanProperty {default: true,
     name: Export Commands, validators: null, value: true}
-  Java Project Directory: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\Robot\NetBeansProjects',
+  Java Project Directory: !!robotbuilder.data.properties.FileProperty {default: /home/ben/NetBeansProjects,
     extension: null, folder: true, name: Java Project Directory, validators: null,
     value: ../}

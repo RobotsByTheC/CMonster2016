@@ -10,13 +10,12 @@
 package org.usfirst.frc2084.CMonster2014.commands;
 
 import edu.wpi.first.wpilibj.ADXL345_I2C;
-import edu.wpi.first.wpilibj.Utility;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2084.CMonster2014.Robot;
 import org.usfirst.frc2084.CMonster2014.RobotMap;
 
 /**
- *
+ * DOES NOT WORK!!!!
  */
 public class SideAutonomousDriveCommand extends Command {
 

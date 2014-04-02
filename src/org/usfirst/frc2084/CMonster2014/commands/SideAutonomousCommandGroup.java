@@ -12,7 +12,7 @@ package org.usfirst.frc2084.CMonster2014.commands;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- *
+ * DOES NOT WORK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  */
 public class SideAutonomousCommandGroup extends CommandGroup {
 

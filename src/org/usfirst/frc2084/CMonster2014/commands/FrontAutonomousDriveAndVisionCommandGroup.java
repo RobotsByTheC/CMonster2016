@@ -10,16 +10,13 @@
 package org.usfirst.frc2084.CMonster2014.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
  *
  */
-public class FrontAutonomousCommandGroup extends CommandGroup {
+public class FrontAutonomousDriveAndVisionCommandGroup extends CommandGroup {
 
-    public static final double WAIT_TIME = 1.0;
-
-    public FrontAutonomousCommandGroup(boolean leftGoal) {
+    public FrontAutonomousDriveAndVisionCommandGroup(boolean leftGoal) {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -35,9 +32,7 @@ public class FrontAutonomousCommandGroup extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-        addSequential(new ResetGyroComand());
-        addSequential(new WaitCommand(WAIT_TIME));
-        addSequential(new FrontAutonomousDriveAndVisionCommandGroup(leftGoal));
-        addSequential(new SweeperEjectCommand());
+        addParallel(new FrontAutonomousDriveCommand(leftGoal));
+        addParallel(new WaitForVisionCommand());
     }
 }
