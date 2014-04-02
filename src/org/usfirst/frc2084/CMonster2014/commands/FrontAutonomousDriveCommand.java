@@ -15,7 +15,7 @@ public class FrontAutonomousDriveCommand extends Command {
     /**
      * The speed to drive at.
      */
-    private static final double DRIVING_SPEED = 0.6;
+    private static final double DRIVING_SPEED = 0.7;
     /**
      * The speed at which the robot should push itself against the wall to
      * maintain a straight path. Competition experience has shown that this is
@@ -25,7 +25,7 @@ public class FrontAutonomousDriveCommand extends Command {
     /**
      * The rate at which the robot should accelerate.
      */
-    private static final double ACCELERATION = 1.5;
+    private static final double ACCELERATION = 2;
     /**
      * The G-Force that the robot threshold at which the robot should stop. This
      * needs to be calibrated.
@@ -36,7 +36,7 @@ public class FrontAutonomousDriveCommand extends Command {
      * automatically. This is to prevent a major problem should the robot not
      * detect when it hits the wall.
      */
-    private static final double TIMEOUT = 3;
+    private static final double TIMEOUT = 5;
     /**
      * The amount of time the robot should wait from the beginning of the match
      * before ejecting the ball if the goal was not hot at the beginning of the
@@ -47,7 +47,7 @@ public class FrontAutonomousDriveCommand extends Command {
      * The amount of time the robot should continue driving after it hits the
      * wall in order to minimize bouncing.
      */
-    private static final double WALL_PUSH_TIME = 0.3;
+    private static final double WALL_PUSH_TIME = 0.4;
     private final boolean leftGoal;
     private double currentSpeed = 0.0;
     private boolean hitWall = false;
