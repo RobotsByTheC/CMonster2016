@@ -58,9 +58,6 @@ public class RobotMap {
         driveSubsystemRearRightJaguar = new Jaguar(1, 4);
         LiveWindow.addActuator("Drive Subsystem", "Rear Right Jaguar", (Jaguar) driveSubsystemRearRightJaguar);
 
-        driveSubsystemSteeringGyro = new BetterGyro(1, 1);
-        LiveWindow.addSensor("Drive Subsystem", "Steering Gyro", driveSubsystemSteeringGyro);
-        driveSubsystemSteeringGyro.setSensitivity(0.007);
         driveSubsystemRearRightEncoder = new Encoder(1, 2, 1, 3, false, EncodingType.k2X);
         LiveWindow.addSensor("Drive Subsystem", "Rear Right Encoder", driveSubsystemRearRightEncoder);
         driveSubsystemRearRightEncoder.setDistancePerPulse(0.002908882);

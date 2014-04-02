@@ -98,24 +98,6 @@ Children:
           name: Output Channel (PWM)
           validators: *id005
           value: '4'
-    - Name: Steering Gyro
-      Base: Gyro
-      Children: []
-      Properties:
-        Sensitivity: !!robotbuilder.data.properties.DoubleProperty {default: 0.007,
-          name: Sensitivity, validators: null, value: 0.007}
-        Input Module (Analog): !!robotbuilder.data.properties.ChoicesProperty
-          choices: ['1']
-          default: '1'
-          name: Input Module (Analog)
-          validators: [AnalogInput]
-          value: '1'
-        Input Channel (Analog): !!robotbuilder.data.properties.ChoicesProperty
-          choices: ['1', '2']
-          default: '1'
-          name: Input Channel (Analog)
-          validators: [AnalogInput]
-          value: '1'
     - Name: Rear Right Encoder
       Base: Quadrature Encoder
       Children: []
