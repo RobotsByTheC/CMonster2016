@@ -348,22 +348,6 @@ Children:
           name: Output Channel (Digital)
           validators: *id013
           value: '9'
-    - Name: Enable Pin
-      Base: Digital Output
-      Children: []
-      Properties:
-        Output Module (Digital): !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id010
-          default: '1'
-          name: Output Module (Digital)
-          validators: *id011
-          value: '1'
-        Output Channel (Digital): !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id012
-          default: '1'
-          name: Output Channel (Digital)
-          validators: *id013
-          value: '10'
     Properties:
       Default Command: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
         name: Default Command, type: Command, validators: null, value: None}
