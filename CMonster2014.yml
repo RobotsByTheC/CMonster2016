@@ -771,7 +771,7 @@ Children:
     Children: []
     Properties:
       Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
-        name: Requires, type: Subsystem, validators: null, value: None}
+        name: Requires, type: Subsystem, validators: null, value: Sweeper Subsystem}
       Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
         name: Button on SmartDashboard, validators: null, value: true}
   - Name: Sweeper Off Command

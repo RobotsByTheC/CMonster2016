@@ -20,7 +20,7 @@ public class FrontAutonomousCommandGroup extends CommandGroup {
      * Stupid FMS! if they have not changed after this, we'll just screw them
      * and do our autonomous without vision.
      */
-    public static final double WAIT_TIME = 1.0;
+    public static final double WAIT_TIME = 0.5;
 
     /**
      * Instantiates this command group to drive toward the specified wall. The
