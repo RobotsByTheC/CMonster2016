@@ -29,8 +29,8 @@ public class SideAutonomousDriveCommand extends Command {
      */
     private static final double ACCELERATION = 1.1;
     /**
-     * The G-Force threshold at which the robot should stop. This
-     * needs to be calibrated.
+     * The G-Force threshold at which the robot should stop. This needs to be
+     * calibrated.
      */
     private static final double GFORCE_LIMIT = 0.7; //SET ME!!!!
     /**

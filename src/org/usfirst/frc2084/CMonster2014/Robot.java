@@ -68,10 +68,13 @@ public class Robot extends IterativeRobot {
         autonomousChooser.addDefault("Front Left Goal", new FrontAutonomousCommandGroup(true));
         autonomousChooser.addObject("Front Right Goal", new FrontAutonomousCommandGroup(false));
         SmartDashboard.putData("Autonomous Mode", autonomousChooser);
+
         // Make sure the DS laptop is not reporting vision to the robot
         TargetTrackingCommunication.setAutonomousVisionRunning(false);
+
         // Enable the camera on the DS laptop when the robot starts
         TargetTrackingCommunication.setCameraEnabled(true);
+
         Robot.ledSubsystem.sendCode(LedSubsystem.DISABLE_CODE);
     }
 
@@ -90,6 +93,7 @@ public class Robot extends IterativeRobot {
         } else {
             System.out.println("No autonomous mode selected.");
         }
+
         Alliance alliance = DriverStation.getInstance().getAlliance();
         if (alliance.value == Alliance.kBlue_val) {
             Robot.ledSubsystem.sendCode(LedSubsystem.SOLID_BLUE_CODE);
