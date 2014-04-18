@@ -86,7 +86,7 @@ public class SideAutonomousDriveCommand extends Command {
                 currentAngle = leftGoal ? -ROTATION_SETPOINT : ROTATION_SETPOINT;
             }
         }
-        Robot.driveSubsystem.getRobotDrive().mecanumDrive_Orientation(0, currentSpeed, currentAngle);
+        Robot.driveSubsystem.getMecanumDriveAlgorithm().mecanumDrive_Orientation(0, currentSpeed, currentAngle);
     }
 
     protected boolean isFinished() {
@@ -97,7 +97,7 @@ public class SideAutonomousDriveCommand extends Command {
      * Called once after {@link #isFinished()} returns true.
      */
     protected void end() {
-        Robot.driveSubsystem.getRobotDrive().stopMotor();
+        Robot.driveSubsystem.getMecanumDriveAlgorithm().stop();
     }
 
     /**

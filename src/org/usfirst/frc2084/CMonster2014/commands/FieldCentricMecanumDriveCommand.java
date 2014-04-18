@@ -69,7 +69,7 @@ public class FieldCentricMecanumDriveCommand extends Command {
         // the rest of the code is set. We shouldn't touch them until we have
         // time to go through and make sure we can fix all the unnecessary
         // inversions.
-        Robot.driveSubsystem.getRobotDrive().mecanumDrive_Cartesian(
+        Robot.driveSubsystem.getMecanumDriveAlgorithm().mecanumDrive_Cartesian(
                 -driveJoystick.getX(),
                 -driveJoystick.getY(),
                 scaledZ,
@@ -91,7 +91,7 @@ public class FieldCentricMecanumDriveCommand extends Command {
      * Stops the drive motors.
      */
     protected void end() {
-        Robot.driveSubsystem.getRobotDrive().stopMotor();
+        Robot.driveSubsystem.getMecanumDriveAlgorithm().stop();
     }
 
     /**

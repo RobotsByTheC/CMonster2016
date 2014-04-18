@@ -30,7 +30,7 @@ public class CrabRightCommand extends Command {
      * power.
      */
     protected void execute() {
-        Robot.driveSubsystem.getRobotDrive().crab(-DriveSubsystem.CRAB_SPEED);
+        Robot.driveSubsystem.getMecanumDriveAlgorithm().crab(-DriveSubsystem.CRAB_SPEED);
     }
 
     /**
@@ -46,7 +46,7 @@ public class CrabRightCommand extends Command {
      * Stops the motors.
      */
     protected void end() {
-        Robot.driveSubsystem.getRobotDrive().stopMotor();
+        Robot.driveSubsystem.getMecanumDriveAlgorithm().stop();
     }
 
     /**

@@ -17,7 +17,7 @@ public class ResetGyroComand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Robot.driveSubsystem.getRobotDrive().resetGyro();
+        Robot.driveSubsystem.getMecanumDriveAlgorithm().resetGyro();
     }
 
     /**

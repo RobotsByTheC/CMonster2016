@@ -149,7 +149,7 @@ public class FrontAutonomousDriveCommand extends Command {
         // passed since then, stop the motors. This allows the robot to stop 
         // even though it is stil waiting for the hot goal to change.
         if (hitWall && (timeSinceInitialized() - hitWallTime > WALL_PUSH_TIME)) {
-            Robot.driveSubsystem.getRobotDrive().stopMotor();
+            Robot.driveSubsystem.getMecanumDriveAlgorithm().stop();
         } else {
             // Otherwise drive forward and slightly sideways at the specified 
             // speeds. If the robot should drive towards the right wall, it 
@@ -157,7 +157,7 @@ public class FrontAutonomousDriveCommand extends Command {
             // mecanumDrive_Cartesian, but it had an obscure bug that seemed to 
             // only appear in autonomous wher it would turn the robot slightly
             // when it started driving.
-            Robot.driveSubsystem.getRobotDrive().mecanumDrive_Orientation(leftGoal ? SIDEWAYS_SPEED : -SIDEWAYS_SPEED, currentSpeed, 0);
+            Robot.driveSubsystem.getMecanumDriveAlgorithm().mecanumDrive_Orientation(leftGoal ? SIDEWAYS_SPEED : -SIDEWAYS_SPEED, currentSpeed, 0);
         }
     }
 
@@ -193,7 +193,7 @@ public class FrontAutonomousDriveCommand extends Command {
      * the motors manually anyway.
      */
     protected void end() {
-        Robot.driveSubsystem.getRobotDrive().stopMotor();
+        Robot.driveSubsystem.getMecanumDriveAlgorithm().stop();
     }
 
     /**

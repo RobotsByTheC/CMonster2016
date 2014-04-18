@@ -80,7 +80,7 @@ public class Robot extends IterativeRobot {
 //        TargetTrackingCommunication.setAutonomousVisionRunning(true);
 //        Removed this and put it in the autonomous command
 //        Robot.driveSubsystem.getRobotDrive().resetGyro();
-        
+
         // Pick which autonomous mode to use.
         Object selection = autonomousChooser.getSelected();
         if (selection != null && selection instanceof Command) {
@@ -116,7 +116,7 @@ public class Robot extends IterativeRobot {
         } else {
             Robot.ledSubsystem.sendCode(LedSubsystem.SOLID_GREEN_CODE);
         }
-        
+
         TargetTrackingCommunication.setAutonomousVisionRunning(false);
         TargetTrackingCommunication.setCameraEnabled(false);
         // This makes sure that the autonomous stops running when
@@ -126,7 +126,7 @@ public class Robot extends IterativeRobot {
         if (autonomousCommand != null) {
             autonomousCommand.cancel();
         }
-        Robot.driveSubsystem.getRobotDrive().resetGyro();
+        Robot.driveSubsystem.getMecanumDriveAlgorithm().resetGyro();
     }
 
     /**

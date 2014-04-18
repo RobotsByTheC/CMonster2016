@@ -31,7 +31,7 @@ public class DriveCommand extends Command {
      */
     protected void execute() {
         Joystick j = Robot.oi.getDriveJoystick();
-        Robot.driveSubsystem.getRobotDrive().arcadeDrive(j.getY(), j.getX());
+        Robot.driveSubsystem.getArcadeDriveAlgorithm().arcadeDrive(j.getY(), j.getX());
     }
 
     /**
@@ -47,7 +47,7 @@ public class DriveCommand extends Command {
      * Stops the drive motors.
      */
     protected void end() {
-        Robot.driveSubsystem.getRobotDrive().stopMotor();
+        Robot.driveSubsystem.getMecanumDriveAlgorithm().stop();
     }
 
     /**
