@@ -133,10 +133,10 @@ public class MecanumDriveAlgorithm extends DriveAlgorithm {
         double sinD = Math.sin(dirInRad);
 
         double wheelSpeeds[] = new double[4];
-        wheelSpeeds[BestRobotDrive.MotorType.kFrontLeft_val] = (sinD * magnitude + rotation);
-        wheelSpeeds[BestRobotDrive.MotorType.kFrontRight_val] = (cosD * magnitude - rotation);
-        wheelSpeeds[BestRobotDrive.MotorType.kRearLeft_val] = (cosD * magnitude + rotation);
-        wheelSpeeds[BestRobotDrive.MotorType.kRearRight_val] = (sinD * magnitude - rotation);
+        wheelSpeeds[0] = (sinD * magnitude + rotation);
+        wheelSpeeds[1] = (cosD * magnitude - rotation);
+        wheelSpeeds[2] = (cosD * magnitude + rotation);
+        wheelSpeeds[3] = (sinD * magnitude - rotation);
 
         DriveUtils.normalize(wheelSpeeds);
 
