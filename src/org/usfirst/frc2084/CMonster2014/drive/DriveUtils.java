@@ -6,14 +6,17 @@
  */
 package org.usfirst.frc2084.CMonster2014.drive;
 
+import edu.wpi.first.wpilibj.parsing.IUtility;
+
 /**
+ * This class contains some useful methods for driving.
  *
- * @author ben
+ * @author Ben Wolsieffer
  */
-public final class DriveUtils {
+public final class DriveUtils implements IUtility {
 
     /**
-     * Limit motor values to the -1.0 to +1.0 range.
+     * Limits a value to the -1.0 to +1.0 range.
      *
      * @param num the number to limit
      * @return the limited number
@@ -55,12 +58,15 @@ public final class DriveUtils {
     public static void normalize(double wheelSpeeds[]) {
         double maxMagnitude = Math.abs(wheelSpeeds[0]);
         int i;
+        // Loops through each number to find the beggest absolute value.
         for (i = 1; i < wheelSpeeds.length; i++) {
             double temp = Math.abs(wheelSpeeds[i]);
             if (maxMagnitude < temp) {
                 maxMagnitude = temp;
             }
         }
+        // If the maximum is greater than 1.0, reduce all the values down 
+        // proportionally so the maximum becomes 1.0.
         if (maxMagnitude > 1.0) {
             for (i = 0; i < wheelSpeeds.length; i++) {
                 wheelSpeeds[i] = wheelSpeeds[i] / maxMagnitude;

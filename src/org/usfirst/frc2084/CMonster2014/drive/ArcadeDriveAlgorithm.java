@@ -9,82 +9,83 @@ package org.usfirst.frc2084.CMonster2014.drive;
 import edu.wpi.first.wpilibj.GenericHID;
 
 /**
+ * Implements the control of a drive controller using with arcade style
+ * controls. This allows the use of one HID (Human Interface Device) to control
+ * the robot, which is typically a joystick or gamepad. The Y-axis is usually
+ * configured to the control the move speed (forward or reverse) and the X-axis
+ * is used for rotation. The algorithm also has the ability to square the inputs
+ * to decrease the sensitivity at low speeds.
  *
- * @author ben
+ * @see DriveAlgorithm
+ *
+ * @author Ben Wolsieffer
  */
 public class ArcadeDriveAlgorithm extends DriveAlgorithm {
 
+    /**
+     * Creates a new {@link ArcadeDriveAlgorithm} that controls the specified
+     * {@link DriveController}. This algorithm can use any type of
+     * {@link DriveController}, since it only needs independent control over
+     * each side of the robot.
+     *
+     * @param controller
+     */
     public ArcadeDriveAlgorithm(DriveController controller) {
         super(controller);
     }
 
     /**
-     * Arcade drive implements single stick driving. Given a single Joystick,
-     * the class assumes the Y axis for the move value and the X axis for the
-     * rotate value. (Should add more information here regarding the way that
-     * arcade drive works.)
+     * Uses the X and Y axis of an HID, such as a joystick to drive. This method
+     * also provides the option for squaring the axis values.
      *
-     * @param stick The joystick to use for Arcade single-stick driving. The
-     * Y-axis will be selected for forwards/backwards and the X-axis will be
-     * selected for rotation rate.
-     * @param squaredInputs If true, the sensitivity will be decreased for small
-     * values
+     * @param stick the joystick to use
+     * @param squaredInputs if true, the axes are squared to decrease the
+     * sensitivity at low speeds
      */
     public void arcadeDrive(GenericHID stick, boolean squaredInputs) {
-        // simply call the full-featured arcadeDrive with the appropriate values
         arcadeDrive(stick.getY(), stick.getX(), squaredInputs);
     }
 
     /**
-     * Arcade drive implements single stick driving. Given a single Joystick,
-     * the class assumes the Y axis for the move value and the X axis for the
-     * rotate value. (Should add more information here regarding the way that
-     * arcade drive works.)
+     * Uses the X and Y axis of an HID, such as a joystick to drive. This method
+     * squares the axis values.
      *
-     * @param stick The joystick to use for Arcade single-stick driving. The
-     * Y-axis will be selected for forwards/backwards and the X-axis will be
-     * selected for rotation rate.
+     * @param stick the joystick to use
      */
     public void arcadeDrive(GenericHID stick) {
         this.arcadeDrive(stick, true);
     }
 
     /**
-     * Arcade drive implements single stick driving. Given two joystick
-     * instances and two axis, compute the values to send to either two or four
-     * motors.
+     * Uses two separate HIDs to control move and rotation speeds. This method
+     * also allows the selection of which axis to use on each stick and whether
+     * to square the axis values.
      *
-     * @param moveStick The Joystick object that represents the forward/backward
-     * direction
-     * @param moveAxis The axis on the moveStick object to use for
-     * forwards/backwards (typically Y_AXIS)
-     * @param rotateStick The Joystick object that represents the rotation value
-     * @param rotateAxis The axis on the rotation object to use for the rotate
-     * right/left (typically X_AXIS)
-     * @param squaredInputs Setting this parameter to true decreases the
-     * sensitivity at lower speeds
+     * @param moveStick the HID that controls the move speed
+     * @param moveAxis the axis on the {@code moveStick} to use for the move
+     * speed (typically Y_AXIS)
+     * @param rotateStick The HID that controls the rotation speed
+     * @param rotateAxis The axis on the {@code rotateStick} to use for the
+     * rotate speed (typically X_AXIS)
+     * @param squaredInputs whether to square the axes
      */
     public void arcadeDrive(GenericHID moveStick, final int moveAxis,
             GenericHID rotateStick, final int rotateAxis,
             boolean squaredInputs) {
-        double moveValue = moveStick.getRawAxis(moveAxis);
-        double rotateValue = rotateStick.getRawAxis(rotateAxis);
-
-        arcadeDrive(moveValue, rotateValue, squaredInputs);
+        arcadeDrive(moveStick.getRawAxis(moveAxis), rotateStick.getRawAxis(rotateAxis), squaredInputs);
     }
 
     /**
-     * Arcade drive implements single stick driving. Given two joystick
-     * instances and two axis, compute the values to send to either two or four
-     * motors.
+     * Uses two separate HIDs to control move and rotation. This method also
+     * allows the selection of which axis to use on each stick. This method
+     * squares the axis values.
      *
-     * @param moveStick The Joystick object that represents the forward/backward
-     * direction
-     * @param moveAxis The axis on the moveStick object to use for
-     * forwards/backwards (typically Y_AXIS)
-     * @param rotateStick The Joystick object that represents the rotation value
-     * @param rotateAxis The axis on the rotation object to use for the rotate
-     * right/left (typically X_AXIS)
+     * @param moveStick the HID that controls the move value
+     * @param moveAxis the axis on the {@code moveStick} to use for the move
+     * value (typically Y_AXIS)
+     * @param rotateStick The HID that controls the rotation value
+     * @param rotateAxis The axis on the {@code rotateStick} to use for the
+     * rotate value (typically X_AXIS)
      */
     public void arcadeDrive(GenericHID moveStick, final int moveAxis,
             GenericHID rotateStick, final int rotateAxis) {
@@ -92,35 +93,31 @@ public class ArcadeDriveAlgorithm extends DriveAlgorithm {
     }
 
     /**
-     * Arcade drive implements single stick driving. This function lets you
-     * directly provide joystick values from any source.
+     * Uses the specified values to control the move and rotation speed of the
+     * robot and whether to square the inputs.
      *
-     * @param moveValue The value to use for forwards/backwards
-     * @param rotateValue The value to use for the rotate right/left
-     * @param squaredInputs If set, decreases the sensitivity at low speeds
+     * @param moveValue the move speed
+     * @param rotateValue the rotation speed
+     * @param squaredInputs if true, the inputs are squared to decrease the
+     * sensitivity at low speeds
      */
     public void arcadeDrive(double moveValue, double rotateValue, boolean squaredInputs) {
 
         double leftMotorSpeed;
         double rightMotorSpeed;
 
+        // Limit the inputs to the range of -1.0 to 1.0.
         moveValue = DriveUtils.limit(moveValue);
         rotateValue = DriveUtils.limit(rotateValue);
 
         if (squaredInputs) {
-            // square the inputs (while preserving the sign) to increase fine control while permitting full power
-            if (moveValue >= 0.0) {
-                moveValue = (moveValue * moveValue);
-            } else {
-                moveValue = -(moveValue * moveValue);
-            }
-            if (rotateValue >= 0.0) {
-                rotateValue = (rotateValue * rotateValue);
-            } else {
-                rotateValue = -(rotateValue * rotateValue);
-            }
+            // Square the inputs (while preserving the sign) to increase fine 
+            // control while still permitting full power.
+            moveValue *= moveValue * (moveValue >= 0 ? 1 : -1);
+            rotateValue *= rotateValue * (rotateValue >= 0 ? 1 : -1);
         }
 
+        // Do the calculations for arcade drive.
         if (moveValue > 0.0) {
             if (rotateValue > 0.0) {
                 leftMotorSpeed = moveValue - rotateValue;
@@ -139,15 +136,17 @@ public class ArcadeDriveAlgorithm extends DriveAlgorithm {
             }
         }
 
+        // Drive the left and right sides of the robot at the specified speeds.
         controller.drive(leftMotorSpeed, rightMotorSpeed);
     }
 
     /**
-     * Arcade drive implements single stick driving. This function lets you
-     * directly provide joystick values from any source.
+     * Uses the specified values to control the move and rotation speed of the
+     * robot and whether to square the inputs. This method squares the provided
+     * inputs.
      *
-     * @param moveValue The value to use for fowards/backwards
-     * @param rotateValue The value to use for the rotate right/left
+     * @param moveValue the move speed
+     * @param rotateValue the rotation speed
      */
     public void arcadeDrive(double moveValue, double rotateValue) {
         this.arcadeDrive(moveValue, rotateValue, true);

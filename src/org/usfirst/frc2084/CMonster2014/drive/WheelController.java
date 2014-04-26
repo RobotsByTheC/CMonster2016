@@ -63,6 +63,13 @@ public class WheelController {
         this.motors = motors;
     }
 
+    /**
+     * Sets the speed of the wheel. For a basic wheel this just sets the power
+     * to the motor but this class can be extended for more complex
+     * functionality.
+     *
+     * @param speed the wheel speed between 1.0 and -1.0
+     */
     public void set(double speed) {
         speed = DriveUtils.limit(speed) * inverted;
         for (int i = 0; i < motors.length; i++) {
@@ -70,10 +77,20 @@ public class WheelController {
         }
     }
 
+    /**
+     * Sets whether this wheel should be inverted.
+     *
+     * @param inverted whether the wheel is inverted
+     */
     public void setInverted(boolean inverted) {
         this.inverted = inverted ? -1 : 1;
     }
 
+    /**
+     * Gets whether or not the wheel is inverted.
+     *
+     * @return the inverted state
+     */
     public boolean isInverted() {
         return inverted == -1;
     }
