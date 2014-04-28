@@ -21,8 +21,9 @@ public class FrontAutonomousCommandGroup extends CommandGroup {
     /**
      * The time to wait before starting vision and driving. This is necessary to
      * work around the hot goal targets sometimes not changing right away at the
-     * beginning of the match
-     * ({@link http://www.chiefdelphi.com/forums/showthread.php?t=127714}).
+     * beginning of the match.
+     * <a href="http://www.chiefdelphi.com/forums/showthread.php?t=127714">See
+     * this CD thread for more information.</a>
      * Stupid FMS! if they have not changed after this, we'll just screw them
      * and do our autonomous without vision.
      */

@@ -57,7 +57,7 @@ public class WaitForVisionCommand extends Command {
      * Returns true when the target state is not unknown (meaning that the DS
      * laptop reported either hot or not hot) or the timeout expired.
      *
-     * @return
+     * @return true if the command should end
      */
     protected boolean isFinished() {
         return !TargetTrackingCommunication.getState().equals(TargetTrackingCommunication.State.UNKNOWN) || timeSinceInitialized() > MAX_TIME;

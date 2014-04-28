@@ -74,14 +74,17 @@ public class MecanumDriveAlgorithm extends DriveAlgorithm {
     private final PIDController rotationPIDController;
 
     /**
-     * Creates a new {@link MecanumDriveAlgorithm} that uses the specified
-     * {@link FourWheelDriveController}
+     * Creates a new {@link MecanumDriveAlgorithm} that controls the specified
+     * {@link FourWheelDriveController}.
      *
-     * @param controller
-     * @param gyro
+     * @param controller the {@link FourWheelDriveController} to control
+     * @param gyro the {@link Gyro} to use for orientation correction and
+     * field-oriented driving
      */
     public MecanumDriveAlgorithm(FourWheelDriveController controller, Gyro gyro) {
         super(controller);
+        // Necessary because we hide the controller field inherited from
+        // DriveAlgorithm (if this was >=Java 5 I would use generics).
         this.controller = controller;
         this.gyro = gyro;
         rotationPIDController = new PIDController(
@@ -133,7 +136,7 @@ public class MecanumDriveAlgorithm extends DriveAlgorithm {
             rotationPIDController.enable();
         }
 
-        mecanumDrive_Cartesian0(x, y, -rotationSpeedPID, gyro.getAngle());
+        mecanumDrive_Cartesian0(x, y, rotationSpeedPID, gyro.getAngle());
     }
 
     /**
@@ -143,25 +146,21 @@ public class MecanumDriveAlgorithm extends DriveAlgorithm {
      *
      * @param x The forward speed (negative = backward, positive = forward)
      * @param y The sideways (crab) speed (negative = left, positive = right)
-     * @param rotation The speed to rotate at while moving (negative =
-     * clockwise, positive = counterclockwise)
+     * @param rotation The speed to rotate at while moving (positive =
+     * clockwise, negative = counterclockwise)
      * @param gyroAngle the current angle reading from the gyro
      */
     private void mecanumDrive_Cartesian0(double x, double y, double rotation, double gyroAngle) {
-        double xIn = x;
-        double yIn = y;
-        // Negate y for the joystick.
-        yIn = -yIn;
         // Compenstate for gyro angle.
-        double rotated[] = DriveUtils.rotateVector(xIn, yIn, gyroAngle);
-        xIn = rotated[0];
-        yIn = rotated[1];
+        double rotated[] = DriveUtils.rotateVector(x, y, gyroAngle);
+        x = rotated[0];
+        y = rotated[1];
 
         double wheelSpeeds[] = new double[4];
-        wheelSpeeds[0] = xIn + yIn + rotation;
-        wheelSpeeds[1] = -xIn + yIn - rotation;
-        wheelSpeeds[2] = -xIn + yIn + rotation;
-        wheelSpeeds[3] = xIn + yIn - rotation;
+        wheelSpeeds[0] = -x + y - rotation;
+        wheelSpeeds[1] = x + y + rotation;
+        wheelSpeeds[2] = x + y - rotation;
+        wheelSpeeds[3] = -x + y + rotation;
 
         DriveUtils.normalize(wheelSpeeds);
 
@@ -248,7 +247,7 @@ public class MecanumDriveAlgorithm extends DriveAlgorithm {
             if (Math.abs(rotationSpeed) >= ROTATION_DEADBAND) {
                 rotationPIDController.disable();
             } else {
-                return -rotationSpeedPID;
+                return rotationSpeedPID;
             }
         } else {
             // If the rotation rate is less than the deadband, turn on the PID

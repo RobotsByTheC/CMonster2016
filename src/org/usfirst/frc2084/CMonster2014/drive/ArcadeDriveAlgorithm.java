@@ -28,7 +28,7 @@ public class ArcadeDriveAlgorithm extends DriveAlgorithm {
      * {@link DriveController}, since it only needs independent control over
      * each side of the robot.
      *
-     * @param controller
+     * @param controller the {@link DriveController} to control
      */
     public ArcadeDriveAlgorithm(DriveController controller) {
         super(controller);
@@ -102,7 +102,7 @@ public class ArcadeDriveAlgorithm extends DriveAlgorithm {
      * sensitivity at low speeds
      */
     public void arcadeDrive(double moveValue, double rotateValue, boolean squaredInputs) {
-
+        
         double leftMotorSpeed;
         double rightMotorSpeed;
 

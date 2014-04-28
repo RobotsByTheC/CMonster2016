@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/* <a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright (c) 2014 RobotsByTheC. All rights reserved.<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Open Source Software - may be modified and shared by FRC teams. The code must<a name="line.4"></a>
+<span class="sourceLineNo">005</span> * be accompanied by the BSD license file in the root directory of the project.<a name="line.5"></a>
+<span class="sourceLineNo">006</span> */<a name="line.6"></a>
+<span class="sourceLineNo">007</span>package org.usfirst.frc2084.CMonster2014.commands;<a name="line.7"></a>
+<span class="sourceLineNo">008</span><a name="line.8"></a>
+<span class="sourceLineNo">009</span>import edu.wpi.first.wpilibj.command.CommandGroup;<a name="line.9"></a>
+<span class="sourceLineNo">010</span>import edu.wpi.first.wpilibj.command.WaitCommand;<a name="line.10"></a>
+<span class="sourceLineNo">011</span><a name="line.11"></a>
+<span class="sourceLineNo">012</span>/**<a name="line.12"></a>
+<span class="sourceLineNo">013</span> * Runs the autonomous mode where the robot drives forward and expels the ball<a name="line.13"></a>
+<span class="sourceLineNo">014</span> * into the front of the low goal. It is called front autonomous because there<a name="line.14"></a>
+<span class="sourceLineNo">015</span> * originally was going to be a second mode where it would score on the side of<a name="line.15"></a>
+<span class="sourceLineNo">016</span> * the goal ({@link SideAutonomousCommandGroup}), but it didn't work well and<a name="line.16"></a>
+<span class="sourceLineNo">017</span> * was deemed unnecessary.<a name="line.17"></a>
+<span class="sourceLineNo">018</span> */<a name="line.18"></a>
+<span class="sourceLineNo">019</span>public class FrontAutonomousCommandGroup extends CommandGroup {<a name="line.19"></a>
+<span class="sourceLineNo">020</span><a name="line.20"></a>
+<span class="sourceLineNo">021</span>    /**<a name="line.21"></a>
+<span class="sourceLineNo">022</span>     * The time to wait before starting vision and driving. This is necessary to<a name="line.22"></a>
+<span class="sourceLineNo">023</span>     * work around the hot goal targets sometimes not changing right away at the<a name="line.23"></a>
+<span class="sourceLineNo">024</span>     * beginning of the match.<a name="line.24"></a>
+<span class="sourceLineNo">025</span>     * &lt;a href="http://www.chiefdelphi.com/forums/showthread.php?t=127714"&gt;See<a name="line.25"></a>
+<span class="sourceLineNo">026</span>     * this CD thread for more information.&lt;/a&gt;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>     * Stupid FMS! if they have not changed after this, we'll just screw them<a name="line.27"></a>
+<span class="sourceLineNo">028</span>     * and do our autonomous without vision.<a name="line.28"></a>
+<span class="sourceLineNo">029</span>     */<a name="line.29"></a>
+<span class="sourceLineNo">030</span>    public static final double WAIT_TIME = 0.5;<a name="line.30"></a>
+<span class="sourceLineNo">031</span><a name="line.31"></a>
+<span class="sourceLineNo">032</span>    /**<a name="line.32"></a>
+<span class="sourceLineNo">033</span>     * Instantiates this command group to drive toward the specified wall. The<a name="line.33"></a>
+<span class="sourceLineNo">034</span>     * parameter is simply passed through to the driving and vision command<a name="line.34"></a>
+<span class="sourceLineNo">035</span>     * group.<a name="line.35"></a>
+<span class="sourceLineNo">036</span>     *<a name="line.36"></a>
+<span class="sourceLineNo">037</span>     * @param leftGoal left goal = true, right goal = false<a name="line.37"></a>
+<span class="sourceLineNo">038</span>     */<a name="line.38"></a>
+<span class="sourceLineNo">039</span>    public FrontAutonomousCommandGroup(boolean leftGoal) {<a name="line.39"></a>
+<span class="sourceLineNo">040</span>        // Make sure to reset the gyro at the beginning of autonomous to correct <a name="line.40"></a>
+<span class="sourceLineNo">041</span>        // for drift that occured whie waiting for the match to start.<a name="line.41"></a>
+<span class="sourceLineNo">042</span>        addSequential(new ResetGyroComand());<a name="line.42"></a>
+<span class="sourceLineNo">043</span>        // Wait to make sure the hot goals have had time to change.<a name="line.43"></a>
+<span class="sourceLineNo">044</span>        addSequential(new WaitCommand(WAIT_TIME));<a name="line.44"></a>
+<span class="sourceLineNo">045</span>        // Start driving and processing vision in parallel. The only easy way to<a name="line.45"></a>
+<span class="sourceLineNo">046</span>        // wait and then run two tasks in parallel in the command based system <a name="line.46"></a>
+<span class="sourceLineNo">047</span>        // is to put them into their own CommandGroup.<a name="line.47"></a>
+<span class="sourceLineNo">048</span>        addSequential(new FrontAutonomousDriveAndVisionCommandGroup(leftGoal));<a name="line.48"></a>
+<span class="sourceLineNo">049</span>        // After the robot hits the wall and vision finishes (the latter should<a name="line.49"></a>
+<span class="sourceLineNo">050</span>        // happen first), expel the ball.<a name="line.50"></a>
+<span class="sourceLineNo">051</span>        addSequential(new SweeperEjectCommand());<a name="line.51"></a>
+<span class="sourceLineNo">052</span>    }<a name="line.52"></a>
+<span class="sourceLineNo">053</span>}<a name="line.53"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

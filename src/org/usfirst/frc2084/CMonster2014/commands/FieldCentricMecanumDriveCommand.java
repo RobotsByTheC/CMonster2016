@@ -49,18 +49,18 @@ public class FieldCentricMecanumDriveCommand extends Command {
      * Updates the robot's speed based on the joystick values.
      */
     protected void execute() {
-        // This is the joystick that we use as input for driving
+        // This is the joystick that we use as input for driving.
         Joystick driveJoystick = Robot.oi.getDriveJoystick();
-        // Invert the z-axis (rotation) and store it.
-        double z = -driveJoystick.getZ();
+        // Store the z-axis.
+        double z = driveJoystick.getZ();
         // This will hold the scaled rotation value. We scale down this value
         // because otherwise the robot is too hard ot control with the joystick 
         // twist and we don't need our full possible rotation speed (its pretty
         // fast).
         double scaledZ = z;
-        // we implemented a deadband in order to filter out small accidental twists
-        // of the stick. If the rotation value (z) is less than the deadband, 
-        // we don't rotate.
+        // We implemented a deadband in order to filter out small accidental 
+        // twists of the stick. If the rotation value (z) is less than the 
+        // deadband, we don't rotate.
         if (Math.abs(z) < ROTATION_DEADBAND) {
             scaledZ = 0;
         } else {
@@ -77,7 +77,7 @@ public class FieldCentricMecanumDriveCommand extends Command {
         // inversions.
         Robot.driveSubsystem.getMecanumDriveAlgorithm().mecanumDrive_Cartesian(
                 -driveJoystick.getX(),
-                -driveJoystick.getY(),
+                driveJoystick.getY(),
                 scaledZ,
                 RobotMap.driveSubsystemSteeringGyro.getAngle()
         );
