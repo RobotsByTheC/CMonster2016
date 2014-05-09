@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * A {@link DriveAlgorithm} that uses a {@link FourWheelDriveController} (which
@@ -99,6 +100,7 @@ public class MecanumDriveAlgorithm extends DriveAlgorithm {
                     }
                 }
         );
+        SmartDashboard.putData("Mecanum Drive Controller", rotationPIDController);
     }
 
     /**
