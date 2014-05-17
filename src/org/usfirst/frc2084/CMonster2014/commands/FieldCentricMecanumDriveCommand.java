@@ -51,7 +51,9 @@ public class FieldCentricMecanumDriveCommand extends Command {
     protected void execute() {
         // This is the joystick that we use as input for driving.
         Joystick driveJoystick = Robot.oi.getDriveJoystick();
-        // Store the z-axis.
+        // Store the axis values.
+        double x = driveJoystick.getX();
+        double y = driveJoystick.getY();
         double z = driveJoystick.getZ();
         // This will hold the scaled rotation value. We scale down this value
         // because otherwise the robot is too hard ot control with the joystick 
@@ -68,16 +70,19 @@ public class FieldCentricMecanumDriveCommand extends Command {
             scaledZ += z < 0 ? ROTATION_DEADBAND : -ROTATION_DEADBAND;
             scaledZ = (scaledZ / (1.0 - ROTATION_DEADBAND)) * MAX_ROTATION;
         }
-        // Print out the rotation speed for debugging.
-        SmartDashboard.putNumber("Rotation Speed", scaledZ);
+        // Send debugging values.
+        SmartDashboard.putNumber("Joystick X", x);
+        SmartDashboard.putNumber("Joystick Y", y);
+        SmartDashboard.putNumber("Joystick Rotation", z);
+        SmartDashboard.putNumber("Scaled Rotation", scaledZ);
         // Actually drive the robot using the joystick values for x and y and
         // the scaled z value. The inversions are necessary because of the way
         // the rest of the code is set. We shouldn't touch them until we have
         // time to go through and make sure we can fix all the unnecessary
         // inversions.
         Robot.driveSubsystem.getMecanumDriveAlgorithm().mecanumDrive_Cartesian(
-                -driveJoystick.getX(),
-                driveJoystick.getY(),
+                -x,
+                y,
                 scaledZ,
                 RobotMap.driveSubsystemSteeringGyro.getAngle()
         );

@@ -100,7 +100,7 @@ public class MecanumDriveAlgorithm extends DriveAlgorithm {
                     }
                 }
         );
-        SmartDashboard.putData("Mecanum Drive Controller", rotationPIDController);
+        SmartDashboard.putData("Rotation PID Controller", rotationPIDController);
     }
 
     /**
@@ -153,6 +153,11 @@ public class MecanumDriveAlgorithm extends DriveAlgorithm {
      * @param gyroAngle the current angle reading from the gyro
      */
     private void mecanumDrive_Cartesian0(double x, double y, double rotation, double gyroAngle) {
+        // Send debugging values.
+        SmartDashboard.putNumber("Mecanum X", x);
+        SmartDashboard.putNumber("Mecanum Y", x);
+        SmartDashboard.putNumber("Mecanum Rotation", rotation);
+        
         // Compenstate for gyro angle.
         double rotated[] = DriveUtils.rotateVector(x, y, gyroAngle);
         x = rotated[0];

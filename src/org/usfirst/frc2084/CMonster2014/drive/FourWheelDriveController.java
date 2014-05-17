@@ -6,6 +6,8 @@
  */
 package org.usfirst.frc2084.CMonster2014.drive;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * Drive controller for robots with four wheels. Allows control over each side
  * together or each wheel independently.
@@ -45,13 +47,7 @@ public class FourWheelDriveController extends DriveController {
      * @param rightSpeed {@inheritDoc}
      */
     public void drive(double leftSpeed, double rightSpeed) {
-        frontLeftWheel.set(leftSpeed);
-        rearLeftWheel.set(leftSpeed);
-        frontRightWheel.set(rightSpeed);
-        rearRightWheel.set(rightSpeed);
-
-        // Make sure to feed the watchdog!
-        safetyHelper.feed();
+        drive(leftSpeed, rightSpeed, leftSpeed, rightSpeed);
     }
 
     /**
@@ -64,9 +60,13 @@ public class FourWheelDriveController extends DriveController {
      */
     public void drive(double frontLeftSpeed, double frontRightSpeed, double rearLeftSpeed, double rearRightSpeed) {
         frontLeftWheel.set(frontLeftSpeed);
+        SmartDashboard.putNumber("Front Left Power", frontLeftSpeed);
         frontRightWheel.set(frontRightSpeed);
+        SmartDashboard.putNumber("Front Right Power", frontRightSpeed);
         rearLeftWheel.set(rearLeftSpeed);
+        SmartDashboard.putNumber("Rear Left Power", rearLeftSpeed);
         rearRightWheel.set(rearRightSpeed);
+        SmartDashboard.putNumber("Rear Right Power", rearRightSpeed);
 
         // Make sure to feed the watchdog!
         safetyHelper.feed();
