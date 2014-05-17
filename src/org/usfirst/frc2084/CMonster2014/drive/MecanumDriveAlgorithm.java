@@ -164,10 +164,10 @@ public class MecanumDriveAlgorithm extends DriveAlgorithm {
         y = rotated[1];
 
         double wheelSpeeds[] = new double[4];
-        wheelSpeeds[0] = x + y - rotation;
-        wheelSpeeds[1] = -x + y + rotation;
-        wheelSpeeds[2] = -x + y - rotation;
-        wheelSpeeds[3] = x + y + rotation;
+        wheelSpeeds[0] = x + y + rotation; // Front left speed
+        wheelSpeeds[1] = -x + y - rotation; // Front right speed
+        wheelSpeeds[2] = -x + y + rotation; // Rear left speed
+        wheelSpeeds[3] = x + y - rotation; // Rear right speed
 
         DriveUtils.normalize(wheelSpeeds);
 

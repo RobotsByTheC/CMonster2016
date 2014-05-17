@@ -35,14 +35,14 @@ public final class DriveUtils implements IUtility {
      * Rotate a vector in Cartesian space.
      *
      * @param x the x component of the vector
-     * @param y the x component of the vector
+     * @param y the y component of the vector
      * @param angle the angle to rotate the vector
      * @return a 2 element array containing the rotated vector
      *
      */
     public static double[] rotateVector(double x, double y, double angle) {
-        double cosA = Math.cos(angle * (3.14159 / 180.0));
-        double sinA = Math.sin(angle * (3.14159 / 180.0));
+        double cosA = Math.cos(angle * (Math.PI / 180.0));
+        double sinA = Math.sin(angle * (Math.PI / 180.0));
         double out[] = new double[2];
         out[0] = x * cosA - y * sinA;
         out[1] = x * sinA + y * cosA;
