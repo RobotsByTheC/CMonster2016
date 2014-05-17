@@ -24,14 +24,36 @@ public class SweeperSubsystem extends Subsystem {
 
     public static class MotorState {
 
-        private final int state;
+        public final int state;
 
         private MotorState(int state) {
             this.state = state;
         }
-        public static final MotorState SWEEPING = new MotorState(0);
-        public static final MotorState OFF = new MotorState(1);
-        public static final MotorState EJECTING = new MotorState(2);
+        public static final int SWEEPING_VALUE = 0;
+        public static final int OFF_VALUE = 1;
+        public static final int EJECTING_VALUE = 2;
+        
+        public static final MotorState SWEEPING = new MotorState(SWEEPING_VALUE);
+        public static final MotorState OFF = new MotorState(OFF_VALUE);
+        public static final MotorState EJECTING = new MotorState(EJECTING_VALUE);
+
+        public int hashCode() {
+            int hash = 7;
+            hash = 71 * hash + this.state;
+            return hash;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final MotorState other = (MotorState) obj;
+            return this.state == other.state;
+        }
+
     }
 
     // Put methods for controlling this subsystem
@@ -42,15 +64,11 @@ public class SweeperSubsystem extends Subsystem {
     }
 
     public void extend() {
-        if (!solenoid.get()) {
-            solenoid.set(true);
-        }
+        solenoid.set(true);
     }
 
     public void retract() {
-        if (solenoid.get()) {
-            solenoid.set(false);
-        }
+        solenoid.set(false);
     }
 
     public void sweep() {
@@ -70,5 +88,9 @@ public class SweeperSubsystem extends Subsystem {
 
     public MotorState getState() {
         return state;
+    }
+
+    public boolean isExtended() {
+        return solenoid.get();
     }
 }

@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.ADXL345_I2C;
 import edu.wpi.first.wpilibj.DriverStationLCD;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc2084.CMonster2014.Robot;
 import org.usfirst.frc2084.CMonster2014.RobotMap;
 import org.usfirst.frc2084.CMonster2014.TargetTrackingCommunication;
 
@@ -88,6 +89,8 @@ public class FunCommand extends Command {
 
         SmartDashboard.putNumber("Encoder Distance", RobotMap.driveSubsystemRearRightEncoder.getDistance());
         SmartDashboard.putNumber("Temperature", RobotMap.driveSubsystemSteeringGyroTemp.getTemp());
+        
+        Robot.ledSubsystem.updatePattern();
     }
 
     // Make this return true when this Command no longer needs to run execute()
