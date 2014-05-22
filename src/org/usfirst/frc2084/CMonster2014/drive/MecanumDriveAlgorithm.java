@@ -155,7 +155,7 @@ public class MecanumDriveAlgorithm extends DriveAlgorithm {
     private void mecanumDrive_Cartesian0(double x, double y, double rotation, double gyroAngle) {
         // Send debugging values.
         SmartDashboard.putNumber("Mecanum X", x);
-        SmartDashboard.putNumber("Mecanum Y", x);
+        SmartDashboard.putNumber("Mecanum Y", y);
         SmartDashboard.putNumber("Mecanum Rotation", rotation);
         
         // Compenstate for gyro angle.

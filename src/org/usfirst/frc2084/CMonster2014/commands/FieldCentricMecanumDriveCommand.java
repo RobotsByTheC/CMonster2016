@@ -81,8 +81,8 @@ public class FieldCentricMecanumDriveCommand extends Command {
         // time to go through and make sure we can fix all the unnecessary
         // inversions.
         Robot.driveSubsystem.getMecanumDriveAlgorithm().mecanumDrive_Cartesian(
-                -x,
-                y,
+                x,
+                -y,
                 scaledZ,
                 RobotMap.driveSubsystemSteeringGyro.getAngle()
         );
