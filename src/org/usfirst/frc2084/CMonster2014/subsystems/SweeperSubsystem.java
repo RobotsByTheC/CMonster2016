@@ -32,7 +32,7 @@ public class SweeperSubsystem extends Subsystem {
         public static final int SWEEPING_VALUE = 0;
         public static final int OFF_VALUE = 1;
         public static final int EJECTING_VALUE = 2;
-        
+
         public static final MotorState SWEEPING = new MotorState(SWEEPING_VALUE);
         public static final MotorState OFF = new MotorState(OFF_VALUE);
         public static final MotorState EJECTING = new MotorState(EJECTING_VALUE);
@@ -53,7 +53,6 @@ public class SweeperSubsystem extends Subsystem {
             final MotorState other = (MotorState) obj;
             return this.state == other.state;
         }
-
     }
 
     // Put methods for controlling this subsystem

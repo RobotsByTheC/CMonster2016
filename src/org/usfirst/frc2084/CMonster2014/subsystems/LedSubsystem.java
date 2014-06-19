@@ -117,7 +117,7 @@ public class LedSubsystem extends Subsystem {
                 offset = GREEN_OFFSET;
                 break;
         }
-        
+
         // If the pattern or offset has changed, send the new data to the
         // Arduino.
         if (oldPattern != pattern || oldOffset != offset) {

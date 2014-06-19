@@ -89,7 +89,7 @@ public class FunCommand extends Command {
 
         SmartDashboard.putNumber("Encoder Distance", RobotMap.driveSubsystemRearRightEncoder.getDistance());
         SmartDashboard.putNumber("Temperature", RobotMap.driveSubsystemSteeringGyroTemp.getTemp());
-        
+
         Robot.ledSubsystem.updatePattern();
     }
 

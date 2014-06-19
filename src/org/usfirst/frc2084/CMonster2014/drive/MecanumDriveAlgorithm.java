@@ -157,7 +157,7 @@ public class MecanumDriveAlgorithm extends DriveAlgorithm {
         SmartDashboard.putNumber("Mecanum X", x);
         SmartDashboard.putNumber("Mecanum Y", y);
         SmartDashboard.putNumber("Mecanum Rotation", rotation);
-        
+
         // Compenstate for gyro angle.
         double rotated[] = DriveUtils.rotateVector(x, y, gyroAngle);
         x = rotated[0];

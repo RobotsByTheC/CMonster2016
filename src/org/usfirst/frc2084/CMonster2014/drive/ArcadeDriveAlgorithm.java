@@ -102,9 +102,11 @@ public class ArcadeDriveAlgorithm extends DriveAlgorithm {
      * sensitivity at low speeds
      */
     public void arcadeDrive(double moveValue, double rotateValue, boolean squaredInputs) {
-        
+
         double leftMotorSpeed;
         double rightMotorSpeed;
+        
+        rotateValue *= -1;
 
         // Limit the inputs to the range of -1.0 to 1.0.
         moveValue = DriveUtils.limit(moveValue);

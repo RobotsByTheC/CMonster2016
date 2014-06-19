@@ -8,6 +8,7 @@ package org.usfirst.frc2084.CMonster2014.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2084.CMonster2014.Robot;
 
 /**
@@ -37,7 +38,14 @@ public class DriveCommand extends Command {
      */
     protected void execute() {
         Joystick j = Robot.oi.getDriveJoystick();
-        Robot.driveSubsystem.getArcadeDriveAlgorithm().arcadeDrive(j.getY(), j.getX());
+
+        double x = j.getX();
+        double y = j.getY();
+
+        SmartDashboard.putNumber("Joystick X", x);
+        SmartDashboard.putNumber("Joystick Y", y);
+
+        Robot.driveSubsystem.getArcadeDriveAlgorithm().arcadeDrive(-y, x);
     }
 
     /**

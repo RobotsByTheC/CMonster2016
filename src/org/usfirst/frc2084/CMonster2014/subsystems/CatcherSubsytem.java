@@ -35,7 +35,7 @@ public class CatcherSubsytem extends Subsystem {
     public void retract() {
         solenoid.set(false);
     }
-    
+
     public boolean isExtended() {
         return solenoid.get();
     }
