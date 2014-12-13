@@ -60,7 +60,7 @@ public class WaitForVisionCommand extends Command {
      * @return true if the command should end
      */
     protected boolean isFinished() {
-        return !TargetTrackingCommunication.getState().equals(TargetTrackingCommunication.State.UNKNOWN) || timeSinceInitialized() > MAX_TIME;
+        return !TargetTrackingCommunication.getState().equals(TargetTrackingCommunication.State.UNKNOWN);
     }
 
     /**

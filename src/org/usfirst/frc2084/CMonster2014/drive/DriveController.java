@@ -77,10 +77,17 @@ public abstract class DriveController implements MotorSafety {
     }
 
     /**
+     * Proxy that calls the real stop method when the watchdog times out.
+     */
+    public final void stopMotor() {
+        stop();
+    }
+
+    /**
      * Stops the robot and is called if the watchdog times out. Must be
      * implemented by subclasses.
      */
-    public abstract void stopMotor();
+    public abstract void stop();
 
     /**
      * Enables or disables the watchdog for this {@link DriveController}.

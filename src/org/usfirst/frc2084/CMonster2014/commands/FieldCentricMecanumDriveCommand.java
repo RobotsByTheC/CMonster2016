@@ -10,7 +10,9 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2084.CMonster2014.Robot;
-import org.usfirst.frc2084.CMonster2014.RobotMap;
+import org.usfirst.frc2084.CMonster2014.drive.processors.InertiaGenerator;
+import org.usfirst.frc2084.CMonster2014.drive.processors.RescalingDeadband;
+import org.usfirst.frc2084.CMonster2014.drive.processors.Scaler;
 
 /**
  * The command that implements the control, filtering and scaling of our amazing
@@ -25,12 +27,16 @@ public class FieldCentricMecanumDriveCommand extends Command {
      * to prevent accidental small twists of the joystick from affecting its
      * trajectory.
      */
-    public double ROTATION_DEADBAND = 0.2;
+    public static final double ROTATION_DEADBAND = 0.2;
     /**
      * The maximum speed that the robot is allowed to rotate at. The joystick
      * value is scaled down to this value.
      */
     public static final double MAX_ROTATION = 0.5;
+    public static final double ROTATION_INERTIA_GAIN = 0.2;
+    private final RescalingDeadband rotationDeadband = new RescalingDeadband(ROTATION_DEADBAND);
+    private final Scaler rotationScaler = new Scaler(MAX_ROTATION);
+    private final InertiaGenerator rotationInertiaGenerator = new InertiaGenerator(ROTATION_INERTIA_GAIN);
 
     public FieldCentricMecanumDriveCommand() {
         // This command drives, so it requires the drive subsytem.
@@ -53,38 +59,30 @@ public class FieldCentricMecanumDriveCommand extends Command {
         Joystick driveJoystick = Robot.oi.getDriveJoystick();
         // Store the axis values.
         double x = driveJoystick.getX();
-        double y = driveJoystick.getY();
-        double z = driveJoystick.getZ();
+        double y = -driveJoystick.getY(); // Forward is negative on joysticks
+        double rotation = driveJoystick.getZ();
         // This will hold the scaled rotation value. We scale down this value
         // because otherwise the robot is too hard ot control with the joystick 
         // twist and we don't need our full possible rotation speed (its pretty
         // fast).
-        double scaledZ = z;
-        // We implemented a deadband in order to filter out small accidental 
-        // twists of the stick. If the rotation value (z) is less than the 
-        // deadband, we don't rotate.
-        if (Math.abs(z) < ROTATION_DEADBAND) {
-            scaledZ = 0;
-        } else {
-            // Scale z down so it is never greater than MAX_ROTATION.
-            scaledZ += z < 0 ? ROTATION_DEADBAND : -ROTATION_DEADBAND;
-            scaledZ = (scaledZ / (1.0 - ROTATION_DEADBAND)) * MAX_ROTATION;
-        }
+        double scaledRotation = rotationScaler.process(rotationDeadband.process(rotation));
+        // Implement the rotation inertia generator. See InertiaGenerator for
+        // more information.
+        double actualRotation = rotationInertiaGenerator.process(scaledRotation);
         // Send debugging values.
         SmartDashboard.putNumber("Joystick X", x);
         SmartDashboard.putNumber("Joystick Y", y);
-        SmartDashboard.putNumber("Joystick Rotation", z);
-        SmartDashboard.putNumber("Scaled Rotation", scaledZ);
+        SmartDashboard.putNumber("Joystick Rotation", rotation);
+        SmartDashboard.putNumber("Scaled Rotation", scaledRotation);
         // Actually drive the robot using the joystick values for x and y and
         // the scaled z value. The inversions are necessary because of the way
         // the rest of the code is set. We shouldn't touch them until we have
         // time to go through and make sure we can fix all the unnecessary
         // inversions.
-        Robot.driveSubsystem.getMecanumDriveAlgorithm().mecanumDrive_Cartesian(
+        Robot.driveSubsystem.getMecanumDriveAlgorithm().driveFieldCartesian(
                 x,
-                -y,
-                scaledZ,
-                RobotMap.driveSubsystemSteeringGyro.getAngle()
+                y,
+                actualRotation
         );
     }
 

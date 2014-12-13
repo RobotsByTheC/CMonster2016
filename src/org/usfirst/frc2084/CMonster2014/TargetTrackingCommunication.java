@@ -9,6 +9,9 @@ package org.usfirst.frc2084.CMonster2014;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 /**
+ * Class that manages communication with the vision tracking extension on the
+ * SmartDashboard. This detects whether the target in front of the robot is hot
+ * or not.
  *
  * @author Ben Wolsieffer
  */
@@ -27,9 +30,11 @@ public class TargetTrackingCommunication {
 
     public static void init() {
         setState(State.UNKNOWN);
-
     }
 
+    /**
+     * Represents the state of the target: hot, not hot, or unknown.
+     */
     public static class State {
 
         public static final int HOT_VALUE = 1;
@@ -77,26 +82,60 @@ public class TargetTrackingCommunication {
 
     }
 
+    /**
+     * Set the state of the vision tracking system.
+     *
+     * @param state the state of the goal to set
+     */
     public static void setState(State state) {
         targetTable.putNumber(TARGET_TABLE_STATE_KEY, state.value);
     }
 
+    /**
+     * Get the state of the vision tracking system.
+     *
+     * @return the state of the goal
+     */
     public static State getState() {
         return new State((int) targetTable.getNumber(TARGET_TABLE_STATE_KEY, State.UNKNOWN_VALUE));
     }
 
+    /**
+     * Gets whether the system is trying to detect the target.
+     *
+     * @return true is the vision algorithm is running
+     */
     public static boolean isAutonomousVisionRunning() {
         return targetTable.getBoolean(TARGET_TABLE_AUTONOMOUS_VISION_RUNNING_KEY, false);
     }
 
+    /**
+     * Sets whether the system should try to detect the target. This is
+     * different from {@link #setCameraEnabled(boolean)}, because it does not
+     * turn the stream on or off, but instead turn the processing algorithm on
+     * or off.
+     *
+     * @param started whether the algorithm should run
+     */
     public static void setAutonomousVisionRunning(boolean started) {
         targetTable.putBoolean(TARGET_TABLE_AUTONOMOUS_VISION_RUNNING_KEY, started);
     }
 
+    /**
+     * Enable or disable the camera stream. The camera is disabled at the end of
+     * autonomous to save bandwidth.
+     *
+     * @param enabled whether to enable the camera stream
+     */
     public static void setCameraEnabled(boolean enabled) {
         targetTable.putBoolean(TARGET_TABLE_ENABLE_CAMERA_KEY, enabled);
     }
 
+    /**
+     * Gets whether the camera stream is enabled.
+     *
+     * @return true if the camera is enabled
+     */
     public static boolean isCameraEnabled() {
         return targetTable.getBoolean(TARGET_TABLE_ENABLE_CAMERA_KEY, true);
     }

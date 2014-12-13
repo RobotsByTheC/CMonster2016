@@ -35,9 +35,9 @@ public abstract class DriveAlgorithm {
     }
 
     /**
-     * Stops the robot. This just calls {@link DriveController#stopMotor()}.
+     * Stops the robot. This just calls {@link DriveController#stop()}.
      */
     public void stop() {
-        controller.stopMotor();
+        controller.stop();
     }
 }

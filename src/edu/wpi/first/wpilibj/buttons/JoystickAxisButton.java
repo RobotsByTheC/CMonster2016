@@ -9,24 +9,47 @@ package edu.wpi.first.wpilibj.buttons;
 import edu.wpi.first.wpilibj.GenericHID;
 
 /**
+ * A button that is triggered when a joystick axis is greater than a certain
+ * value (in positive and negative directions).
  *
  * @author Ben Wolsieffer
  */
 public class JoystickAxisButton extends Button {
 
+    public static final double DEFAULT_THRESHOLD = 0.7;
+
     private final GenericHID joystick;
     private final int axis;
-    private final double value;
+    private final double threshold;
 
-    public JoystickAxisButton(GenericHID joystick, int axis, double value) {
+    /**
+     * Create a new {@link JoystickAxisButton} on the specified joystick and
+     * axis, using {@link #DEFAULT_THRESHOLD}
+     *
+     * @param joystick the joystick to use
+     * @param axis which axis of the joystick to use
+     */
+    public JoystickAxisButton(GenericHID joystick, int axis) {
+        this(joystick, axis, DEFAULT_THRESHOLD);
+    }
+
+    /**
+     * Create a new {@link JoystickAxisButton} on the specified joystick and
+     * axis, with the specified threshold.
+     *
+     * @param joystick the joystick to use
+     * @param axis which axis of the joystick to use
+     * @param threshold the threshold above which the button is considered
+     * pressed
+     */
+    public JoystickAxisButton(GenericHID joystick, int axis, double threshold) {
         this.joystick = joystick;
         this.axis = axis;
-        this.value = value;
+        this.threshold = threshold;
     }
 
     public boolean get() {
         double axisValue = joystick.getRawAxis(axis);
-        return value < 0 ? axisValue < value : axisValue > value;
+        return threshold < 0 ? axisValue < threshold : axisValue > threshold;
     }
-
 }

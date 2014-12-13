@@ -48,7 +48,7 @@ public class TwoWheelDriveController extends DriveController {
     /**
      * Stops the robot.
      */
-    public void stopMotor() {
+    public void stop() {
         leftWheel.set(0);
         rightWheel.set(0);
     }

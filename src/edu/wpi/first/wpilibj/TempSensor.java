@@ -9,6 +9,9 @@ package edu.wpi.first.wpilibj;
 import edu.wpi.first.wpilibj.parsing.ISensor;
 
 /**
+ * A temperature sensor. This was mostly made for fun to display the value of
+ * the gyro temperature sensor. Theoretically it could be used to calibrate the
+ * gyro.
  *
  * @author Ben Wolsieffer
  */
@@ -16,7 +19,8 @@ public class TempSensor implements ISensor {
 
     private final AnalogChannel analog;
     private double voltsPerDegree = 0.009;
-    private double nominalVolts = 2.5;
+    private double calibrationVolts = 2.5;
+    private double calibrationTemperature = 25;
 
     public TempSensor(int slot, int channel) {
         analog = new AnalogChannel(slot, channel);
@@ -34,19 +38,24 @@ public class TempSensor implements ISensor {
         voltsPerDegree = vpd;
     }
 
-    public void setNominalVoltage(double nv) {
-        nominalVolts = nv;
+    public void setCalibration(double temperature, double voltage) {
+        calibrationVolts = voltage;
+        calibrationTemperature = temperature;
     }
 
     public double getVoltsPerDegree() {
         return voltsPerDegree;
     }
 
-    public double getNominalVoltage() {
-        return nominalVolts;
+    public double getCalibrationVoltage() {
+        return calibrationVolts;
     }
 
-    public double getTemp() {
-        return (analog.getAverageVoltage() - nominalVolts) * voltsPerDegree;
+    public double getCalibrationTemperature() {
+        return calibrationTemperature;
+    }
+
+    public double getTemperature() {
+        return calibrationTemperature + ((analog.getAverageVoltage() - calibrationVolts) * voltsPerDegree);
     }
 }

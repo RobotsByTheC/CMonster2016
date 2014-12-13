@@ -18,17 +18,27 @@ public final class DriveUtils implements IUtility {
     /**
      * Limits a value to the -1.0 to +1.0 range.
      *
-     * @param num the number to limit
+     * @param value the number to limit
      * @return the limited number
      */
-    public static double limit(double num) {
-        if (num > 1.0) {
+    public static double limit(double value) {
+        if (value > 1.0) {
             return 1.0;
         }
-        if (num < -1.0) {
+        if (value < -1.0) {
             return -1.0;
         }
-        return num;
+        return value;
+    }
+
+    /**
+     * Checks if a value is between -1.0 and 1.0.
+     *
+     * @param value true if value >=-1.0 and <=1.0
+     * @return
+     */
+    public static boolean isValid(double value) {
+        return value >= -1.0 && value <= 1.0;
     }
 
     /**
@@ -36,13 +46,13 @@ public final class DriveUtils implements IUtility {
      *
      * @param x the x component of the vector
      * @param y the y component of the vector
-     * @param angle the angle to rotate the vector
+     * @param angle the angle (in radians) to rotate the vector
      * @return a 2 element array containing the rotated vector
      *
      */
     public static double[] rotateVector(double x, double y, double angle) {
-        double cosA = Math.cos(angle * (Math.PI / 180.0));
-        double sinA = Math.sin(angle * (Math.PI / 180.0));
+        double cosA = Math.cos(angle);
+        double sinA = Math.sin(angle);
         double out[] = new double[2];
         out[0] = x * cosA - y * sinA;
         out[1] = x * sinA + y * cosA;

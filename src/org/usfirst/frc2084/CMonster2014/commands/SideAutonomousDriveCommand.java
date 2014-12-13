@@ -92,7 +92,7 @@ public class SideAutonomousDriveCommand extends Command {
                 currentAngle = leftGoal ? -ROTATION_SETPOINT : ROTATION_SETPOINT;
             }
         }
-        Robot.driveSubsystem.getMecanumDriveAlgorithm().mecanumDrive_Orientation(0, currentSpeed, currentAngle);
+        Robot.driveSubsystem.getMecanumDriveAlgorithm().driveFieldOrientationCartesian(0, currentSpeed, currentAngle);
     }
 
     protected boolean isFinished() {

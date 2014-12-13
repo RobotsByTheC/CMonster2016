@@ -72,8 +72,6 @@ public class Robot extends IterativeRobot {
 //        TargetTrackingCommunication.setCameraEnabled(true);
 //        // Tell the DS laptop to starting detecting the hot target
 //        TargetTrackingCommunication.setAutonomousVisionRunning(true);
-//        Removed this and put it in the autonomous command
-//        Robot.driveSubsystem.getRobotDrive().resetGyro();
 
         // Pick which autonomous mode to use.
         Object selection = autonomousChooser.getSelected();

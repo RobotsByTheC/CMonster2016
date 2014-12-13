@@ -13,8 +13,7 @@ import edu.wpi.first.wpilibj.GenericHID;
  * controls. This allows the use of one HID (Human Interface Device) to control
  * the robot, which is typically a joystick or gamepad. The Y-axis is usually
  * configured to the control the move speed (forward or reverse) and the X-axis
- * is used for rotation. The algorithm also has the ability to square the inputs
- * to decrease the sensitivity at low speeds.
+ * is used for rotation.
  *
  * @see DriveAlgorithm
  *
@@ -35,31 +34,17 @@ public class ArcadeDriveAlgorithm extends DriveAlgorithm {
     }
 
     /**
-     * Uses the X and Y axis of an HID, such as a joystick to drive. This method
-     * also provides the option for squaring the axis values.
-     *
-     * @param stick the joystick to use
-     * @param squaredInputs if true, the axes are squared to decrease the
-     * sensitivity at low speeds
-     */
-    public void arcadeDrive(GenericHID stick, boolean squaredInputs) {
-        arcadeDrive(stick.getY(), stick.getX(), squaredInputs);
-    }
-
-    /**
-     * Uses the X and Y axis of an HID, such as a joystick to drive. This method
-     * squares the axis values.
+     * Uses the X and Y axis of an HID, such as a joystick to drive.
      *
      * @param stick the joystick to use
      */
     public void arcadeDrive(GenericHID stick) {
-        this.arcadeDrive(stick, true);
+        arcadeDrive(stick.getY(), stick.getX());
     }
 
     /**
      * Uses two separate HIDs to control move and rotation speeds. This method
-     * also allows the selection of which axis to use on each stick and whether
-     * to square the axis values.
+     * also allows the selection of which axis to use on each stick.
      *
      * @param moveStick the HID that controls the move speed
      * @param moveAxis the axis on the {@code moveStick} to use for the move
@@ -67,90 +52,49 @@ public class ArcadeDriveAlgorithm extends DriveAlgorithm {
      * @param rotateStick The HID that controls the rotation speed
      * @param rotateAxis The axis on the {@code rotateStick} to use for the
      * rotate speed (typically X_AXIS)
-     * @param squaredInputs whether to square the axes
      */
-    public void arcadeDrive(GenericHID moveStick, final int moveAxis,
-            GenericHID rotateStick, final int rotateAxis,
-            boolean squaredInputs) {
-        arcadeDrive(moveStick.getRawAxis(moveAxis), rotateStick.getRawAxis(rotateAxis), squaredInputs);
-    }
-
-    /**
-     * Uses two separate HIDs to control move and rotation. This method also
-     * allows the selection of which axis to use on each stick. This method
-     * squares the axis values.
-     *
-     * @param moveStick the HID that controls the move value
-     * @param moveAxis the axis on the {@code moveStick} to use for the move
-     * value (typically Y_AXIS)
-     * @param rotateStick The HID that controls the rotation value
-     * @param rotateAxis The axis on the {@code rotateStick} to use for the
-     * rotate value (typically X_AXIS)
-     */
-    public void arcadeDrive(GenericHID moveStick, final int moveAxis,
-            GenericHID rotateStick, final int rotateAxis) {
-        this.arcadeDrive(moveStick, moveAxis, rotateStick, rotateAxis, true);
+    public void arcadeDrive(GenericHID moveStick, final int moveAxis, GenericHID rotateStick, final int rotateAxis) {
+        arcadeDrive(moveStick.getRawAxis(moveAxis), rotateStick.getRawAxis(rotateAxis));
     }
 
     /**
      * Uses the specified values to control the move and rotation speed of the
-     * robot and whether to square the inputs.
+     * robot.
      *
-     * @param moveValue the move speed
-     * @param rotateValue the rotation speed
-     * @param squaredInputs if true, the inputs are squared to decrease the
-     * sensitivity at low speeds
+     * @param moveSpeed the move speed
+     * @param rotateSpeed the rotation speed
      */
-    public void arcadeDrive(double moveValue, double rotateValue, boolean squaredInputs) {
+    public void arcadeDrive(double moveSpeed, double rotateSpeed) {
 
         double leftMotorSpeed;
         double rightMotorSpeed;
-        
-        rotateValue *= -1;
+
+        rotateSpeed *= -1;
 
         // Limit the inputs to the range of -1.0 to 1.0.
-        moveValue = DriveUtils.limit(moveValue);
-        rotateValue = DriveUtils.limit(rotateValue);
-
-        if (squaredInputs) {
-            // Square the inputs (while preserving the sign) to increase fine 
-            // control while still permitting full power.
-            moveValue *= moveValue * (moveValue >= 0 ? 1 : -1);
-            rotateValue *= rotateValue * (rotateValue >= 0 ? 1 : -1);
-        }
+        moveSpeed = DriveUtils.limit(moveSpeed);
+        rotateSpeed = DriveUtils.limit(rotateSpeed);
 
         // Do the calculations for arcade drive.
-        if (moveValue > 0.0) {
-            if (rotateValue > 0.0) {
-                leftMotorSpeed = moveValue - rotateValue;
-                rightMotorSpeed = Math.max(moveValue, rotateValue);
+        if (moveSpeed > 0.0) {
+            if (rotateSpeed > 0.0) {
+                leftMotorSpeed = moveSpeed - rotateSpeed;
+                rightMotorSpeed = Math.max(moveSpeed, rotateSpeed);
             } else {
-                leftMotorSpeed = Math.max(moveValue, -rotateValue);
-                rightMotorSpeed = moveValue + rotateValue;
+                leftMotorSpeed = Math.max(moveSpeed, -rotateSpeed);
+                rightMotorSpeed = moveSpeed + rotateSpeed;
             }
         } else {
-            if (rotateValue > 0.0) {
-                leftMotorSpeed = -Math.max(-moveValue, rotateValue);
-                rightMotorSpeed = moveValue + rotateValue;
+            if (rotateSpeed > 0.0) {
+                leftMotorSpeed = -Math.max(-moveSpeed, rotateSpeed);
+                rightMotorSpeed = moveSpeed + rotateSpeed;
             } else {
-                leftMotorSpeed = moveValue - rotateValue;
-                rightMotorSpeed = -Math.max(-moveValue, -rotateValue);
+                leftMotorSpeed = moveSpeed - rotateSpeed;
+                rightMotorSpeed = -Math.max(-moveSpeed, -rotateSpeed);
             }
         }
 
         // Drive the left and right sides of the robot at the specified speeds.
         controller.drive(leftMotorSpeed, rightMotorSpeed);
-    }
-
-    /**
-     * Uses the specified values to control the move and rotation speed of the
-     * robot and whether to square the inputs. This method squares the provided
-     * inputs.
-     *
-     * @param moveValue the move speed
-     * @param rotateValue the rotation speed
-     */
-    public void arcadeDrive(double moveValue, double rotateValue) {
-        this.arcadeDrive(moveValue, rotateValue, true);
     }
 }

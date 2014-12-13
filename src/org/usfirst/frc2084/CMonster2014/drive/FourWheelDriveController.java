@@ -75,7 +75,7 @@ public class FourWheelDriveController extends DriveController {
     /**
      * Stops the robot.
      */
-    public void stopMotor() {
+    public void stop() {
         frontLeftWheel.set(0);
         rearLeftWheel.set(0);
         frontRightWheel.set(0);

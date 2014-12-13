@@ -163,7 +163,7 @@ public class FrontAutonomousDriveCommand extends Command {
             // mecanumDrive_Cartesian, but it had an obscure bug that seemed to 
             // only appear in autonomous wher it would turn the robot slightly
             // when it started driving.
-            Robot.driveSubsystem.getMecanumDriveAlgorithm().mecanumDrive_Orientation(leftGoal ? -SIDEWAYS_SPEED : SIDEWAYS_SPEED, currentSpeed, 0);
+            Robot.driveSubsystem.getMecanumDriveAlgorithm().driveFieldOrientationCartesian(leftGoal ? -SIDEWAYS_SPEED : SIDEWAYS_SPEED, currentSpeed, 0);
         }
     }
 
