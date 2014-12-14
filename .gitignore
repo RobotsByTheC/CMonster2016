@@ -2,6 +2,8 @@
 *~
 *.bak.xml
 
-# ignore netbeans files
-/nbproject/private/
+# ignore build and generated files
+/bin/
 /build/
+/doc/
+/dist/

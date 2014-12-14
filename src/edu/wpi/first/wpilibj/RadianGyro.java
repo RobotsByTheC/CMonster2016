@@ -15,53 +15,49 @@ package edu.wpi.first.wpilibj;
  */
 public class RadianGyro extends Gyro {
 
-    /**
-     * Stores the gyro zero value for the software reset.
-     */
-    public double resetOffset = 0.0;
+	/**
+	 * Stores the gyro zero value for the software reset.
+	 */
+	public double resetOffset = 0.0;
 
-    public RadianGyro(int slot, int channel) {
-        super(slot, channel);
-    }
+	public RadianGyro(int channel) {
+		super(channel);
+	}
 
-    public RadianGyro(int channel) {
-        super(channel);
-    }
+	public RadianGyro(AnalogInput channel) {
+		super(channel);
+	}
 
-    public RadianGyro(AnalogChannel channel) {
-        super(channel);
-    }
+	/**
+	 * Return the rate of rotation of the gyro. The rate is based on the most
+	 * recent reading of the gyro analog value.
+	 *
+	 * @return the current rate in radians per second
+	 */
+	public double getRate() {
+		return Math.toRadians(super.getRate());
+	}
 
-    /**
-     * Return the rate of rotation of the gyro. The rate is based on the most
-     * recent reading of the gyro analog value.
-     *
-     * @return the current rate in radians per second
-     */
-    public double getRate() {
-        return Math.toRadians(super.getRate());
-    }
+	/**
+	 * Return the actual angle in radians that the robot is currently facing.
+	 *
+	 * The angle is based on the current accumulator value corrected by the
+	 * oversampling rate, the gyro type and the A/D calibration values. The
+	 * angle is continuous, that is can go beyond 360 degrees.
+	 *
+	 * @return the current heading of the robot in radians
+	 */
+	public double getAngle() {
+		return getRawAngle() - resetOffset;
+	}
 
-    /**
-     * Return the actual angle in radians that the robot is currently facing.
-     *
-     * The angle is based on the current accumulator value corrected by the
-     * oversampling rate, the gyro type and the A/D calibration values. The
-     * angle is continuous, that is can go beyond 360 degrees.
-     *
-     * @return the current heading of the robot in radians
-     */
-    public double getAngle() {
-        return getRawAngle() - resetOffset;
-    }
+	private double getRawAngle() {
+		return Math.toRadians(super.getAngle());
+	}
 
-    private double getRawAngle() {
-        return Math.toRadians(super.getAngle());
-    }
-
-    public void reset() {
-        // Used in an attempt to prevent jerking as the accumulator is reset,
-        // do a software reset instead. I'm not sure if we really need it.
-        resetOffset = getRawAngle();
-    }
+	public void reset() {
+		// Used in an attempt to prevent jerking as the accumulator is reset,
+		// do a software reset instead. I'm not sure if we really need it.
+		resetOffset = getRawAngle();
+	}
 }

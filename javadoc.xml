@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="package" author="true" classpath="~/wpilib/java/current/lib/NetworkTables.jar:~/wpilib/java/current/lib/WPILib.jar" destdir="doc" doctitle="CMonster2015" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="edu.wpi.first.wpilibj,org.usfirst.frc2084.CMonster2015.drive,org.usfirst.frc2084.CMonster2015.drive.processors,edu.wpi.first.wpilibj.buttons,edu.wpi.first.wpilibj.command,org.usfirst.frc2084.CMonster2015,org.usfirst.frc2084.CMonster2015.commands,org.usfirst.frc2084.CMonster2015.subsystems" source="1.8" sourcepath="src" splitindex="true" use="true" version="true"/>
+    </target>
+</project>

@@ -15,32 +15,32 @@ package edu.wpi.first.wpilibj.command;
  */
 public class DelegateCommand extends Command {
 
-    private final Command command;
+	private final Command command;
 
-    /**
-     * Create a new {@link DelegateCommand} which wraps the specified
-     * {@link Command}.
-     *
-     * @param command the command to wrap around
-     */
-    public DelegateCommand(Command command) {
-        this.command = command;
-    }
+	/**
+	 * Create a new {@link DelegateCommand} which wraps the specified
+	 * {@link Command}.
+	 *
+	 * @param command the command to wrap around
+	 */
+	public DelegateCommand(Command command) {
+		this.command = command;
+	}
 
-    protected void initialize() {
-        command.start();
-    }
+	protected void initialize() {
+		command.start();
+	}
 
-    protected void execute() {
-    }
+	protected void execute() {
+	}
 
-    protected boolean isFinished() {
-        return command.isFinished();
-    }
+	protected boolean isFinished() {
+		return command.isFinished();
+	}
 
-    protected void end() {
-    }
+	protected void end() {
+	}
 
-    protected void interrupted() {
-    }
+	protected void interrupted() {
+	}
 }
