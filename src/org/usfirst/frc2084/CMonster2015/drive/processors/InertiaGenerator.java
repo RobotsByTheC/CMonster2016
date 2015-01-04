@@ -6,7 +6,6 @@
  */
 package org.usfirst.frc2084.CMonster2015.drive.processors;
 
-import org.usfirst.frc2084.CMonster2015.Utils;
 
 /**
  * Generates inertia for an input value. This makes the robot respond faster to
@@ -17,9 +16,8 @@ import org.usfirst.frc2084.CMonster2015.Utils;
  *
  * @author Ben Wolsieffer
  */
-public class InertiaGenerator implements ValueProcessor {
+public class InertiaGenerator implements Processor {
 
-	public double lastTime = Utils.getTime();
 	public double lastValue = 0.0;
 
 	private final double inertiaGain;
@@ -28,12 +26,12 @@ public class InertiaGenerator implements ValueProcessor {
 		this.inertiaGain = inertiaGain;
 	}
 
-	public double process(double value) {
-		double elapsedTime = Utils.getTime() - lastTime;
+	@Override
+	public double process(double value, double timeStep) {
 		// Get the difference between current and previous values
 		double output = value - lastValue;
 		// Normalize based on elapsed time
-		output /= elapsedTime;
+		output /= timeStep;
 		// Multiply the normalized delta by the gain
 		output *= inertiaGain;
 		// Update the last value

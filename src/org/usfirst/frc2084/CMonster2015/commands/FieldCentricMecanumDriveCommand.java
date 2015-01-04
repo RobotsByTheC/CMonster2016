@@ -6,13 +6,15 @@
  */
 package org.usfirst.frc2084.CMonster2015.commands;
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc2084.CMonster2015.Robot;
 import org.usfirst.frc2084.CMonster2015.drive.processors.InertiaGenerator;
 import org.usfirst.frc2084.CMonster2015.drive.processors.RescalingDeadband;
 import org.usfirst.frc2084.CMonster2015.drive.processors.Scaler;
+import org.usfirst.frc2084.CMonster2015.drive.processors.TimeStepper;
+
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The command that implements the control, filtering and scaling of our amazing
@@ -21,6 +23,7 @@ import org.usfirst.frc2084.CMonster2015.drive.processors.Scaler;
  * @author Ben Wolsieffer
  */
 public class FieldCentricMecanumDriveCommand extends Command {
+
 	/**
 	 * The joystick z-axis value below which the robot will not rotate. this is
 	 * to prevent accidental small twists of the joystick from affecting its
@@ -33,6 +36,7 @@ public class FieldCentricMecanumDriveCommand extends Command {
 	 */
 	public static final double MAX_ROTATION = 0.5;
 	public static final double ROTATION_INERTIA_GAIN = 0.2;
+	private final TimeStepper timeStepper = new TimeStepper();
 	private final RescalingDeadband rotationDeadband = new RescalingDeadband(ROTATION_DEADBAND);
 	private final Scaler rotationScaler = new Scaler(MAX_ROTATION);
 	private final InertiaGenerator rotationInertiaGenerator = new InertiaGenerator(ROTATION_INERTIA_GAIN);
@@ -47,12 +51,15 @@ public class FieldCentricMecanumDriveCommand extends Command {
 	/**
 	 * Does nothing.
 	 */
+	@Override
 	protected void initialize() {
+		timeStepper.reset();
 	}
 
 	/**
 	 * Updates the robot's speed based on the joystick values.
 	 */
+	@Override
 	protected void execute() {
 		// This is the joystick that we use as input for driving.
 		Joystick driveJoystick = Robot.oi.getDriveJoystick();
@@ -65,9 +72,10 @@ public class FieldCentricMecanumDriveCommand extends Command {
 		// twist and we don't need our full possible rotation speed (its pretty
 		// fast).
 		double scaledRotation = rotationScaler.process(rotationDeadband.process(rotation));
+
 		// Implement the rotation inertia generator. See InertiaGenerator for
 		// more information.
-		double actualRotation = rotationInertiaGenerator.process(scaledRotation);
+		double actualRotation = rotationInertiaGenerator.process(scaledRotation, timeStepper.step());
 		// Send debugging values.
 		SmartDashboard.putNumber("Joystick X", x);
 		SmartDashboard.putNumber("Joystick Y", y);
@@ -87,6 +95,7 @@ public class FieldCentricMecanumDriveCommand extends Command {
 	 *
 	 * @return false
 	 */
+	@Override
 	protected boolean isFinished() {
 		return false;
 	}
@@ -94,6 +103,7 @@ public class FieldCentricMecanumDriveCommand extends Command {
 	/**
 	 * Stops the drive motors.
 	 */
+	@Override
 	protected void end() {
 		Robot.driveSubsystem.getMecanumDriveAlgorithm().stop();
 	}
@@ -101,6 +111,7 @@ public class FieldCentricMecanumDriveCommand extends Command {
 	/**
 	 * Stops the drive motors.
 	 */
+	@Override
 	protected void interrupted() {
 		end();
 	}

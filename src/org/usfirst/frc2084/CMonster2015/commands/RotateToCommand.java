@@ -6,9 +6,11 @@
  */
 package org.usfirst.frc2084.CMonster2015.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2084.CMonster2015.Robot;
 import org.usfirst.frc2084.CMonster2015.drive.processors.LinearRamper;
+import org.usfirst.frc2084.CMonster2015.drive.processors.TimeStepper;
+
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * Command that rotates the robot to a certain angle.
@@ -16,8 +18,10 @@ import org.usfirst.frc2084.CMonster2015.drive.processors.LinearRamper;
  * @author Ben Wolsieffer
  */
 public class RotateToCommand extends Command {
+
 	private boolean finished = false;
 	private final double angle;
+	private final TimeStepper timeStepper = new TimeStepper();
 	private final LinearRamper ramper = new LinearRamper(0.3, LinearRamper.Type.UP);
 
 	public RotateToCommand(double angle, double timeout) {
@@ -28,21 +32,27 @@ public class RotateToCommand extends Command {
 		this.angle = angle;
 	}
 
+	@Override
 	protected void initialize() {
+		timeStepper.reset();
 	}
 
+	@Override
 	protected void execute() {
-		finished = Robot.driveSubsystem.getMecanumDriveAlgorithm().rotateTo(angle, ramper.process(1));
+		finished = Robot.driveSubsystem.getMecanumDriveAlgorithm().rotateTo(angle, ramper.process(1, timeStepper.step()));
 	}
 
+	@Override
 	protected boolean isFinished() {
 		return finished;
 	}
 
+	@Override
 	protected void end() {
 		Robot.driveSubsystem.getMecanumDriveAlgorithm().stop();
 	}
 
+	@Override
 	protected void interrupted() {
 		end();
 	}

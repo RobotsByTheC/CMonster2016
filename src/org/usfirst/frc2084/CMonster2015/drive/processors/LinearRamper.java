@@ -6,13 +6,11 @@
  */
 package org.usfirst.frc2084.CMonster2015.drive.processors;
 
-import org.usfirst.frc2084.CMonster2015.Utils;
-
 /**
  *
  * @author Ben Wolsieffer
  */
-public class LinearRamper implements ValueProcessor {
+public class LinearRamper implements Processor {
 
 	public static enum Type {
 		UP, DOWN, UP_DOWN
@@ -21,7 +19,6 @@ public class LinearRamper implements ValueProcessor {
 	private final Type type;
 	private final double rampRate;
 	private double lastValue;
-	private double lastTime;
 
 	public LinearRamper(double rampRate, Type type) {
 		this.rampRate = Math.abs(rampRate);
@@ -30,11 +27,9 @@ public class LinearRamper implements ValueProcessor {
 	}
 
 	@Override
-	public double process(double value) {
-		// Calculate time since the ramper was last reset
-		double elapsedTime = lastTime - Utils.getTime();
+	public double process(double value, double timeStep) {
 		double delta = value - lastValue;
-		double maxDelta = rampRate / elapsedTime;
+		double maxDelta = rampRate * timeStep;
 		double output = value;
 		if (Math.abs(delta) > maxDelta) {
 			delta = maxDelta * delta < 0 ? -1 : 1;
@@ -69,6 +64,5 @@ public class LinearRamper implements ValueProcessor {
 
 	public void reset() {
 		lastValue = 0;
-		lastTime = Utils.getTime();
 	}
 }

@@ -7,9 +7,9 @@
 package org.usfirst.frc2084.CMonster2015.drive;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.RadianGyro;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -27,10 +27,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class GyroMecanumDriveAlgorithm extends MecanumDriveAlgorithm {
 
 	/**
-	 * The {@link Gyro} that the {@link GyroMecanumDriveAlgorithm} uses for
-	 * field-oriented driving and keeping the correct orientation.
+	 * The {@link RadianGyro} that the {@link GyroMecanumDriveAlgorithm} uses
+	 * for field-oriented driving and keeping the correct orientation.
 	 */
-	protected final Gyro gyro;
+	protected final RadianGyro gyro;
 
 	/**
 	 * The rotation speed below which the rotation PID controller is enabled.
@@ -42,52 +42,81 @@ public class GyroMecanumDriveAlgorithm extends MecanumDriveAlgorithm {
 	 * The proportional constant of the PID algorithm. This value is multiplied
 	 * by the error.
 	 */
-	public static final double ROTATION_P = 0.573;
+	public static final double HEADING_P = 0.573;
 	/**
 	 * The integral constant of the PID algorithm. This value is multiplied by
 	 * the sum of the error over time. This is used to make the robot turn more
 	 * if it is taking a long time to reach its target.
 	 */
-	public static final double ROTATION_I = 0.0;
+	public static final double HEADING_I = 0.0;
+	/**
+	 * The derivative constant of the PID algorithm. This value is multiplied by
+	 * the rate of change of the error. This is used to make the robot respond
+	 * to sudden increases in error (ie. being spun by another robot) , but we
+	 * are unlikely to use it.
+	 */
+	public static final double HEADING_D = 0.0;
+	/**
+	 * The feed-forward constant of the PID algorithm. This value seems to be
+	 * multiplied by the setpoint to add a
+	 */
+	public static final double HEADING_F = 0.0;
+
+	/**
+	 * The proportional constant of the PID algorithm. This value is multiplied
+	 * by the error.
+	 */
+	public static final double ANGULAR_SPEED_P = 1;
+	/**
+	 * The integral constant of the PID algorithm. This value is multiplied by
+	 * the sum of the error over time. This is used to make the robot turn more
+	 * if it is taking a long time to reach its target.
+	 */
+	public static final double ANGULAR_SPEED_I = 0.0;
 	/**
 	 * The derivative constant of the PID algorithm. This value is multiplied by
 	 * the rate of change of the error. This is used to make the robot respond
 	 * to sudden increases in error, but we are unlikely to use it.
 	 */
-	public static final double ROTATION_D = 0.0;
+	public static final double ANGULAR_SPEED_D = 0.0;
+
+	public static final double ANGULAR_SPEED_F = 1.0;
+
 	/**
-	 * The feed-forward constant of the PID algorithm. This value seems to be
-	 * multiplied by the setpoint, which doesn't make much sense. I don't really
-	 * know what it is supposed to do so I just leave it at 0.
+	 * The maximum angular speed (rad/sec) that the robot can actually spin.
+	 * This needs to be empirically calculated as accurately as possible.
 	 */
-	public static final double ROTATION_F = 0.0;
-	private double rotationSpeedPID = 0.0;
-	private double gyroOffset = 0.0;
+	public static final double MAX_ANGULAR_SPEED = 1.0;
+
+	private double rotationPID = 0.0;
+	private double headingOffset = 0.0;
 
 	/**
 	 * {@link http://www.chiefdelphi.com/media/papers/download/1829}
 	 */
-	private final PIDController rotationPIDController;
+	private final PIDController headingPIDController;
+	private final PIDController angularSpeedPIDController;
 
 	/**
 	 * Creates a new {@link GyroMecanumDriveAlgorithm} that controls the
 	 * specified {@link FourWheelDriveController}.
 	 *
 	 * @param controller the {@link FourWheelDriveController} to control
-	 * @param gyro the {@link Gyro} to use for orientation correction and
+	 * @param gyro the {@link RadianGyro} to use for orientation correction and
 	 *            field-oriented driving
 	 */
-	public GyroMecanumDriveAlgorithm(FourWheelDriveController<WheelController> controller, Gyro gyro) {
+	public GyroMecanumDriveAlgorithm(FourWheelDriveController<WheelController<SpeedController>> controller, RadianGyro gyro) {
 		super(controller);
-
 		this.gyro = gyro;
-		rotationPIDController = new PIDController(ROTATION_P, ROTATION_I, ROTATION_D, ROTATION_F, gyro, new PIDOutput() {
-			@Override
-			public void pidWrite(double output) {
-				rotationSpeedPID = output;
-			}
-		});
-		SmartDashboard.putData("Rotation PID Controller", rotationPIDController);
+
+		angularSpeedPIDController = new PIDController(ANGULAR_SPEED_P, ANGULAR_SPEED_I, ANGULAR_SPEED_D, ANGULAR_SPEED_F,
+				() -> gyro.getRate() / MAX_ANGULAR_SPEED, (output) -> rotationPID = output);
+		SmartDashboard.putData("Angular Speed PID Controller", angularSpeedPIDController);
+
+		headingPIDController = new PIDController(HEADING_P, HEADING_I, HEADING_D, HEADING_F,
+				gyro::getAngle, angularSpeedPIDController::setSetpoint);
+		SmartDashboard.putData("Heading PID Controller", headingPIDController);
+
 	}
 
 	/**
@@ -96,7 +125,7 @@ public class GyroMecanumDriveAlgorithm extends MecanumDriveAlgorithm {
 	 */
 	@Override
 	public void driveCartesian(double x, double y, double rotation) {
-		driveFieldCartesianImplPID(x, y, rotation, gyro.getAngle() - gyroOffset);
+		driveFieldCartesianImplPID(x, y, rotation, gyro.getAngle() - headingOffset);
 	}
 
 	/**
@@ -137,11 +166,11 @@ public class GyroMecanumDriveAlgorithm extends MecanumDriveAlgorithm {
 	}
 
 	public void driveFieldOrientationCartesian(double x, double y, double orientation, double maxRotationSpeed) {
-		if (!rotationPIDController.isEnable() || rotationPIDController.getSetpoint() != orientation) {
-			rotationPIDController.setSetpoint(orientation);
-			rotationPIDController.enable();
+		if (!headingPIDController.isEnable() || headingPIDController.getSetpoint() != orientation) {
+			headingPIDController.setSetpoint(orientation);
+			headingPIDController.enable();
 		}
-		driveFieldCartesianImplNoPID(x, y, rotationSpeedPID > maxRotationSpeed ? maxRotationSpeed : rotationSpeedPID, gyro.getAngle());
+		driveFieldCartesianImplNoPID(x, y, rotationPID > maxRotationSpeed ? maxRotationSpeed : rotationPID, gyro.getAngle());
 	}
 
 	/**
@@ -170,7 +199,7 @@ public class GyroMecanumDriveAlgorithm extends MecanumDriveAlgorithm {
 	 * @param gyroAngle the current angle reading from the gyro
 	 */
 	private void driveFieldCartesianImplNoPID(double x, double y, double rotation, double gyroAngle) {
-		// Compenstate for gyro angle.
+		// Compensate for gyro angle.
 		double rotated[] = DriveUtils.rotateVector(x, y, gyroAngle);
 		x = rotated[0];
 		y = rotated[1];
@@ -179,11 +208,11 @@ public class GyroMecanumDriveAlgorithm extends MecanumDriveAlgorithm {
 	}
 
 	public void driveFieldOrientationPolar(double magnitude, double direction, double orientation) {
-		if (!rotationPIDController.isEnable() || rotationPIDController.getSetpoint() != orientation) {
-			rotationPIDController.setSetpoint(orientation);
-			rotationPIDController.enable();
+		if (!headingPIDController.isEnable() || headingPIDController.getSetpoint() != orientation) {
+			headingPIDController.setSetpoint(orientation);
+			headingPIDController.enable();
 		}
-		driveFieldPolarImplNoPID(magnitude, direction, rotationSpeedPID, gyro.getAngle());
+		driveFieldPolarImplNoPID(magnitude, direction, rotationPID, gyro.getAngle());
 	}
 
 	/**
@@ -256,7 +285,7 @@ public class GyroMecanumDriveAlgorithm extends MecanumDriveAlgorithm {
 
 	public boolean rotateTo(double angle, double maxRotationSpeed) {
 		driveFieldOrientationCartesian(0, 0, angle, maxRotationSpeed);
-		return rotationPIDController.onTarget();
+		return headingPIDController.onTarget();
 	}
 
 	/**
@@ -281,22 +310,22 @@ public class GyroMecanumDriveAlgorithm extends MecanumDriveAlgorithm {
 		// If the controller is already enabled, check to see if it should be
 		// disabled or kept running. Otherwise check to see if it needs to be
 		// enabled.
-		if (rotationPIDController.isEnable()) {
+		if (headingPIDController.isEnable()) {
 			// If the rotation rate is greater than the deadband disable the PID
 			// controller. Otherwise, return the latest value from the
 			// controller.
 			if (Math.abs(rotationSpeed) >= ROTATION_DEADBAND) {
-				rotationPIDController.disable();
+				headingPIDController.disable();
 			} else {
-				return rotationSpeedPID;
+				return rotationPID;
 			}
 		} else {
 			// If the rotation rate is less than the deadband, turn on the PID
 			// controller and set its setpoint to the current angle.
 			if (Math.abs(rotationSpeed) < ROTATION_DEADBAND) {
-				gyroOffset = gyro.getAngle();
-				rotationPIDController.setSetpoint(gyroOffset);
-				rotationPIDController.enable();
+				headingOffset = gyro.getAngle();
+				headingPIDController.setSetpoint(headingOffset);
+				headingPIDController.enable();
 			}
 		}
 		// Unless told otherwise, return the rate that was passed in.
@@ -304,11 +333,11 @@ public class GyroMecanumDriveAlgorithm extends MecanumDriveAlgorithm {
 	}
 
 	public void setPID(double p, double i, double d) {
-		rotationPIDController.setPID(p, i, d);
+		headingPIDController.setPID(p, i, d);
 	}
 
 	public void setPID(double p, double i, double d, double f) {
-		rotationPIDController.setPID(p, i, d, f);
+		headingPIDController.setPID(p, i, d, f);
 	}
 
 	/**
@@ -323,12 +352,12 @@ public class GyroMecanumDriveAlgorithm extends MecanumDriveAlgorithm {
 		// controller). This is very important because the integral value will
 		// have gotten really big and will cause the robot to spin in circles
 		// unless it is reset.
-		rotationPIDController.reset();
+		headingPIDController.reset();
 		// Since the gyro value is now zero, the robot should also try to point
 		// in that direction.
-		rotationPIDController.setSetpoint(0);
+		headingPIDController.setSetpoint(0);
 		// Renable the controller because it was disabled by calling reset().
-		rotationPIDController.enable();
+		headingPIDController.enable();
 	}
 
 	public double getGyroAngle() {

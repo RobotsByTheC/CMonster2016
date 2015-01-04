@@ -6,15 +6,16 @@
  */
 package org.usfirst.frc2084.CMonster2015.drive;
 
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  * @author Ben Wolsieffer
  */
-public class MecanumDriveAlgorithm extends DriveAlgorithm<FourWheelDriveController<WheelController>> {
+public class MecanumDriveAlgorithm extends DriveAlgorithm<FourWheelDriveController<WheelController<SpeedController>>> {
 
-	public MecanumDriveAlgorithm(FourWheelDriveController<WheelController> controller) {
+	public MecanumDriveAlgorithm(FourWheelDriveController<WheelController<SpeedController>> controller) {
 		super(controller);
 	}
 

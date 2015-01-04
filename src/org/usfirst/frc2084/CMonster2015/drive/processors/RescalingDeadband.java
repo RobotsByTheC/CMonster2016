@@ -6,7 +6,6 @@
  */
 package org.usfirst.frc2084.CMonster2015.drive.processors;
 
-import org.usfirst.frc2084.CMonster2015.drive.DriveUtils;
 
 /**
  * Applies a deadband to a value and scales it to be between 0.0 and 1.0 (or
@@ -30,15 +29,21 @@ import org.usfirst.frc2084.CMonster2015.drive.DriveUtils;
  *
  * @author Ben Wolsieffer
  */
-public class RescalingDeadband implements ValueProcessor {
+public class RescalingDeadband implements TimelessProcessor {
 
 	private final double deadband;
+	private final double absMax;
 
 	public RescalingDeadband(double deadband) {
-		if (!DriveUtils.isValid(deadband)) {
-			throw new IllegalArgumentException("Deadband must be between -1.0 and 1.0");
+		this(deadband, 1);
+	}
+
+	public RescalingDeadband(double deadband, double absMax) {
+		if (deadband < 0 || deadband > absMax) {
+			throw new IllegalArgumentException("Deadband must be between 0.0 and " + absMax);
 		}
 		this.deadband = deadband;
+		this.absMax = absMax;
 	}
 
 	@Override
@@ -47,7 +52,7 @@ public class RescalingDeadband implements ValueProcessor {
 			value = 0;
 		} else {
 			value += value < 0 ? deadband : -deadband;
-			value /= 1 - deadband;
+			value /= absMax - deadband;
 		}
 		return value;
 	}

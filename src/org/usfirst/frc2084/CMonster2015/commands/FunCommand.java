@@ -23,6 +23,8 @@ public class FunCommand extends Command {
 	/**
 	 * Stores the current value of pi. Used by the pi calculating algorithm.
 	 */
+	// TODO: remove suppress warnings from pi
+	@SuppressWarnings("unused")
 	private double pi;
 	/**
 	 * Stores the value that is 1/4 of pi. Used by the pi calculating algorithm.

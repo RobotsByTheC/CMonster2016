@@ -7,10 +7,15 @@
 package org.usfirst.frc2084.CMonster2015.drive.processors;
 
 /**
- *
  * @author Ben Wolsieffer
  */
-public interface ValueProcessor {
+@FunctionalInterface
+public interface TimelessProcessor extends Processor {
 
-	public double process(double value);
+	@Override
+	default double process(double value, double timeStep) {
+		return process(value);
+	}
+
+	double process(double value);
 }

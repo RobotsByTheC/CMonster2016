@@ -7,20 +7,11 @@
 package org.usfirst.frc2084.CMonster2015.drive.processors;
 
 /**
- * Scales a value by a constant.
  *
  * @author Ben Wolsieffer
  */
-public class Scaler implements TimelessProcessor {
+@FunctionalInterface
+public interface Processor {
 
-	private final double scale;
-
-	public Scaler(double scale) {
-		this.scale = scale;
-	}
-
-	@Override
-	public double process(double value) {
-		return value * scale;
-	}
+	double process(double value, double timeStep);
 }
