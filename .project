@@ -3,6 +3,7 @@
 	<name>CMonster2015</name>
 	<comment></comment>
 	<projects>
+		<project>VisionProcessor</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
@@ -17,7 +18,7 @@
 	</natures>
 	<filteredResources>
 		<filter>
-			<id>1418586819776</id>
+			<id>1420643962878</id>
 			<name></name>
 			<type>22</type>
 			<matcher>

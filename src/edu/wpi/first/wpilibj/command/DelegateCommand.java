@@ -27,20 +27,25 @@ public class DelegateCommand extends Command {
 		this.command = command;
 	}
 
+	@Override
 	protected void initialize() {
 		command.start();
 	}
 
+	@Override
 	protected void execute() {
 	}
 
+	@Override
 	protected boolean isFinished() {
 		return command.isFinished();
 	}
 
+	@Override
 	protected void end() {
 	}
 
+	@Override
 	protected void interrupted() {
 	}
 }
