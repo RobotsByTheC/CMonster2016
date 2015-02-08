@@ -11,89 +11,104 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SpeedController;
 
 /**
+ * A {@link WheelController} that uses an encoder attached to digital IO pins
+ * and any speed controller to maintain speed. This runs the PID controller on
+ * the roboRIO.
+ * 
  * @author Ben Wolsieffer
  */
-public class DIOEncoderWheelController extends EncoderWheelController<SpeedController> {
+public class DIOEncoderWheelController<S extends SpeedController> extends EncoderWheelController<SpeedController> {
 
-	private final PIDController distancePIDController;
-	private final PIDController speedPIDController;
+    /**
+     * The PIDController the maintains the speed of the wheel.
+     */
+    private final PIDController speedPIDController;
 
-	private double pidOutput = 0;
+    /**
+     * The output of the {@link #speedPIDController}.
+     */
+    private double pidOutput = 0;
 
-	private final Encoder encoder;
+    /**
+     * The encoder that is used as a feedback device.
+     */
+    private final Encoder encoder;
 
-	/**
-	 * 
-	 */
-	public DIOEncoderWheelController(Encoder encoder, PIDConstants speedPIDConstants, PIDConstants distancePIDConstants, SpeedController... motors) {
-		super(motors);
-		speedPIDController = new PIDController(
-				speedPIDConstants.p,
-				speedPIDConstants.i,
-				speedPIDConstants.d,
-				speedPIDConstants.f,
-				encoder::getRate, (o) -> {
-					pidOutput = o;
-				}
-				);
+    /**
+     * Creates a new {@link DIOEncoderWheelController} using the specified
+     * encoder, PID constants and speed controllers.
+     * 
+     * @param encoder the encoder to use for closed loop control
+     * @param speedPIDConstants the PID constants to use for the speed control
+     *            loop
+     * @param pdpPorts the PDP ports the motors are connected to
+     * @param motors the list of motors to control
+     */
+    @SafeVarargs
+    public DIOEncoderWheelController(Encoder encoder, PIDConstants speedPIDConstants, int[] pdpPorts, S... motors) {
+        super(pdpPorts, motors);
+        speedPIDController = DriveUtils.createPIDControllerFromConstants(speedPIDConstants,
+                encoder::getRate, (o) -> pidOutput = o);
+        speedPIDController.enable();
 
-		distancePIDController = new PIDController(
-				distancePIDConstants.p,
-				distancePIDConstants.i,
-				distancePIDConstants.d,
-				distancePIDConstants.f,
-				encoder::getDistance, speedPIDController::setSetpoint
-				);
-		this.encoder = encoder;
-	}
+        this.encoder = encoder;
+    }
 
-	@Override
-	public void rotateToDistance(double distance) {
-		distancePIDController.enable();
-		distancePIDController.setSetpoint(distance);
-		super.set(pidOutput);
-	}
+    /**
+     * Sets the speed of this wheel controller. This is maintained using a PID
+     * controller and an encoder.
+     * 
+     * @param speed the speed of the wheel (-1.0 to 1.0)
+     */
+    @Override
+    public void set(double speed) {
+        if (isEncoderEnabled()) {
+            speedPIDController.setSetpoint(speed);
+            super.set(pidOutput);
+        } else {
+            super.set(speed);
+        }
+    }
 
-	@Override
-	public void set(double speed) {
-		if (isEncoderEnabled()) {
-			distancePIDController.disable();
-			speedPIDController.setSetpoint(speed);
-			super.set(pidOutput);
-		} else {
-			super.set(speed);
-		}
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double getDistance() {
+        return encoder.getDistance();
+    }
 
-	@Override
-	public double getDistance() {
-		return encoder.getDistance();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double getSpeed() {
+        return encoder.getRate();
+    }
 
-	@Override
-	public double getSpeed() {
-		return encoder.getRate();
-	}
+    /**
+     * Resets the speed PID controller.
+     */
+    @Override
+    public void reset() {
+        speedPIDController.reset();
+        if (isEncoderEnabled()) {
+            speedPIDController.enable();
+        }
+    }
 
-	@Override
-	public void reset() {
-		speedPIDController.reset();
-		distancePIDController.reset();
-		if (isEncoderEnabled()) {
-			speedPIDController.enable();
-		}
-	}
-
-	@Override
-	public void setEncoderEnabled(boolean enabled) {
-		if (enabled != isEncoderEnabled()) {
-			if (enabled) {
-				reset();
-			} else {
-				speedPIDController.disable();
-				distancePIDController.disable();
-			}
-		}
-		super.setEncoderEnabled(enabled);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setEncoderEnabled(boolean enabled) {
+        if (enabled != isEncoderEnabled()) {
+            if (enabled) {
+                reset();
+            } else {
+                speedPIDController.disable();
+            }
+        }
+        super.setEncoderEnabled(enabled);
+    }
 }

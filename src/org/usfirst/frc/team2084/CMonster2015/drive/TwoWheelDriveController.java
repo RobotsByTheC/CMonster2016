@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) 2014 RobotsByTheC. All rights reserved.
+ * Copyright (c) 2015 RobotsByTheC. All rights reserved.
  *
  * Open Source Software - may be modified and shared by FRC teams. The code must
  * be accompanied by the BSD license file in the root directory of the project.
@@ -15,48 +15,51 @@ package org.usfirst.frc.team2084.CMonster2015.drive;
  */
 public class TwoWheelDriveController<W extends WheelController<?>> extends DriveController<W> {
 
-	protected W leftWheel;
-	protected W rightWheel;
+    protected W leftWheel;
+    protected W rightWheel;
 
-	/**
-	 * Creates a new {@link TwoWheelDriveController} that drives the specified
-	 * {@link WheelController}s.
-	 *
-	 * @param leftWheel the left {@link WheelController}
-	 * @param rightWheel the right {@link WheelController}
-	 */
-	public TwoWheelDriveController(W leftWheel, W rightWheel) {
-		this.leftWheel = leftWheel;
-		this.rightWheel = rightWheel;
-	}
+    /**
+     * Creates a new {@link TwoWheelDriveController} that drives the specified
+     * {@link WheelController}s.
+     *
+     * @param leftWheel the left {@link WheelController}
+     * @param rightWheel the right {@link WheelController}
+     */
+    public TwoWheelDriveController(W leftWheel, W rightWheel) {
+        this.leftWheel = leftWheel;
+        this.rightWheel = rightWheel;
+    }
 
-	/**
-	 * Drives the left and right {@link WheelController}s at the specified
-	 * speeds.
-	 *
-	 * @param leftSpeed the left wheel speed
-	 * @param rightSpeed the right wheel speed
-	 */
-	@Override
-	public void drive(double leftSpeed, double rightSpeed) {
-		leftWheel.set(leftSpeed);
-		rightWheel.set(rightSpeed);
+    /**
+     * Drives the left and right {@link WheelController}s at the specified
+     * speeds.
+     *
+     * @param leftSpeed the left wheel speed
+     * @param rightSpeed the right wheel speed
+     */
+    @Override
+    public void drive(double leftSpeed, double rightSpeed) {
+        leftWheel.set(leftSpeed);
+        rightWheel.set(rightSpeed);
 
-		// Make sure to feed the watchdog!
-		safetyHelper.feed();
-	}
+        // Make sure to feed the watchdog!
+        safetyHelper.feed();
+    }
 
-	/**
-	 * Stops the robot.
-	 */
-	@Override
-	public void stop() {
-		leftWheel.set(0);
-		rightWheel.set(0);
-	}
+    /**
+     * Stops the robot.
+     */
+    @Override
+    public void stop() {
+        leftWheel.set(0);
+        rightWheel.set(0);
+    }
 
-	@Override
-	public String getDescription() {
-		return "Two Wheel Drive Controller";
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getDescription() {
+        return "Two Wheel Drive Controller";
+    }
 }

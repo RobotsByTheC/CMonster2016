@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) 2014 RobotsByTheC. All rights reserved.
+ * Copyright (c) 2015 RobotsByTheC. All rights reserved.
  *
  * Open Source Software - may be modified and shared by FRC teams. The code must
  * be accompanied by the BSD license file in the root directory of the project.
@@ -22,22 +22,22 @@ package org.usfirst.frc.team2084.CMonster2015.drive;
  */
 public abstract class DriveAlgorithm<C extends DriveController<?>> {
 
-	protected C controller;
+    protected C controller;
 
-	/**
-	 * Creates a new {@link DriveAlgorithm} that controls the specified
-	 * {@link DriveController}.
-	 *
-	 * @param controller the drive controller to use
-	 */
-	public DriveAlgorithm(C controller) {
-		this.controller = controller;
-	}
+    /**
+     * Creates a new {@link DriveAlgorithm} that controls the specified
+     * {@link DriveController}.
+     *
+     * @param controller the drive controller to use
+     */
+    public DriveAlgorithm(C controller) {
+        this.controller = controller;
+    }
 
-	/**
-	 * Stops the robot. This just calls {@link DriveController#stop()}.
-	 */
-	public void stop() {
-		controller.stop();
-	}
+    /**
+     * Stops the robot. This just calls {@link DriveController#stop()}.
+     */
+    public void stop() {
+        controller.stop();
+    }
 }

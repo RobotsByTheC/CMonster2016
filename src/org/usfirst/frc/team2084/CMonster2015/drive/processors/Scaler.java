@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) 2014 RobotsByTheC. All rights reserved.
+ * Copyright (c) 2015 RobotsByTheC. All rights reserved.
  *
  * Open Source Software - may be modified and shared by FRC teams. The code must
  * be accompanied by the BSD license file in the root directory of the project.
@@ -13,14 +13,28 @@ package org.usfirst.frc.team2084.CMonster2015.drive.processors;
  */
 public class Scaler implements Processor {
 
-	private final double scale;
+    /**
+     * The scaling constant.
+     */
+    private final double scale;
 
-	public Scaler(double scale) {
-		this.scale = scale;
-	}
+    /**
+     * Creates a {@link Scaler} that multiplies a value by a constant.
+     * 
+     * @param scale the multiplier
+     */
+    public Scaler(double scale) {
+        this.scale = scale;
+    }
 
-	@Override
-	public double process(double value) {
-		return value * scale;
-	}
+    /**
+     * Scales the input value.
+     * 
+     * @param value the input value
+     * @return the scaled value
+     */
+    @Override
+    public double process(double value) {
+        return value * scale;
+    }
 }
