@@ -52,7 +52,7 @@ public abstract class ParameterCommand extends Command {
      */
     public double getNumberParameter(String key) {
         Object defaultObject = defaultParameterValues.get(key);
-        if (defaultObject == null || !(defaultObject instanceof Double)) {
+        if (defaultObject == null || !(defaultObject instanceof Number)) {
             throw new IllegalArgumentException("Parameter \"" + key + "\" does not exist or is not a number");
         }
         if (parameterTable != null) {

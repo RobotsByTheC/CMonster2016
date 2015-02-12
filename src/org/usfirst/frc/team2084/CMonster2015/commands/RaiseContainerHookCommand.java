@@ -7,6 +7,7 @@
 package org.usfirst.frc.team2084.CMonster2015.commands;
 
 import org.usfirst.frc.team2084.CMonster2015.Robot;
+import org.usfirst.frc.team2084.CMonster2015.subsystems.ContainerHookSubsystem.State;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -33,19 +34,19 @@ public class RaiseContainerHookCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.containerHookSubsystem.raiseHook();
+        Robot.containerHookSubsystem.setState(State.RAISING);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return Robot.containerHookSubsystem.isHookRaised();
+        return Robot.containerHookSubsystem.isRaised();
     }
 
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Robot.containerHookSubsystem.stop();
+        Robot.containerHookSubsystem.setState(State.STOPPED);
     }
 
     // Called when another command which requires one or more of the same

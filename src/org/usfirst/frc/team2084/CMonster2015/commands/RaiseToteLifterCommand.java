@@ -7,6 +7,7 @@
 package org.usfirst.frc.team2084.CMonster2015.commands;
 
 import org.usfirst.frc.team2084.CMonster2015.Robot;
+import org.usfirst.frc.team2084.CMonster2015.subsystems.ToteLifterSubsystem.LifterState;
 
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
@@ -29,7 +30,7 @@ public class RaiseToteLifterCommand extends TimedCommand {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Robot.toteLifterSubsystem.raiseLifter();
+        Robot.toteLifterSubsystem.setLifterState(LifterState.RAISED);
     }
 
     // Called once after isFinished returns true

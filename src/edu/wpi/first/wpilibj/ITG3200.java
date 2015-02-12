@@ -202,9 +202,9 @@ public class ITG3200 extends SensorBase {
          * {@inheritDoc}
          */
         @Override
-        public double getRate() {
+        public void setAngle(double angle) {
             synchronized (ITG3200.this) {
-                return rate;
+                this.angle = angle;
             }
         }
 
@@ -212,9 +212,9 @@ public class ITG3200 extends SensorBase {
          * {@inheritDoc}
          */
         @Override
-        public void reset() {
+        public double getRate() {
             synchronized (ITG3200.this) {
-                angle = 0;
+                return rate;
             }
         }
     }

@@ -35,6 +35,11 @@ public class DIOEncoderWheelController<S extends SpeedController> extends Encode
     private final Encoder encoder;
 
     /**
+     * The maximum speed the wheel is capable of moving.
+     */
+    private final double maxSpeed;
+
+    /**
      * Creates a new {@link DIOEncoderWheelController} using the specified
      * encoder, PID constants and speed controllers.
      * 
@@ -45,11 +50,12 @@ public class DIOEncoderWheelController<S extends SpeedController> extends Encode
      * @param motors the list of motors to control
      */
     @SafeVarargs
-    public DIOEncoderWheelController(Encoder encoder, PIDConstants speedPIDConstants, int[] pdpPorts, S... motors) {
+    public DIOEncoderWheelController(Encoder encoder, PIDConstants speedPIDConstants, double maxSpeed, int[] pdpPorts, S... motors) {
         super(pdpPorts, motors);
         speedPIDController = DriveUtils.createPIDControllerFromConstants(speedPIDConstants,
                 encoder::getRate, (o) -> pidOutput = o);
         speedPIDController.enable();
+        this.maxSpeed = maxSpeed;
 
         this.encoder = encoder;
     }
@@ -63,7 +69,7 @@ public class DIOEncoderWheelController<S extends SpeedController> extends Encode
     @Override
     public void set(double speed) {
         if (isEncoderEnabled()) {
-            speedPIDController.setSetpoint(speed);
+            speedPIDController.setSetpoint(speed * maxSpeed);
             super.set(pidOutput);
         } else {
             super.set(speed);

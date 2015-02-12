@@ -26,6 +26,14 @@ public interface Gyro {
     public double getAngle();
 
     /**
+     * Sets the angle to the specified value in order compensate for robot
+     * orientation at the start of autonomous.
+     * 
+     * @param angle
+     */
+    public void setAngle(double angle);
+
+    /**
      * Gets the rate of rotation of the gyro in radians/second.
      * 
      * @return the rotation rate
@@ -36,5 +44,7 @@ public interface Gyro {
      * Resets the gyro angle to 0. This should be called to reset the effects of
      * significant drift.
      */
-    public void reset();
+    public default void reset() {
+        setAngle(0);
+    }
 }

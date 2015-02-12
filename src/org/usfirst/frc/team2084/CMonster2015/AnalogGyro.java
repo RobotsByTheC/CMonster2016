@@ -58,6 +58,11 @@ public class AnalogGyro extends SensorBase implements LiveWindowSendable, Gyro {
     private int center;
 
     /**
+     * The offset used to set the gyro to a certain angle.
+     */
+    private double angleOffset = 0;
+
+    /**
      * The result of the FPGA accumulator.
      */
     protected final AccumulatorResult result;
@@ -129,6 +134,7 @@ public class AnalogGyro extends SensorBase implements LiveWindowSendable, Gyro {
      */
     @Override
     public void reset() {
+        angleOffset = 0;
         analogInput.resetAccumulator();
     }
 
@@ -156,7 +162,13 @@ public class AnalogGyro extends SensorBase implements LiveWindowSendable, Gyro {
                 * (1 << analogInput.getAverageBits())
                 / (AnalogInput.getGlobalSampleRate() * voltsPerRadianPerSecond);
 
-        return scaledValue;
+        return scaledValue + angleOffset;
+    }
+
+    @Override
+    public void setAngle(double angle) {
+        reset();
+        angleOffset = angle;
     }
 
     /**

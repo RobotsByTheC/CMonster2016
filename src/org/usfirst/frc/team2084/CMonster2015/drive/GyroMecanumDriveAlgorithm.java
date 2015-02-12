@@ -54,6 +54,8 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      */
     private boolean gyroEnabled = true;
 
+    private double headingInverted = 1.0;
+
     /**
      * PID controller that maintains the orientation of the robot using the
      * gyro.
@@ -364,8 +366,16 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      */
     public double getHeading() {
         synchronized (this) {
-            return gyro.getAngle();
+            return gyro.getAngle() * headingInverted;
         }
+    }
+
+    public void setHeadingInverted(boolean inverted) {
+        headingInverted = inverted ? -1.0 : 1.0;
+    }
+
+    public boolean isHeadingInverted() {
+        return headingInverted == -1.0;
     }
 
     /**
