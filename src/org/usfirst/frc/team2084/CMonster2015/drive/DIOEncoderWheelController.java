@@ -108,6 +108,7 @@ public class DIOEncoderWheelController<S extends SpeedController> extends Encode
      */
     @Override
     public void setEncoderEnabled(boolean enabled) {
+        super.setEncoderEnabled(enabled);
         if (enabled != isEncoderEnabled()) {
             if (enabled) {
                 reset();
@@ -115,6 +116,5 @@ public class DIOEncoderWheelController<S extends SpeedController> extends Encode
                 speedPIDController.disable();
             }
         }
-        super.setEncoderEnabled(enabled);
     }
 }

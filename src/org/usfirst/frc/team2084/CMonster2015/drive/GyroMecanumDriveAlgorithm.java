@@ -79,7 +79,7 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
         this.gyro = gyro;
 
         headingPIDController = DriveUtils.createPIDControllerFromConstants(headingPIDConstants,
-                this::getHeading, (o) -> headingPID = o);
+                this::getHeading, (o) -> headingPID = -o);
         headingPIDController.setAbsoluteTolerance(headingTolerance);
         SmartDashboard.putData("Heading PID Controller", headingPIDController);
 
