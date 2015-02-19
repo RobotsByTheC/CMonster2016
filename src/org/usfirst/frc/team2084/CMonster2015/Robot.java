@@ -63,7 +63,8 @@ public class Robot extends IterativeRobot {
         loggingCommand = new LoggingCommand();
         loggingCommand.start();
 
-        autonomousChooser.addDefault("Container and drive to auto zone", new ContainerPickupAutoZoneAutonomousCommand());
+        autonomousChooser.addDefault("Grab RC and drive to auto zone", new ContainerPickupAutoZoneAutonomousCommand());
+        autonomousChooser.addObject("Do nothing", null);
         SmartDashboard.putData("Autonomous Mode", autonomousChooser);
     }
 

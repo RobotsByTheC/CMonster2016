@@ -6,8 +6,6 @@
  */
 package org.usfirst.frc.team2084.CMonster2015.commands;
 
-import org.usfirst.frc.team2084.CMonster2015.drive.Location;
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
@@ -22,6 +20,6 @@ public class ContainerPickupAutoZoneAutonomousCommand extends CommandGroup {
     public ContainerPickupAutoZoneAutonomousCommand() {
         addParallel(new RaiseContainerHookCommand());
         addSequential(new WaitCommand(0.3));
-        addSequential(new DriveToLocationCommand(new Location(0, 2), 0));
+        addSequential(new DriveHeadingCommand(0, 0.5, 0, 0.3, 2));
     }
 }
