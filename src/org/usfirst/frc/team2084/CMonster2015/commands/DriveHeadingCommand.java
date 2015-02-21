@@ -30,16 +30,39 @@ public class DriveHeadingCommand extends RotateToCommand {
 
     private double x;
     private double y;
-    private double time;
 
+    /**
+     * Creates a {@link DriveHeadingCommand} that does nothing for a second.
+     * This is mostly here to provide defaults for the parameters.
+     */
     public DriveHeadingCommand() {
         this(0.0, 0.0, 0.0, 1.0, 1.0, false);
     }
 
+    /**
+     * Drives the robot at the specified x and y speeds and heading for a
+     * certain amount of time, while also limiting the max rotation speed.
+     * 
+     * @param x the x speed
+     * @param y the y speed
+     * @param heading the heading
+     * @param time the amount of time to drive
+     */
     public DriveHeadingCommand(double x, double y, double heading, double time, double maxRotationSpeed) {
         this(x, y, heading, time, maxRotationSpeed, false);
     }
 
+    /**
+     * Drives the robot at the specified x and y speeds and heading for a
+     * certain amount of time, while also limiting the max rotation speed. This
+     * can also optionally print out the heading error to the SmartDashboard.
+     * 
+     * @param x the x speed
+     * @param y the y speed
+     * @param heading the heading
+     * @param time the amount of time to drive
+     * @param debug whether to print the heading error
+     */
     public DriveHeadingCommand(double x, double y, double heading, double time, double maxRotationSpeed, boolean debug) {
         super(heading, maxRotationSpeed, time, debug);
 
@@ -66,7 +89,6 @@ public class DriveHeadingCommand extends RotateToCommand {
 
     @Override
     protected void execute() {
-
         RobotMap.driveSubsystemMecanumDriveAlgorithm.driveFieldHeadingCartesian(xRamper.process(x), yRamper.process(y),
                 heading, rotationRamper.process(maxRotationSpeed));
         if (debug) {
@@ -74,6 +96,9 @@ public class DriveHeadingCommand extends RotateToCommand {
         }
     }
 
+    /**
+     * Returns true when the timeout expires.
+     */
     @Override
     protected boolean isFinished() {
         return isTimedOut();

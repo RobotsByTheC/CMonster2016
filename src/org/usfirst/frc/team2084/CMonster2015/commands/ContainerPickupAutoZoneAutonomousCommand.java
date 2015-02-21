@@ -18,8 +18,14 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 public class ContainerPickupAutoZoneAutonomousCommand extends CommandGroup {
 
     public ContainerPickupAutoZoneAutonomousCommand() {
+        // Raise the tote lifter at the beginning to allow the compressor to
+        // recharge before teleop
+        addParallel(new RaiseToteLifterCommand());
+        // Start raising the container hook
         addParallel(new RaiseContainerHookCommand());
-        addSequential(new WaitCommand(0.3));
+        // Wait for the container to get off the ground
+        addSequential(new WaitCommand(0.5));
+        // Drive into the auto zone
         addSequential(new DriveHeadingCommand(0, 0.5, 0, 0.3, 2));
     }
 }

@@ -9,13 +9,16 @@ package org.usfirst.frc.team2084.CMonster2015.commands;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- *
+ * The drive scheme that we fall back to if our encoders or gyro fails.
  */
 public class FallbackDriveCommandGroup extends CommandGroup {
 
     public FallbackDriveCommandGroup() {
+        // Disable gyro
         addSequential(new SetGyroEnabledCommand(false));
+        // Disable encoders
         addSequential(new SetEncodersEnabledCommand(false));
+        // Disable field oriented control
         addSequential(new MecanumDriveCommand(false));
     }
 }

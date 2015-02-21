@@ -7,21 +7,21 @@
 package edu.wpi.first.wpilibj.command;
 
 /**
- * A command group that runs the specified commands in parallel.
+ * A command group that runs the specified commands sequentially.
  * 
  * @author Ben Wolsieffer
  */
-public class ParallelCommandGroup extends CommandGroup {
+public class SequentialCommandGroup extends CommandGroup {
 
     /**
-     * Creates a {@link CommandGroup} that runs the specified commands in
-     * parallel.
+     * Creates a {@link CommandGroup} that runs the specified commands
+     * sequentially.
      * 
      * @param commands the commands to run
      */
-    public ParallelCommandGroup(Command... commands) {
+    public SequentialCommandGroup(Command... commands) {
         for (Command command : commands) {
-            addParallel(command);
+            addSequential(command);
         }
     }
 }

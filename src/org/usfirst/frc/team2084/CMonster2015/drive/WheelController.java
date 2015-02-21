@@ -137,6 +137,11 @@ public class WheelController<S extends SpeedController> implements Sendable {
         return table;
     }
 
+    /**
+     * Updates the SmartDashboard table for the {@link WheelController}.
+     * 
+     * @param table the table to update
+     */
     public void updateTable(ITable table) {
         table.putNumber("Current (amps)", getCurrent());
         table.putNumber("Value", get());

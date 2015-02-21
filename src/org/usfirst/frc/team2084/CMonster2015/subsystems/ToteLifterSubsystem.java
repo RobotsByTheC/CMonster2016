@@ -6,10 +6,8 @@
  */
 package org.usfirst.frc.team2084.CMonster2015.subsystems;
 
-import org.usfirst.frc.team2084.CMonster2015.Robot;
 import org.usfirst.frc.team2084.CMonster2015.RobotMap;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.MotorSafety;
@@ -19,8 +17,9 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- * The subsystem that controls the tote lifter (and its regenerative air
- * system), the gate and the ejector.
+ * The subsystem that controls the tote lifter (and its air recycling system
+ * [Recycle Rush!]), the gate and the ejector. Circuit diagrams for the air
+ * recycling system are available on the the team shared Google Drive folder.
  */
 public class ToteLifterSubsystem extends Subsystem {
 
@@ -38,14 +37,41 @@ public class ToteLifterSubsystem extends Subsystem {
 
     private final MotorSafetyHelper watchdog = new MotorSafetyHelper((MotorSafety) ejectorTalon);
 
+    /**
+     * Represents the state of the tote lifter.
+     */
     public enum LifterState {
-        FIRST_RAISE(true, Value.kReverse, false),
+        /**
+         * State where the tote lifter raises without venting the top of the
+         * cylinder, providing more air for lowering.
+         */
+        LOW_POWER_RAISE(true, Value.kReverse, false),
+        /**
+         * State for raising the lifter.
+         */
         RAISE(true, Value.kReverse, true),
+        /**
+         * State that is used to store air in the recycling system before
+         * lowering.
+         */
         STORE(false, Value.kForward, false),
+        /**
+         * State that lowers the lifter. The system needs to have stored air in
+         * the recycling system for this to work.
+         */
         LOWER(false, Value.kReverse, false);
 
+        /**
+         * The state of the raise (single) solenoid.
+         */
         private final boolean raise;
+        /**
+         * The state of the storage (double) solenoid.
+         */
         private final Value storage;
+        /**
+         * The state of the lower vent (single) solenoid.
+         */
         private final boolean lowerVent;
 
         private LifterState(boolean raise, Value storage, boolean lowerVent) {
@@ -55,8 +81,16 @@ public class ToteLifterSubsystem extends Subsystem {
         }
     }
 
+    /**
+     * The state of the tote lifter.
+     */
     private LifterState lifterState = LifterState.STORE;
 
+    /**
+     * Sets the state of the tote lifter to the specified value.
+     * 
+     * @param state the tote lifter state
+     */
     public void setLifterState(LifterState state) {
         lifterState = state;
         raiseSolenoid.set(state.raise);
@@ -64,14 +98,32 @@ public class ToteLifterSubsystem extends Subsystem {
         lowerVentSolenoid.set(state.lowerVent);
     }
 
+    /**
+     * Gets the state of the tote lifter.
+     * 
+     * @return the tote lifter state
+     */
     public LifterState getLifterState() {
         return lifterState;
     }
 
+    /**
+     * Represents the state of the tote gate, which prevents totes from sliding
+     * out of the front of the robot.
+     */
     public enum GateState {
+        /**
+         * State when the gate is open (lowered into the floor).
+         */
         OPEN(false),
+        /**
+         * State when the gate is open (raised out of the floor).
+         */
         CLOSED(true);
 
+        /**
+         * The state of the gate solenoid.
+         */
         private final boolean value;
 
         private GateState(boolean value) {
@@ -79,22 +131,50 @@ public class ToteLifterSubsystem extends Subsystem {
         }
     }
 
+    /**
+     * The state of the gate.
+     */
     private GateState gateState = GateState.OPEN;
 
+    /**
+     * Sets the state of the tote gate to the specified value.
+     * 
+     * @param state the state to set
+     */
     public void setGateState(GateState state) {
         gateState = state;
         gateSolenoid.set(state.value);
     }
 
+    /**
+     * Gets the state of the tote gate.
+     * 
+     * @return the gate state
+     */
     public GateState getGateState() {
         return gateState;
     }
 
+    /**
+     * Represents the state of the tote ejector.
+     */
     public enum EjectorState {
+        /**
+         * State when the tote ejector is extending.
+         */
         EXTENDING(-0.3),
+        /**
+         * State when the tote ejector is retracting.
+         */
         RETRACTING(0.3),
+        /**
+         * State when the tote ejector is stopped.
+         */
         STOPPED(0.0);
 
+        /**
+         * The ejector motor speed for this particular state.
+         */
         private final double speed;
 
         private EjectorState(double speed) {
@@ -102,8 +182,18 @@ public class ToteLifterSubsystem extends Subsystem {
         }
     }
 
+    /**
+     * The state of the tote ejector.
+     */
     private EjectorState ejectorState = EjectorState.STOPPED;
 
+    /**
+     * Sets the state of the tote ejector to the specified value. If
+     * {@code state != EjectorState.STOPPED}, this needs to be called over and
+     * over to feed the watchdog.
+     * 
+     * @param state the state to set
+     */
     public void setEjectorState(EjectorState state) {
         ejectorState = state;
 
@@ -111,24 +201,47 @@ public class ToteLifterSubsystem extends Subsystem {
         ejectorTalon.set(state.speed);
     }
 
+    /**
+     * Gets the state of the tote ejector.
+     * 
+     * @return the ejector state.
+     */
     public EjectorState getEjectorState() {
         return ejectorState;
     }
 
+    /**
+     * Gets whether the tote ejector is extended. This was supposed to work off
+     * a limit switch, that never happened, so we wanted to use a current
+     * threshold, but that didn't work either.
+     * 
+     * @return false
+     */
     public boolean isEjectorExtended() {
-        return Robot.pdp.getCurrent(EJECTOR_TALON_PDP_CHANNEL) > EJECTOR_TALON_EXTENED_CURRENT_THRESHOLD;
+        return false;
+        // return Robot.pdp.getCurrent(EJECTOR_TALON_PDP_CHANNEL) >
+        // EJECTOR_TALON_EXTENED_CURRENT_THRESHOLD;
         // return ejectorExtendedLimitSwitch.get();
     }
 
+    /**
+     * Gets whether the tote ejector is retracted. This was supposed to work off
+     * a limit switch, that never happened.
+     * 
+     * @return false
+     */
     public boolean isEjectorRetracted() {
         return false; // ejectorRetractedLimitSwitch.get();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initDefaultCommand() {
 
         // BEGIN AUTOGENERATED CODE, SOURCE=ROBOTBUILDER ID=DEFAULT_COMMAND
 
-    // END AUTOGENERATED CODE, SOURCE=ROBOTBUILDER ID=DEFAULT_COMMAND
+        // END AUTOGENERATED CODE, SOURCE=ROBOTBUILDER ID=DEFAULT_COMMAND
     }
 }

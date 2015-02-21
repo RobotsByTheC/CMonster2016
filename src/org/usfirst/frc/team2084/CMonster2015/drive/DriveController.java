@@ -115,7 +115,7 @@ public abstract class DriveController<W extends WheelController<?>> implements M
 
     /**
      * Gets the description of this motor safety instance. By default it is the
-     * class name.
+     * class name. This should be overridden to be more descriptive.
      *
      * @return the class name
      */
