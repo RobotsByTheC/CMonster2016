@@ -86,7 +86,8 @@ public class DriveToLocationCommand extends RotateToCommand {
      */
     @Override
     protected void execute() {
-        RobotMap.driveSubsystemMecanumDriveAlgorithm.driveToLocation(location, heading, movementRamper.process(maxMovementSpeed), rotationRamper.process(maxRotationSpeed));
+        RobotMap.driveSubsystemMecanumDriveAlgorithm.driveToLocation(location, heading,
+                movementRamper.process(maxMovementSpeed), rotationRamper.process(maxRotationSpeed));
         if (debug) {
             Location locationError = RobotMap.driveSubsystemMecanumDriveAlgorithm.getLocationError();
             SmartDashboard.putNumber(X_LOCATION_ERROR_KEY, locationError.getX());

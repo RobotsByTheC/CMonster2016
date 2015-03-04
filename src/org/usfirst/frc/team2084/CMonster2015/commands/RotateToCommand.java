@@ -76,7 +76,8 @@ public class RotateToCommand extends ParameterCommand {
      * @param maxRotationSpeed the maximum speed to rotate
      * @param timeout the max time the command can take to complete
      */
-    public RotateToCommand(double heading, double maxRotationSpeed, double timeout) {
+    public RotateToCommand(double heading, double maxRotationSpeed,
+            double timeout) {
         this(heading, maxRotationSpeed, timeout, false);
     }
 
@@ -91,7 +92,8 @@ public class RotateToCommand extends ParameterCommand {
      * @param timeout the max time the command can take to complete
      * @param debug whether to print the error to the SmartDashboard
      */
-    public RotateToCommand(double heading, double maxRotationSpeed, double timeout, boolean debug) {
+    public RotateToCommand(double heading, double maxRotationSpeed,
+            double timeout, boolean debug) {
         super(timeout);
         this.maxRotationSpeed = maxRotationSpeed;
 

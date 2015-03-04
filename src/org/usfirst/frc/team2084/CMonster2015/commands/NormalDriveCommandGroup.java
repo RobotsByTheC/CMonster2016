@@ -15,8 +15,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class NormalDriveCommandGroup extends CommandGroup {
 
     public NormalDriveCommandGroup() {
+        addSequential(new ResetHeadingSetpointCommand());
         addSequential(new SetGyroEnabledCommand(true));
-        addSequential(new SetEncodersEnabledCommand(true));
+        addSequential(new SetEncodersEnabledCommand(false));
         addSequential(new MecanumDriveCommand());
     }
 }

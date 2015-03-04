@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class LowerToteLifterCommand extends Command {
 
-    public static final double STORE_TIME = 0.3;
+    public static final double STORE_TIME = 0.5;
 
     public LowerToteLifterCommand() {
         super(2);

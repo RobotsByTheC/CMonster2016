@@ -80,6 +80,7 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
 
         headingPIDController = DriveUtils.createPIDControllerFromConstants(headingPIDConstants,
                 this::getHeading, (o) -> headingPID = -o);
+        // (o) -> headingPID = Math.abs(o) > 0.9 ? 0.0 : -o);
         headingPIDController.setAbsoluteTolerance(headingTolerance);
         SmartDashboard.putData("Heading PID Controller", headingPIDController);
 
@@ -359,6 +360,10 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
         headingPIDController.enable();
     }
 
+    public void resetSetpoint() {
+        headingPIDController.setSetpoint(getHeading());
+    }
+
     /**
      * Gets the heading of the robot in radians according to the gyro.
      * 
@@ -367,6 +372,12 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
     public double getHeading() {
         synchronized (this) {
             return gyro.getAngle() * headingInverted;
+        }
+    }
+
+    public double getRotationRate() {
+        synchronized (this) {
+            return gyro.getRate() * headingInverted;
         }
     }
 

@@ -34,8 +34,11 @@ public class MecanumDriveCommand extends Command {
      * value is scaled down to this value.
      */
     public static final double MAX_ROTATION = 0.5;
+    public static final double MAX_SPEED = 0.75;
+
     private final RescalingDeadband rotationDeadband = new RescalingDeadband(ROTATION_DEADBAND);
     private final Scaler rotationScaler = new Scaler(MAX_ROTATION);
+    private final Scaler driveScaler = new Scaler(MAX_SPEED);
 
     private final boolean fieldOriented;
 
@@ -82,12 +85,19 @@ public class MecanumDriveCommand extends Command {
         SmartDashboard.putNumber("Joystick Rotation", rotation);
         SmartDashboard.putNumber("Scaled Rotation", scaledRotation);
 
+        if (!driveJoystick.getTrigger()) {
+            x = driveScaler.process(x);
+            y = driveScaler.process(y);
+        }
         y *= -1;
         scaledRotation *= -1;
         // Actually drive the robot using the joystick values for x and y and
         // the scaled z value.
         if (fieldOriented) {
             RobotMap.driveSubsystemMecanumDriveAlgorithm.driveFieldCartesian(x, y, scaledRotation);
+
+            if (driveJoystick.getPOV() != -1) {
+            }
         } else {
             RobotMap.driveSubsystemMecanumDriveAlgorithm.driveCartesian(x, y, scaledRotation);
         }
