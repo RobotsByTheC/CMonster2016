@@ -41,8 +41,7 @@ public class SetHeadingCommand extends ParameterCommand {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        RobotMap.driveSubsystemGyro.setAngle(getNumberParameter(HEADING_KEY));
-        RobotMap.driveSubsystemMecanumDriveAlgorithm.resetSetpoint();
+        RobotMap.driveSubsystemMecanumDriveAlgorithm.setHeading(getNumberParameter(HEADING_KEY));
     }
 
     // Called repeatedly when this Command is scheduled to run

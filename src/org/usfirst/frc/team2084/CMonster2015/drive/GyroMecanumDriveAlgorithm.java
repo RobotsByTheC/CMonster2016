@@ -362,10 +362,14 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
 
     public void resetSetpoint() {
         headingPIDController.setSetpoint(getHeading());
+        headingPID = 0;
     }
 
     /**
-     * Gets the heading of the robot in radians according to the gyro.
+     * Gets the heading of the robot in radians according to the gyro. This also
+     * inverts the value if necessary. This *must* be used to retrieve the gyro
+     * heading rather than calling {@link Gyro#getAngle()} to prevent race
+     * conditions with the {@link PIDController}.
      * 
      * @return the heading
      */
@@ -375,6 +379,28 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
         }
     }
 
+    /**
+     * Sets the heading of the robot. This should be called rather than
+     * {@link Gyro#setAngle(double)} to prevent the robot from trying to rotate
+     * to this new heading, which is generally not the desired behavior.
+     * 
+     * @param heading
+     */
+    public void setHeading(double heading) {
+        synchronized (this) {
+            gyro.setAngle(heading * headingInverted);
+            resetSetpoint();
+        }
+    }
+
+    /**
+     * Gets the rate of rotation of the robot in radians per second according to
+     * the gyro. This also inverts the value if necessary. This *must* be used
+     * to retrieve the rotation rate rather than calling {@link Gyro#getRate(s)}
+     * to prevent race conditions with the {@link PIDController}.
+     * 
+     * @return the heading
+     */
     public double getRotationRate() {
         synchronized (this) {
             return gyro.getRate() * headingInverted;

@@ -15,15 +15,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class ContainerAutonomousCommand extends CommandGroup {
+public class AutoZoneDriveCommandGroup extends CommandGroup {
 
-    public ContainerAutonomousCommand() {
-        addSequential(new SetHeadingCommand(Math.PI));
-        addSequential(new CloseToteGateCommand());
-
-        addSequential(new RaiseContainerHookCommand());
-
-        // Raise the tote lifter to be ready to accept a tote.
-        addSequential(new RaiseToteLifterCommand());
+    public AutoZoneDriveCommandGroup() {
+        addSequential(new DriveHeadingCommand(0, 0.5, 1.33, Math.PI / 2, 0.1, 4.0));
     }
 }

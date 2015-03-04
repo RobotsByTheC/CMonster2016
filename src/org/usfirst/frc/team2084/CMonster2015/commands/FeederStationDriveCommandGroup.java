@@ -15,15 +15,12 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class ContainerAutonomousCommand extends CommandGroup {
+public class FeederStationDriveCommandGroup extends CommandGroup {
 
-    public ContainerAutonomousCommand() {
-        addSequential(new SetHeadingCommand(Math.PI));
-        addSequential(new CloseToteGateCommand());
+    public static final double LEFT_FEEDER_STATION_HEADING = Math.PI / 4;
+    public static final double RIGHT_FEEDER_STATION_HEADING = -Math.PI / 4;
 
-        addSequential(new RaiseContainerHookCommand());
-
-        // Raise the tote lifter to be ready to accept a tote.
-        addSequential(new RaiseToteLifterCommand());
+    public FeederStationDriveCommandGroup(boolean left) {
+        addSequential(new RotateToCommand(left ? LEFT_FEEDER_STATION_HEADING : RIGHT_FEEDER_STATION_HEADING, 0.1, 4.0));
     }
 }

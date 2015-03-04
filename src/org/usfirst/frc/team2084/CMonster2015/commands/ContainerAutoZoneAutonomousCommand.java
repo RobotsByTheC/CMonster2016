@@ -22,6 +22,6 @@ public class ContainerAutoZoneAutonomousCommand extends CommandGroup {
         // Wait for the container to get off the ground
         addSequential(new WaitCommand(1));
         // Drive into the auto zone
-        addSequential(new AutoZoneDriveCommand());
+        addSequential(new AutoZoneDriveCommandGroup());
     }
 }

@@ -60,6 +60,7 @@ public class MecanumDriveCommand extends Command {
      */
     @Override
     protected void initialize() {
+        RobotMap.driveSubsystemMecanumDriveAlgorithm.resetSetpoint();
     }
 
     /**
