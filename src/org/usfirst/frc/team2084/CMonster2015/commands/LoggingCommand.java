@@ -6,7 +6,6 @@
  */
 package org.usfirst.frc.team2084.CMonster2015.commands;
 
-import org.usfirst.frc.team2084.CMonster2015.AnalogGyro;
 import org.usfirst.frc.team2084.CMonster2015.Robot;
 import org.usfirst.frc.team2084.CMonster2015.RobotMap;
 import org.usfirst.frc.team2084.CMonster2015.drive.EncoderGyroMecanumDriveAlgorithm;
@@ -32,7 +31,6 @@ public class LoggingCommand extends Command {
     public static final double MATCH_LENGTH = 150;
 
     private final Accelerometer accelerometer = RobotMap.driveSubsystemAccelerometer;
-    private final AnalogGyro gyro = RobotMap.driveSubsystemGyro;
     private final EncoderGyroMecanumDriveAlgorithm<EncoderWheelController<SpeedController>> mecanumDriveAlgorithm = RobotMap.driveSubsystemMecanumDriveAlgorithm;
 
     public LoggingCommand() {
@@ -72,9 +70,7 @@ public class LoggingCommand extends Command {
 
         // Report remaining match time
         double matchTime = Timer.getMatchTime();
-        // SmartDashboard.putNumber("Time Remaining", matchTime < 0 ? 0
-        // : (MATCH_LENGTH - matchTime));
-        SmartDashboard.putNumber("Time Remaining", matchTime);
+        SmartDashboard.putNumber("Time Remaining", matchTime < 0 ? 0 : matchTime);
 
         // Report energy and current
         SmartDashboard.putNumber("Total energy (J)", Robot.pdp.getTotalEnergy());

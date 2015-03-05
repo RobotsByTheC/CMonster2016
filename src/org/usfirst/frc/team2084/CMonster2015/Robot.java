@@ -8,7 +8,7 @@ package org.usfirst.frc.team2084.CMonster2015;
 
 import org.usfirst.frc.team2084.CMonster2015.commands.ContainerAutoZoneAutonomousCommand;
 import org.usfirst.frc.team2084.CMonster2015.commands.ContainerAutonomousCommand;
-import org.usfirst.frc.team2084.CMonster2015.commands.ContainerNoodleAutoZoneAutonomousCommand;
+import org.usfirst.frc.team2084.CMonster2015.commands.ContainerFeederStationAutonomousCommand;
 import org.usfirst.frc.team2084.CMonster2015.commands.LoggingCommand;
 import org.usfirst.frc.team2084.CMonster2015.subsystems.ContainerHookSubsystem;
 import org.usfirst.frc.team2084.CMonster2015.subsystems.DriveSubsystem;
@@ -65,9 +65,14 @@ public class Robot extends IterativeRobot {
         loggingCommand = new LoggingCommand();
         loggingCommand.start();
 
-        autonomousChooser.addDefault("Grab RC and drive to auto zone", new ContainerAutoZoneAutonomousCommand());
-        autonomousChooser.addObject("Grab RC for noodle and drive to auto zone", new ContainerNoodleAutoZoneAutonomousCommand());
-        autonomousChooser.addObject("Grab RC", new ContainerAutonomousCommand());
+        autonomousChooser.addDefault("Grab RC and drive to auto zone", new ContainerAutoZoneAutonomousCommand(false));
+        autonomousChooser.addObject("Grab RC for noodle and drive to auto zone", new ContainerAutoZoneAutonomousCommand(true));
+        autonomousChooser.addObject("Grab RC and drive to left feeder", new ContainerFeederStationAutonomousCommand(true, false));
+        autonomousChooser.addObject("Grab RC and drive to right feeder", new ContainerFeederStationAutonomousCommand(false, false));
+        autonomousChooser.addObject("Grab RC for noodle and drive to left feeder", new ContainerFeederStationAutonomousCommand(true, true));
+        autonomousChooser.addObject("Grab RC for noodle and drive to right feeder", new ContainerFeederStationAutonomousCommand(false, true));
+        autonomousChooser.addObject("Grab RC", new ContainerAutonomousCommand(false));
+        autonomousChooser.addObject("Grab RC for noodle", new ContainerAutonomousCommand(true));
         autonomousChooser.addObject("Do nothing", null);
         SmartDashboard.putData("Autonomous Mode", autonomousChooser);
     }
