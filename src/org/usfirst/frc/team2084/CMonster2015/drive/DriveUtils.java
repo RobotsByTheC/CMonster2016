@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.PIDSource;
  */
 public final class DriveUtils {
 
+    public static final double TWO_PI = Math.PI * 2;
+
     /**
      * Limits a value to the -1.0 to +1.0 range.
      *
@@ -84,6 +86,16 @@ public final class DriveUtils {
                 wheelSpeeds[i] = wheelSpeeds[i] / maxMagnitude;
             }
         }
+    }
+
+    /**
+     * Normalizes a heading value between -pi and pi.
+     * 
+     * @param heading the raw heading
+     * @return the normalized heading
+     */
+    public static double normalizeHeading(double heading) {
+        return heading - TWO_PI * Math.floor((heading + Math.PI) / TWO_PI);
     }
 
     /**

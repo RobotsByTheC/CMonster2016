@@ -82,6 +82,8 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
                 this::getHeading, (o) -> headingPID = -o);
         // (o) -> headingPID = Math.abs(o) > 0.9 ? 0.0 : -o);
         headingPIDController.setAbsoluteTolerance(headingTolerance);
+        headingPIDController.setInputRange(-Math.PI, Math.PI);
+        headingPIDController.setContinuous(true);
         SmartDashboard.putData("Heading PID Controller", headingPIDController);
 
     }
@@ -375,7 +377,7 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      */
     public double getHeading() {
         synchronized (this) {
-            return gyro.getAngle() * headingInverted;
+            return DriveUtils.normalizeHeading(gyro.getAngle() * headingInverted);
         }
     }
 
@@ -388,7 +390,7 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      */
     public void setHeading(double heading) {
         synchronized (this) {
-            gyro.setAngle(heading * headingInverted);
+            gyro.setAngle(DriveUtils.normalizeHeading(heading * headingInverted));
             resetSetpoint();
         }
     }
@@ -423,7 +425,7 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      */
     public double getAngularSpeed() {
         synchronized (this) {
-            return gyro.getRate();
+            return gyro.getRate() * headingInverted;
         }
     }
 
