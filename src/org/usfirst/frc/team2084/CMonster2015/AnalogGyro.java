@@ -17,6 +17,9 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import edu.wpi.first.wpilibj.tables.ITable;
 
 /**
+ * An analog gyro that is attached to the analog input on the roboRIO. It has a
+ * modifiable sensitivity to be able to support different gyros.
+ * 
  * @author Ben Wolsieffer
  */
 public class AnalogGyro extends SensorBase implements LiveWindowSendable, Gyro {

@@ -34,21 +34,60 @@ public class DriveToLocationCommand extends RotateToCommand {
 
     private double maxMovementSpeed = 1.0;
 
+    /**
+     * Creates a new {@link DriveToLocationCommand} that moves the robot to its
+     * starting position: a location of (0,0) and heading 0.
+     */
     public DriveToLocationCommand() {
         this(new Location(0, 0), 0);
     }
 
+    /**
+     * Creates a new {@link DriveToLocationCommand} to the specified location
+     * and heading, not limiting the outputs and timing out after 5 seconds.
+     * 
+     * @param location the location to drive to
+     * @param heading the target heading
+     */
     public DriveToLocationCommand(Location location, double heading) {
         this(location, heading, 1, 1);
     }
 
+    /**
+     * Creates a new {@link DriveToLocationCommand} to the specified location
+     * and heading, limiting the outputs to the specified values and timing out
+     * after 5 seconds.
+     * 
+     * @param location the location to drive to
+     * @param heading the target heading
+     * @param maxMovementSpeed the maximum speed to move
+     * @param maxRotationSpeed the maximum speed to rotate
+     */
     public DriveToLocationCommand(Location location, double heading, double maxMovementSpeed, double maxRotationSpeed) {
-        this(location, heading, maxMovementSpeed, maxRotationSpeed, 5, false);
+        this(location, heading, maxMovementSpeed, maxRotationSpeed, 5);
     }
 
     /**
      * Creates a new {@link DriveToLocationCommand} to the specified location
-     * and heading. It will timeout after the specified number of seconds.
+     * and heading. The movement and rotation outputs are limited to the
+     * specified values. It will timeout after the specified number of seconds.
+     * 
+     * @param location the location to drive to
+     * @param heading the target heading
+     * @param maxMovementSpeed the maximum speed to move
+     * @param maxRotationSpeed the maximum speed to rotate
+     * @param timeout the max time the robot can take to reach the target
+     */
+    public DriveToLocationCommand(Location location, double heading, double maxMovementSpeed, double maxRotationSpeed, double timeout) {
+        this(location, heading, maxMovementSpeed, maxRotationSpeed, timeout, false);
+    }
+
+    /**
+     * Creates a new {@link DriveToLocationCommand} to the specified location
+     * and heading. The movement and rotation outputs are limited to the
+     * specified values. It will timeout after the specified number of seconds.
+     * Optionally, this command can print the heading and location errors to the
+     * SmartDashboard.
      * 
      * @param location the location to drive to
      * @param heading the target heading

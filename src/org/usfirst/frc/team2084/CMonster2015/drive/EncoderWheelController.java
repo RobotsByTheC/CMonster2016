@@ -71,6 +71,9 @@ public abstract class EncoderWheelController<S extends SpeedController> extends 
         encoderEnabled = enabled;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updateTable(ITable table) {
         super.updateTable(table);

@@ -30,6 +30,9 @@ public class ResetHeadingSetpointCommand extends Command {
     protected void execute() {
     }
 
+    /**
+     * @return true
+     */
     @Override
     protected boolean isFinished() {
         return true;

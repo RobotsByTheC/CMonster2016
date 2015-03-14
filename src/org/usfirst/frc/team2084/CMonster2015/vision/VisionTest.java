@@ -8,7 +8,6 @@ package org.usfirst.frc.team2084.CMonster2015.vision;
 
 import java.io.IOException;
 
-import org.opencv.core.Mat;
 import org.opencv.core.Size;
 import org.usfirst.frc.team2084.CMonster2015.vision.capture.CameraCapture;
 import org.usfirst.frc.team2084.CMonster2015.vision.capture.CameraOpenException;
@@ -34,8 +33,8 @@ public class VisionTest {
     private VideoServer videoServer;
 
     /**
-     * Runs the vision processing algorithm and displays the results in a
-     * window.
+     * Runs the vision processing algorithm and sends the result over the
+     * network.
      */
     public VisionTest() {
         try {
@@ -46,18 +45,11 @@ public class VisionTest {
             camera.setResolution(IMAGE_RESOLUTION);
 
             // Initialize the vision processor.
-            processor.addImageHandler(new ImageHandler() {
-
-                /**
-                 * Displays the processed image.
-                 */
-                @Override
-                public void imageProcessed(Mat image) {
-                    try {
-                        videoServer.sendImage(image);
-                    } catch (IOException e) {
-                        System.out.println("Cannot stream video over network: " + e);
-                    }
+            processor.addImageHandler((image) -> {
+                try {
+                    videoServer.sendImage(image);
+                } catch (IOException e) {
+                    System.out.println("Cannot stream video over network: " + e);
                 }
             });
 

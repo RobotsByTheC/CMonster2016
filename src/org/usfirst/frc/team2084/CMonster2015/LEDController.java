@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 
 /**
- * Class for communicating with our Arduino led controller over serial
+ * Class for communicating with our Arduino LED controller over serial.
  * 
  * @author Ben Wolsieffer
  */
@@ -52,6 +52,9 @@ public class LEDController {
      */
     private final SerialPort serial;
 
+    /**
+     * Buffer that stores the pattern code.
+     */
     private final ByteBuffer buffer = ByteBuffer.allocate(4);
 
     /**

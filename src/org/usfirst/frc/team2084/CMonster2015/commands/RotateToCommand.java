@@ -35,6 +35,9 @@ public class RotateToCommand extends ParameterCommand {
      */
     protected final LinearRamper rotationRamper = new LinearRamper(1.0, Type.UP);
 
+    /**
+     * The maximum allowed rotation speed.
+     */
     protected final double maxRotationSpeed;
 
     /**

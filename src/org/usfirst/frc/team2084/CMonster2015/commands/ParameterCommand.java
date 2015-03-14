@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.tables.ITable;
 
 /**
- * A {@link Command} that has parameters which can be set through the
- * SmartDashboard.
+ * A {@link Command} that has parameters which can be set interactively through
+ * the SmartDashboard.
  * 
  * @author Ben Wolsieffer
  */
@@ -128,11 +128,17 @@ public abstract class ParameterCommand extends Command {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getSmartDashboardType() {
         return "Parameter Command";
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initTable(ITable table) {
         super.initTable(table);

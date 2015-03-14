@@ -362,6 +362,9 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
         headingPIDController.enable();
     }
 
+    /**
+     * Resets the setpoint of the heading PID controller to the current heading.
+     */
     public void resetSetpoint() {
         headingPIDController.setSetpoint(getHeading());
         headingPID = 0;

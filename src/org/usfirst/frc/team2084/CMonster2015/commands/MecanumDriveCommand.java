@@ -52,10 +52,18 @@ public class MecanumDriveCommand extends Command {
 
     private final boolean fieldOriented;
 
+    /**
+     * Creates a field oriented {@link MecanumDriveCommand}.
+     */
     public MecanumDriveCommand() {
         this(true);
     }
 
+    /**
+     * Creates a field or robot oriented {@link MecanumDriveCommand}.
+     * 
+     * @param fieldOriented whether to use field oriented control
+     */
     public MecanumDriveCommand(boolean fieldOriented) {
         this.fieldOriented = fieldOriented;
         // This command drives, so it requires the drive subsystem.
@@ -66,7 +74,7 @@ public class MecanumDriveCommand extends Command {
     }
 
     /**
-     * Does nothing.
+     * Resets the setpoint of the heading PID controller.
      */
     @Override
     protected void initialize() {
@@ -100,6 +108,7 @@ public class MecanumDriveCommand extends Command {
             x = driveScaler.process(x);
             y = driveScaler.process(y);
         }
+        // Annoying inversions
         y *= -1;
         scaledRotation *= -1;
         // Actually drive the robot using the joystick values for x and y and
