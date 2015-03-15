@@ -19,17 +19,16 @@ public class ContainerFeederStationAutonomousCommand extends CommandGroup {
 
     /**
      * Creates a new {@link ContainerFeederStationAutonomousCommand} that drives
-     * to the specified station and optionally prepares for noodle loading.
+     * to the specified station.
      * 
      * @param left drives to the left feeder station if true
-     * @param noodle whether to prepare to load a noodle
      */
-    public ContainerFeederStationAutonomousCommand(boolean left, boolean noodle) {
+    public ContainerFeederStationAutonomousCommand(boolean left) {
         // Start the container raising.
-        addParallel(new ContainerAutonomousCommand(noodle));
+        addParallel(new ContainerAutonomousCommand());
         // Wait for the container to get off the ground
         addSequential(new WaitCommand(1));
         // Drive into the auto zone
-        addSequential(new FeederStationDriveCommandGroup(left, noodle));
+        addSequential(new FeederStationDriveCommandGroup(left));
     }
 }

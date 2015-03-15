@@ -9,34 +9,27 @@ package org.usfirst.frc.team2084.CMonster2015.commands;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- * Autonomous mode that lifts the recycling container, tote lifter (if not
- * noodle loading) and floor tab.
+ * Autonomous mode that lifts the recycling container, tote lifte rand floor
+ * tab.
  * 
  * @author Ben Wolsieffer
  */
 public class ContainerAutonomousCommand extends CommandGroup {
 
     /**
-     * Creates a {@link ContainerAutonomousCommand} that raises the container
-     * for a noodle or all the way.
-     * 
-     * @param noodle whether to prepare to load a noodle
+     * Creates a {@link ContainerAutonomousCommand} that raises the container.
      */
-    public ContainerAutonomousCommand(boolean noodle) {
+    public ContainerAutonomousCommand() {
         // Tell the gyro that we are facing backwards.
         addSequential(new SetHeadingCommand(Math.PI));
         // Raise the floor tab.
         addSequential(new CloseToteGateCommand());
 
-        if (noodle) {
-            // Raise the container hook for a noodle.
-            addSequential(new RaiseContainerHookCommand(1.5));
-        } else {
-            // Raise the container hook with the container on it.
-            addSequential(new RaiseContainerHookCommand());
+        // Raise the container hook with the container on it.
+        addSequential(new RaiseContainerHookCommand());
 
-            // Raise the tote lifter to be ready to accept a tote.
-            addSequential(new RaiseToteLifterCommand());
-        }
+        // Raise the tote lifter to be ready to accept a tote.
+        addSequential(new RaiseToteLifterCommand());
+
     }
 }

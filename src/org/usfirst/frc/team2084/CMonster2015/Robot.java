@@ -90,14 +90,10 @@ public class Robot extends IterativeRobot {
         loggingCommand.start();
 
         // Add autonomous modes to the chooser
-        autonomousChooser.addDefault("Grab RC and drive to auto zone", new ContainerAutoZoneAutonomousCommand(false));
-        autonomousChooser.addObject("Grab RC for noodle and drive to auto zone", new ContainerAutoZoneAutonomousCommand(true));
-        autonomousChooser.addObject("Grab RC and drive to left feeder", new ContainerFeederStationAutonomousCommand(true, false));
-        autonomousChooser.addObject("Grab RC and drive to right feeder", new ContainerFeederStationAutonomousCommand(false, false));
-        autonomousChooser.addObject("Grab RC for noodle and drive to left feeder", new ContainerFeederStationAutonomousCommand(true, true));
-        autonomousChooser.addObject("Grab RC for noodle and drive to right feeder", new ContainerFeederStationAutonomousCommand(false, true));
-        autonomousChooser.addObject("Grab RC", new ContainerAutonomousCommand(false));
-        autonomousChooser.addObject("Grab RC for noodle", new ContainerAutonomousCommand(true));
+        autonomousChooser.addDefault("Grab RC and drive to auto zone", new ContainerAutoZoneAutonomousCommand());
+        autonomousChooser.addObject("Grab RC and drive to left feeder", new ContainerFeederStationAutonomousCommand(true));
+        autonomousChooser.addObject("Grab RC and drive to right feeder", new ContainerFeederStationAutonomousCommand(false));
+        autonomousChooser.addObject("Grab RC", new ContainerAutonomousCommand());
         autonomousChooser.addObject("Do nothing", null);
         SmartDashboard.putData("Autonomous Mode", autonomousChooser);
     }

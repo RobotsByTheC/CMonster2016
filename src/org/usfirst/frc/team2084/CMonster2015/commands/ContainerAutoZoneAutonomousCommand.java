@@ -23,9 +23,9 @@ public class ContainerAutoZoneAutonomousCommand extends CommandGroup {
      * 
      * @param noodle whether to prepare to load a noodle
      */
-    public ContainerAutoZoneAutonomousCommand(boolean noodle) {
+    public ContainerAutoZoneAutonomousCommand() {
         // Start the container raising sequence.
-        addParallel(new ContainerAutonomousCommand(noodle));
+        addParallel(new ContainerAutonomousCommand());
 
         // Wait for the container to get off the ground
         addSequential(new WaitCommand(1));

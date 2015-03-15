@@ -22,27 +22,15 @@ public class FeederStationDriveCommandGroup extends CommandGroup {
      * Heading the robot should face to line up with the right feeder station.
      */
     public static final double RIGHT_FEEDER_STATION_HEADING = -Math.PI / 4;
-    /**
-     * Heading the robot should face to line up with the left feeder station to
-     * load a noodle.
-     */
-    public static final double LEFT_FEEDER_STATION_NOODLE_HEADING = (5 * Math.PI) / 4;
-    /**
-     * Heading the robot should face to line up with the left feeder station to
-     * load a noodle.
-     */
-    public static final double RIGHT_FEEDER_STATION_NOODLE_HEADING = (3 * Math.PI) / 4;
 
     /**
      * 
      * Creates a new {@link FeederStationDriveCommandGroup} that drives to the
-     * left or right and faces forward or backwards (to load a noodle).
+     * left or right and faces forward.
      * 
      * @param left drive to the left feeder station
-     * @param noodle get ready to load a noodle
      */
-    public FeederStationDriveCommandGroup(boolean left, boolean noodle) {
-        addSequential(new RotateToCommand(left ? noodle ? LEFT_FEEDER_STATION_NOODLE_HEADING : LEFT_FEEDER_STATION_HEADING :
-                noodle ? RIGHT_FEEDER_STATION_NOODLE_HEADING : RIGHT_FEEDER_STATION_HEADING, 0.3, 4.0));
+    public FeederStationDriveCommandGroup(boolean left) {
+        addSequential(new RotateToCommand(left ? LEFT_FEEDER_STATION_HEADING : RIGHT_FEEDER_STATION_HEADING, 0.3, 4.0));
     }
 }
