@@ -18,6 +18,6 @@ public class AutoZoneDriveCommandGroup extends CommandGroup {
 
     public AutoZoneDriveCommandGroup() {
         // Lots of magic numbers...
-        addSequential(new DriveHeadingCommand(0, 0.5, 1.33, Math.PI / 2, 0.1, 4.0));
+        addSequential(new DriveHeadingCommand(0, 0.5, 1.33, Math.PI / 2, 0.2, 6.0));
     }
 }

@@ -43,6 +43,6 @@ public class FeederStationDriveCommandGroup extends CommandGroup {
      */
     public FeederStationDriveCommandGroup(boolean left, boolean noodle) {
         addSequential(new RotateToCommand(left ? noodle ? LEFT_FEEDER_STATION_NOODLE_HEADING : LEFT_FEEDER_STATION_HEADING :
-                noodle ? RIGHT_FEEDER_STATION_NOODLE_HEADING : RIGHT_FEEDER_STATION_HEADING, 0.1, 4.0));
+                noodle ? RIGHT_FEEDER_STATION_NOODLE_HEADING : RIGHT_FEEDER_STATION_HEADING, 0.3, 4.0));
     }
 }

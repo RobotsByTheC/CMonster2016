@@ -33,7 +33,7 @@ public class RotateToCommand extends ParameterCommand {
     /**
      * The ramper that is used to prevent too much acceleration.
      */
-    protected final LinearRamper rotationRamper = new LinearRamper(1.0, Type.UP);
+    protected final LinearRamper rotationRamper = new LinearRamper(0.5, Type.UP);
 
     /**
      * The maximum allowed rotation speed.
@@ -139,7 +139,7 @@ public class RotateToCommand extends ParameterCommand {
      */
     @Override
     protected boolean isFinished() {
-        return RobotMap.driveSubsystemMecanumDriveAlgorithm.isHeadingOnTarget() || isTimedOut();
+        return isTimedOut();
     }
 
     /**
