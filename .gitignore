@@ -2,6 +2,7 @@
 *~
 *.bak.xml
 BSD_License_for_WPILib_code.txt
+sysProps.xml
 
 # ignore build and generated files
 /bin/
