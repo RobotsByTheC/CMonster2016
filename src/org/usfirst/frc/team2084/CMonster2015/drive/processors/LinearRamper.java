@@ -85,8 +85,8 @@ public class LinearRamper implements Processor {
         double output = value;
         // If the value increased too fast, limit it
         if (Math.abs(delta) > maxDelta) {
-            delta = maxDelta * delta < 0 ? -1 : 1;
-            output = lastValue + delta;
+            delta = maxDelta * (delta < 0 ? -1 : 1);
+            value = lastValue + delta;
             if (delta < 0) {
                 if (output < 0) {
                     if (type == Type.UP) {
