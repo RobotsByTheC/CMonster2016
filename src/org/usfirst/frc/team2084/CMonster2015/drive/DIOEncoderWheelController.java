@@ -68,9 +68,6 @@ public class DIOEncoderWheelController<S extends SpeedController> extends Encode
      */
     @Override
     public void set(double speed) {
-        if (Math.abs(speed) > 0.5) {
-            System.out.println("speed: " + speed);
-        }
         if (isEncoderEnabled()) {
             speedPIDController.setSetpoint(speed * maxSpeed);
             super.set(pidOutput);
