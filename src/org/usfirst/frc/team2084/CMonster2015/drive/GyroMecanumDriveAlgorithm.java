@@ -394,8 +394,9 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
     public void setHeading(double heading) {
         synchronized (this) {
             gyro.setAngle(DriveUtils.normalizeHeading(heading * headingInverted));
-            resetSetpoint();
         }
+        // This must not be synchronized to avoid deadlock
+        resetSetpoint();
     }
 
     /**

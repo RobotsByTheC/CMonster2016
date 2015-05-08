@@ -103,7 +103,6 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void autonomousInit() {
-        System.out.println("Starting autonomous");
         Object autoMode = autonomousChooser.getSelected();
         if (autoMode instanceof Command) {
             autonomousCommand = (Command) autoMode;
