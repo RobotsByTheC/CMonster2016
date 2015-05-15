@@ -77,9 +77,11 @@ public class LoggingCommand extends Command {
         SmartDashboard.putNumber("Total current (amps)", Robot.pdp.getTotalCurrent());
 
         // Report sensors
-        SmartDashboard.putBoolean("Tote Ejector Extended", Robot.toteLifterSubsystem.isEjectorExtended());
-        SmartDashboard.putBoolean("Tote Ejector Retracted", Robot.toteLifterSubsystem.isEjectorRetracted());
         SmartDashboard.putBoolean("Container Hook Raised", Robot.containerHookSubsystem.isRaised());
+
+        SmartDashboard.putBoolean("Left Lifter Lowered", Robot.toteLifterSubsystem.isLeftLifterLowered());
+        SmartDashboard.putBoolean("Right Lifter Lowered", Robot.toteLifterSubsystem.isRightLifterLowered());
+
     }
 
     /**

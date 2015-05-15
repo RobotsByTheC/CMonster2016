@@ -95,6 +95,8 @@ public class RobotMap {
     public static Solenoid toteLifterSubsystemLowerVentSolenoid;
     public static Solenoid toteLifterSubsystemGateSolenoid;
     public static SpeedController toteLifterSubsystemEjectorTalon;
+    public static DigitalInput toteLifterSubsystemLeftLimitSwitch;
+    public static DigitalInput toteLifterSubsystemRightLimitSwitch;
     public static DigitalInput containerHookSubsystemUpperLimitSwitch;
     public static SpeedController containerHookSubsystemTalon;
 
@@ -186,6 +188,12 @@ public class RobotMap {
 
         toteLifterSubsystemEjectorTalon = new Talon(5);
         LiveWindow.addActuator("Tote Lifter Subsystem", "Ejector Talon", (Talon) toteLifterSubsystemEjectorTalon);
+
+        toteLifterSubsystemLeftLimitSwitch = new DigitalInput(24);
+        LiveWindow.addSensor("Tote Lifter Subsystem", "Left Limit Switch", toteLifterSubsystemLeftLimitSwitch);
+
+        toteLifterSubsystemRightLimitSwitch = new DigitalInput(23);
+        LiveWindow.addSensor("Tote Lifter Subsystem", "Right Limit Switch", toteLifterSubsystemRightLimitSwitch);
 
         containerHookSubsystemUpperLimitSwitch = new DigitalInput(25);
         LiveWindow.addSensor("Container Hook Subsystem", "Upper Limit Switch", containerHookSubsystemUpperLimitSwitch);
