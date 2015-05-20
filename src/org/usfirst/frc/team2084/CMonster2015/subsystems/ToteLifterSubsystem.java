@@ -176,7 +176,7 @@ public class ToteLifterSubsystem extends Subsystem {
         /**
          * State when the tote ejector is extending.
          */
-        EXTENDING(-0.3),
+        EXTENDING(-0.4),
         /**
          * State when the tote ejector is retracting.
          */
@@ -208,11 +208,11 @@ public class ToteLifterSubsystem extends Subsystem {
      * 
      * @param state the state to set
      */
-    public void setEjectorState(EjectorState state) {
+    public void setEjectorState(EjectorState state, double ramping) {
         ejectorState = state;
 
         watchdog.setSafetyEnabled(state != EjectorState.STOPPED);
-        ejectorTalon.set(state.speed);
+        ejectorTalon.set(state.speed * ramping);
     }
 
     /**

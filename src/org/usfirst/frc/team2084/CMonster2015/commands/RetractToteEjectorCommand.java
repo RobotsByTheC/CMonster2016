@@ -33,7 +33,7 @@ public class RetractToteEjectorCommand extends Command {
      */
     @Override
     protected void execute() {
-        Robot.toteLifterSubsystem.setEjectorState(EjectorState.RETRACTING);
+        Robot.toteLifterSubsystem.setEjectorState(EjectorState.RETRACTING, 1.0);
     }
 
     /**
@@ -53,7 +53,7 @@ public class RetractToteEjectorCommand extends Command {
     @Override
     protected void end() {
         Robot.toteLifterSubsystem.setGateState(GateState.CLOSED);
-        Robot.toteLifterSubsystem.setEjectorState(EjectorState.STOPPED);
+        Robot.toteLifterSubsystem.setEjectorState(EjectorState.STOPPED, 0.0);
     }
 
     @Override
