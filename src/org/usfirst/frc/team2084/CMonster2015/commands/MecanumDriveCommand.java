@@ -115,11 +115,6 @@ public class MecanumDriveCommand extends Command {
         // the scaled z value.
         if (fieldOriented) {
             mecanumDriveAlgorithm.driveFieldCartesian(x, y, scaledRotation);
-
-            int pov = driveJoystick.getPOV();
-            if (pov != -1) {
-                mecanumDriveAlgorithm.driveFieldHeadingCartesian(x, y, Math.toRadians(pov), autoRotateRamper.process(MAX_AUTO_ROTATE_SPEED));
-            }
         } else {
             mecanumDriveAlgorithm.driveCartesian(x, y, scaledRotation);
         }
