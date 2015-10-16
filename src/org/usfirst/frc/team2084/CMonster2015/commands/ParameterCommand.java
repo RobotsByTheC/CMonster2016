@@ -53,7 +53,8 @@ public abstract class ParameterCommand extends Command {
     public double getNumberParameter(String key) {
         Object defaultObject = defaultParameterValues.get(key);
         if (defaultObject == null || !(defaultObject instanceof Number)) {
-            throw new IllegalArgumentException("Parameter \"" + key + "\" does not exist or is not a number");
+            throw new IllegalArgumentException("Parameter \"" + key
+                    + "\" does not exist or is not a number");
         }
         if (parameterTable != null) {
             return parameterTable.getNumber(key, (double) defaultObject);
@@ -86,7 +87,8 @@ public abstract class ParameterCommand extends Command {
     public String getStringParameter(String key) {
         Object defaultObject = defaultParameterValues.get(key);
         if (defaultObject == null || !(defaultObject instanceof String)) {
-            throw new IllegalArgumentException("Parameter \"" + key + "\" does not exist or is not a String");
+            throw new IllegalArgumentException("Parameter \"" + key
+                    + "\" does not exist or is not a String");
         }
         if (parameterTable != null) {
             return parameterTable.getString(key, (String) defaultObject);
@@ -119,7 +121,8 @@ public abstract class ParameterCommand extends Command {
     public boolean getBooleanParameter(String key) {
         Object defaultObject = defaultParameterValues.get(key);
         if (defaultObject == null || !(defaultObject instanceof Boolean)) {
-            throw new IllegalArgumentException("Parameter \"" + key + "\" does not exist or is not a boolean");
+            throw new IllegalArgumentException("Parameter \"" + key
+                    + "\" does not exist or is not a boolean");
         }
         if (parameterTable != null) {
             return parameterTable.getBoolean(key, (boolean) defaultObject);

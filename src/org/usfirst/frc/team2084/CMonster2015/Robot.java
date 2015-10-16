@@ -90,9 +90,12 @@ public class Robot extends IterativeRobot {
         loggingCommand.start();
 
         // Add autonomous modes to the chooser
-        autonomousChooser.addDefault("Grab RC and drive to auto zone", new ContainerAutoZoneAutonomousCommand());
-        autonomousChooser.addObject("Grab RC and drive to left feeder", new ContainerFeederStationAutonomousCommand(true));
-        autonomousChooser.addObject("Grab RC and drive to right feeder", new ContainerFeederStationAutonomousCommand(false));
+        autonomousChooser.addDefault("Grab RC and drive to auto zone",
+                new ContainerAutoZoneAutonomousCommand());
+        autonomousChooser.addObject("Grab RC and drive to left feeder",
+                new ContainerFeederStationAutonomousCommand(true));
+        autonomousChooser.addObject("Grab RC and drive to right feeder",
+                new ContainerFeederStationAutonomousCommand(false));
         autonomousChooser.addObject("Grab RC", new ContainerAutonomousCommand());
         autonomousChooser.addObject("Do nothing", null);
         SmartDashboard.putData("Autonomous Mode", autonomousChooser);

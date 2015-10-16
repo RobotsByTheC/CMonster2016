@@ -124,7 +124,8 @@ public class AnalogGyro extends SensorBase implements LiveWindowSendable, Gyro {
 
         analogInput.initAccumulator();
 
-        UsageReporting.report(tResourceType.kResourceType_Gyro, analogInput.getChannel(), 0, "Custom more flexible implementation");
+        UsageReporting.report(tResourceType.kResourceType_Gyro, analogInput.getChannel(), 0,
+                "Custom more flexible implementation");
         LiveWindow.addSensor("Analog Gyro", analogInput.getChannel(), this);
 
         calibrate(DEFAULT_CALIBRATION_TIME);
@@ -211,7 +212,8 @@ public class AnalogGyro extends SensorBase implements LiveWindowSendable, Gyro {
      * @param volts The size of the deadband in volts
      */
     public void setDeadband(double volts) {
-        int deadband = (int) (volts * 1e9 / analogInput.getLSBWeight() * (1 << analogInput.getOversampleBits()));
+        int deadband = (int) (volts * 1e9 / analogInput.getLSBWeight()
+                * (1 << analogInput.getOversampleBits()));
         analogInput.setAccumulatorDeadband(deadband);
     }
 
@@ -260,7 +262,8 @@ public class AnalogGyro extends SensorBase implements LiveWindowSendable, Gyro {
      * changed.
      */
     private void updateSampleRate() {
-        double sr = sampleRate * (1 << (analogInput.getAverageBits() + analogInput.getOversampleBits()));
+        double sr = sampleRate
+                * (1 << (analogInput.getAverageBits() + analogInput.getOversampleBits()));
         AnalogInput.setGlobalSampleRate(sr);
     }
 

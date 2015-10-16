@@ -63,7 +63,8 @@ public class DriveToLocationCommand extends RotateToCommand {
      * @param maxMovementSpeed the maximum speed to move
      * @param maxRotationSpeed the maximum speed to rotate
      */
-    public DriveToLocationCommand(Location location, double heading, double maxMovementSpeed, double maxRotationSpeed) {
+    public DriveToLocationCommand(Location location, double heading, double maxMovementSpeed,
+            double maxRotationSpeed) {
         this(location, heading, maxMovementSpeed, maxRotationSpeed, 5);
     }
 
@@ -78,7 +79,8 @@ public class DriveToLocationCommand extends RotateToCommand {
      * @param maxRotationSpeed the maximum speed to rotate
      * @param timeout the max time the robot can take to reach the target
      */
-    public DriveToLocationCommand(Location location, double heading, double maxMovementSpeed, double maxRotationSpeed, double timeout) {
+    public DriveToLocationCommand(Location location, double heading, double maxMovementSpeed,
+            double maxRotationSpeed, double timeout) {
         this(location, heading, maxMovementSpeed, maxRotationSpeed, timeout, false);
     }
 
@@ -96,7 +98,8 @@ public class DriveToLocationCommand extends RotateToCommand {
      * @param timeout the max time the robot can take to reach the target
      * @param debug whether to output the location and heading error
      */
-    public DriveToLocationCommand(Location location, double heading, double maxMovementSpeed, double maxRotationSpeed, double timeout, boolean debug) {
+    public DriveToLocationCommand(Location location, double heading, double maxMovementSpeed,
+            double maxRotationSpeed, double timeout, boolean debug) {
         super(heading, maxRotationSpeed, timeout, debug);
 
         addNumberParameter(X_KEY, location.getX());
@@ -131,7 +134,8 @@ public class DriveToLocationCommand extends RotateToCommand {
             Location locationError = RobotMap.driveSubsystemMecanumDriveAlgorithm.getLocationError();
             SmartDashboard.putNumber(X_LOCATION_ERROR_KEY, locationError.getX());
             SmartDashboard.putNumber(Y_LOCATION_ERROR_KEY, locationError.getY());
-            SmartDashboard.putNumber(HEADING_ERROR_KEY, RobotMap.driveSubsystemMecanumDriveAlgorithm.getHeadingError());
+            SmartDashboard.putNumber(HEADING_ERROR_KEY,
+                    RobotMap.driveSubsystemMecanumDriveAlgorithm.getHeadingError());
         }
     }
 
@@ -141,6 +145,7 @@ public class DriveToLocationCommand extends RotateToCommand {
      */
     @Override
     protected boolean isFinished() {
-        return RobotMap.driveSubsystemMecanumDriveAlgorithm.isLocationOnTarget() && super.isFinished();
+        return RobotMap.driveSubsystemMecanumDriveAlgorithm.isLocationOnTarget()
+                && super.isFinished();
     }
 }

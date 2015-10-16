@@ -55,19 +55,22 @@ public class PiCalculator {
     }
 
     public void calcPiDigit() throws IOException {
-        if (FOUR.multiply(state.q).add(state.r).subtract(state.t).compareTo(state.n.multiply(state.t)) == -1) {
+        if (FOUR.multiply(state.q).add(state.r).subtract(state.t).compareTo(
+                state.n.multiply(state.t)) == -1) {
             outputFileWriter.write(state.n.toString());
             if (state.first) {
                 outputFileWriter.write('.');
                 state.first = false;
             }
             state.nr = BigInteger.TEN.multiply(state.r.subtract(state.n.multiply(state.t)));
-            state.n = BigInteger.TEN.multiply(THREE.multiply(state.q).add(state.r)).divide(state.t).subtract(BigInteger.TEN.multiply(state.n));
+            state.n = BigInteger.TEN.multiply(THREE.multiply(state.q).add(state.r)).divide(
+                    state.t).subtract(BigInteger.TEN.multiply(state.n));
             state.q = state.q.multiply(BigInteger.TEN);
             state.r = state.nr;
         } else {
             state.nr = TWO.multiply(state.q).add(state.r).multiply(state.l);
-            state.nn = state.q.multiply((SEVEN.multiply(state.k))).add(TWO).add(state.r.multiply(state.l)).divide(state.t.multiply(state.l));
+            state.nn = state.q.multiply((SEVEN.multiply(state.k))).add(TWO).add(
+                    state.r.multiply(state.l)).divide(state.t.multiply(state.l));
             state.q = state.q.multiply(state.k);
             state.t = state.t.multiply(state.l);
             state.l = state.l.add(TWO);

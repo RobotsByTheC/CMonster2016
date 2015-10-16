@@ -70,7 +70,8 @@ public class EncoderGyroMecanumDriveAlgorithm<S extends EncoderWheelController<?
 
         // Calculate the turning radius of the robot; this is just the
         // pythagorean theorem.
-        turningRadius = Math.sqrt(Math.pow(driveBaseWidth / 2, 2) + Math.pow(driveBaseLength / 2, 2));
+        turningRadius = Math.sqrt(
+                Math.pow(driveBaseWidth / 2, 2) + Math.pow(driveBaseLength / 2, 2));
 
         // Initialize the location PID controllers. They simply write their
         // outputs to variables.
@@ -105,7 +106,8 @@ public class EncoderGyroMecanumDriveAlgorithm<S extends EncoderWheelController<?
      * @param maxMovementSpeed the maximum speed for the robot to move
      * @param maxRotationSpeed the maximum speed for the robot to rotate
      */
-    public void driveToLocation(Location location, double heading, double maxMovementSpeed, double maxRotationSpeed) {
+    public void driveToLocation(Location location, double heading, double maxMovementSpeed,
+            double maxRotationSpeed) {
         xLocationPIDController.setSetpoint(location.getX());
         yLocationPIDController.setSetpoint(location.getY());
         if (!xLocationPIDController.isEnable() || !yLocationPIDController.isEnable()) {
@@ -120,8 +122,10 @@ public class EncoderGyroMecanumDriveAlgorithm<S extends EncoderWheelController<?
         double yPIDOutputSign = yPIDOutput < 0 ? -1 : 1;
 
         // Drive and limit the movement speed
-        driveFieldHeadingCartesian(xPIDOutput > maxMovementSpeed ? maxMovementSpeed * xPIDOutputSign : xPIDOutput,
-                yPIDOutput > maxMovementSpeed ? maxMovementSpeed * yPIDOutputSign : yPIDOutput, heading, maxRotationSpeed);
+        driveFieldHeadingCartesian(
+                xPIDOutput > maxMovementSpeed ? maxMovementSpeed * xPIDOutputSign : xPIDOutput,
+                yPIDOutput > maxMovementSpeed ? maxMovementSpeed * yPIDOutputSign : yPIDOutput,
+                heading, maxRotationSpeed);
     }
 
     /**

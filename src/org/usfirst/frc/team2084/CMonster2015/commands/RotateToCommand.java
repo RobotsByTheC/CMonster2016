@@ -125,10 +125,12 @@ public class RotateToCommand extends ParameterCommand {
      */
     @Override
     protected void execute() {
-        RobotMap.driveSubsystemMecanumDriveAlgorithm.driveFieldHeadingCartesian(0, 0, heading, rotationRamper.process(maxRotationSpeed));
+        RobotMap.driveSubsystemMecanumDriveAlgorithm.driveFieldHeadingCartesian(0, 0, heading,
+                rotationRamper.process(maxRotationSpeed));
 
         if (debug) {
-            SmartDashboard.putNumber(HEADING_ERROR_KEY, RobotMap.driveSubsystemMecanumDriveAlgorithm.getHeadingError());
+            SmartDashboard.putNumber(HEADING_ERROR_KEY,
+                    RobotMap.driveSubsystemMecanumDriveAlgorithm.getHeadingError());
         }
     }
 

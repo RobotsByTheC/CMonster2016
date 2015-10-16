@@ -74,7 +74,8 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      * @param headingTolerance the tolerance (in radians) to consider as on
      *            target
      */
-    public GyroMecanumDriveAlgorithm(FourWheelDriveController<S> controller, Gyro gyro, PIDConstants headingPIDConstants, double headingTolerance) {
+    public GyroMecanumDriveAlgorithm(FourWheelDriveController<S> controller, Gyro gyro,
+            PIDConstants headingPIDConstants, double headingTolerance) {
         super(controller);
         this.gyro = gyro;
 
@@ -152,13 +153,17 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      * @param heading the heading to maintain
      * @param maxRotationSpeed the maximum speed rotation speed
      */
-    public void driveFieldHeadingCartesian(double x, double y, double heading, double maxRotationSpeed) {
+    public void driveFieldHeadingCartesian(double x, double y, double heading,
+            double maxRotationSpeed) {
         if (!headingPIDController.isEnable() || headingPIDController.getSetpoint() != heading) {
             headingPIDController.setSetpoint(heading);
             headingPIDController.enable();
         }
         double headingPIDSign = headingPID > 0 ? 1 : -1;
-        driveFieldCartesianImplNoPID(x, y, Math.abs(headingPID) > maxRotationSpeed ? maxRotationSpeed * headingPIDSign : headingPID, getHeading());
+        driveFieldCartesianImplNoPID(x, y,
+                Math.abs(headingPID) > maxRotationSpeed ? maxRotationSpeed
+                        * headingPIDSign : headingPID,
+                getHeading());
     }
 
     /**
@@ -186,7 +191,8 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      *            clockwise, positive = counterclockwise)
      * @param gyroAngle the current angle reading from the gyro
      */
-    private void driveFieldCartesianImplNoPID(double x, double y, double rotation, double gyroAngle) {
+    private void driveFieldCartesianImplNoPID(double x, double y, double rotation,
+            double gyroAngle) {
         // Compensate for gyro angle.
         double rotated[] = DriveUtils.rotateVector(x, y, gyroAngle);
         x = rotated[0];
@@ -219,13 +225,17 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      * @param maxRotationSpeed the maximum speed rotation speed
      * @return true when the heading is on target
      */
-    public boolean driveFieldHeadingPolar(double magnitude, double direction, double heading, double maxRotationSpeed) {
+    public boolean driveFieldHeadingPolar(double magnitude, double direction, double heading,
+            double maxRotationSpeed) {
         if (!headingPIDController.isEnable() || headingPIDController.getSetpoint() != heading) {
             headingPIDController.setSetpoint(heading);
             headingPIDController.enable();
         }
         double headingPIDSign = headingPID > 0 ? 1 : -1;
-        driveFieldPolarImplNoPID(magnitude, direction, Math.abs(headingPID) > maxRotationSpeed ? maxRotationSpeed * headingPIDSign : headingPID, getHeading());
+        driveFieldPolarImplNoPID(magnitude, direction,
+                Math.abs(headingPID) > maxRotationSpeed ? maxRotationSpeed
+                        * headingPIDSign : headingPID,
+                getHeading());
         return headingPIDController.onTarget();
     }
 
@@ -271,7 +281,8 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      *            independent of the magnitude or direction. [-1.0..1.0]
      * @param gyroAngle the current angle reading from the gyro
      */
-    private void driveFieldPolarImplPID(double magnitude, double direction, double rotation, double gyroAngle) {
+    private void driveFieldPolarImplPID(double magnitude, double direction, double rotation,
+            double gyroAngle) {
         rotation = getRotationPID(rotation);
         driveFieldPolarImplNoPID(magnitude, direction, rotation, gyroAngle);
     }
@@ -288,7 +299,8 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      *            independent of the magnitude or direction. [-1.0..1.0]
      * @param gyroAngle the current angle reading from the gyro
      */
-    private void driveFieldPolarImplNoPID(double magnitude, double direction, double rotation, double gyroAngle) {
+    private void driveFieldPolarImplNoPID(double magnitude, double direction, double rotation,
+            double gyroAngle) {
         direction += gyroAngle;
         drivePolar(magnitude, direction, rotation);
     }

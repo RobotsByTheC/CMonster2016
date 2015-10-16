@@ -56,7 +56,8 @@ public class CANTalonEncoderWheelController extends EncoderWheelController<CANTa
         masterMotor.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
 
         // Speed profile (using 0 ramp value to disable ramping)
-        masterMotor.setPID(speedPIDConstants.p, speedPIDConstants.i, speedPIDConstants.d, speedPIDConstants.f, 0, 0, 0);
+        masterMotor.setPID(speedPIDConstants.p, speedPIDConstants.i, speedPIDConstants.d,
+                speedPIDConstants.f, 0, 0, 0);
     }
 
     /**

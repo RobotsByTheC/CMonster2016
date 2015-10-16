@@ -100,6 +100,7 @@ public class TemperatureSensor extends SensorBase {
      * @return the current temperature in degrees celcius
      */
     public double getTemperature() {
-        return calibrationTemperature + ((analog.getVoltage() - calibrationVoltage) * voltsPerDegree);
+        return calibrationTemperature
+                + ((analog.getVoltage() - calibrationVoltage) * voltsPerDegree);
     }
 }

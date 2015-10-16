@@ -79,8 +79,10 @@ public class LoggingCommand extends Command {
         // Report sensors
         SmartDashboard.putBoolean("Container Hook Raised", Robot.containerHookSubsystem.isRaised());
 
-        SmartDashboard.putBoolean("Left Lifter Lowered", Robot.toteLifterSubsystem.isLeftLifterLowered());
-        SmartDashboard.putBoolean("Right Lifter Lowered", Robot.toteLifterSubsystem.isRightLifterLowered());
+        SmartDashboard.putBoolean("Left Lifter Lowered",
+                Robot.toteLifterSubsystem.isLeftLifterLowered());
+        SmartDashboard.putBoolean("Right Lifter Lowered",
+                Robot.toteLifterSubsystem.isRightLifterLowered());
 
     }
 

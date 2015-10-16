@@ -28,7 +28,8 @@ public class FourWheelDriveController<W extends WheelController<?>> extends Driv
      * @param rearLeftWheel the rear left {@link WheelController}
      * @param rearRightWheel the rear right {@link WheelController}
      */
-    public FourWheelDriveController(W frontLeftWheel, W frontRightWheel, W rearLeftWheel, W rearRightWheel) {
+    public FourWheelDriveController(W frontLeftWheel, W frontRightWheel, W rearLeftWheel,
+            W rearRightWheel) {
         this.frontLeftWheel = frontLeftWheel;
         this.frontRightWheel = frontRightWheel;
         this.rearLeftWheel = rearLeftWheel;
@@ -57,7 +58,8 @@ public class FourWheelDriveController<W extends WheelController<?>> extends Driv
      * @param rearLeftSpeed the speed of the rear left wheel
      * @param rearRightSpeed the speed of the rear right wheel
      */
-    public void drive(double frontLeftSpeed, double frontRightSpeed, double rearLeftSpeed, double rearRightSpeed) {
+    public void drive(double frontLeftSpeed, double frontRightSpeed, double rearLeftSpeed,
+            double rearRightSpeed) {
         frontLeftWheel.set(frontLeftSpeed);
         frontRightWheel.set(frontRightSpeed);
         rearLeftWheel.set(rearLeftSpeed);

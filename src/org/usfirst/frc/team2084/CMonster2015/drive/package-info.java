@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (c) 2015 RobotsByTheC. All rights reserved.
  *
  * Open Source Software - may be modified and shared by FRC teams. The code must
@@ -29,4 +29,3 @@
  * @author Ben Wolsieffer
  */
 package org.usfirst.frc.team2084.CMonster2015.drive;
-

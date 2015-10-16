@@ -91,7 +91,8 @@ public class OI {
 
         SmartDashboard.putData("Drive To Location Command", new DriveToLocationCommand());
 
-        SmartDashboard.putData("Low Power Raise Tote Lifter Command", new LowPowerRaiseToteLifterCommand());
+        SmartDashboard.putData("Low Power Raise Tote Lifter Command",
+                new LowPowerRaiseToteLifterCommand());
 
         SmartDashboard.putData("Clear Faults Command", new ClearFaultsCommand());
 

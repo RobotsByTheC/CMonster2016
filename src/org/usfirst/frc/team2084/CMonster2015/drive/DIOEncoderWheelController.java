@@ -50,7 +50,8 @@ public class DIOEncoderWheelController<S extends SpeedController> extends Encode
      * @param motors the list of motors to control
      */
     @SafeVarargs
-    public DIOEncoderWheelController(Encoder encoder, PIDConstants speedPIDConstants, double maxSpeed, int[] pdpPorts, S... motors) {
+    public DIOEncoderWheelController(Encoder encoder, PIDConstants speedPIDConstants,
+            double maxSpeed, int[] pdpPorts, S... motors) {
         super(pdpPorts, motors);
         speedPIDController = DriveUtils.createPIDControllerFromConstants(speedPIDConstants,
                 encoder::getRate, (o) -> pidOutput = o);

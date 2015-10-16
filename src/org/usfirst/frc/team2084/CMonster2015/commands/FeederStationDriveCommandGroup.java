@@ -31,6 +31,7 @@ public class FeederStationDriveCommandGroup extends CommandGroup {
      * @param left drive to the left feeder station
      */
     public FeederStationDriveCommandGroup(boolean left) {
-        addSequential(new RotateToCommand(left ? LEFT_FEEDER_STATION_HEADING : RIGHT_FEEDER_STATION_HEADING, 0.3, 4.0));
+        addSequential(
+                new RotateToCommand(left ? LEFT_FEEDER_STATION_HEADING : RIGHT_FEEDER_STATION_HEADING, 0.3, 4.0));
     }
 }
