@@ -9,3 +9,16 @@ sysProps.xml
 /build/
 /doc/
 /dist/
+
+*.jar
+
+# Java class files
+*.class
+
+#Gradle
+.gradletasknamecache
+.gradle/
+
+!gradle-wrapper.jar
+
+.classpath

@@ -1,0 +1,3 @@
+include ':VisionProcessor2015'
+
+project(':VisionProcessor2015').projectDir = new File(settingsDir, '../VisionProcessor2015')

@@ -57,8 +57,6 @@ public class VisionTest {
 
         } catch (IOException ioe) {
             System.out.println("Cannot start video server: " + ioe);
-        } catch (CameraOpenException e) {
-            System.out.println("Unable to open camera: " + e);
         }
     }
 }
