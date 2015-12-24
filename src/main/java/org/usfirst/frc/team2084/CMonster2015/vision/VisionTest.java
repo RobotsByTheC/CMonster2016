@@ -10,7 +10,6 @@ import java.io.IOException;
 
 import org.opencv.core.Size;
 import org.usfirst.frc.team2084.CMonster2015.vision.capture.CameraCapture;
-import org.usfirst.frc.team2084.CMonster2015.vision.capture.CameraOpenException;
 
 /**
  * A test for OpenCV that streams a camera image over the network. We didn't end
