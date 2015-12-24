@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>CMonster2015Gradle</name>
-	<comment>Project CMonster2015Gradle created by Buildship.</comment>
+	<name>CMonster2015</name>
+	<comment></comment>
 	<projects>
 	</projects>
 	<buildSpec>
@@ -12,6 +12,7 @@
 		</buildCommand>
 	</buildSpec>
 	<natures>
+		<nature>org.springsource.ide.eclipse.gradle.core.nature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
 </projectDescription>

@@ -27,7 +27,7 @@ gradlerio.team = "2084"                                   //Your FRC team number
 
 dependencies {
   compile 'com.hierynomus:sshj:0.15.0'
-  compile project(':VisionProcessor2015')
+  compile project(':VisionProcessor2016')
 }
 
 javadoc {
