@@ -10,8 +10,6 @@ import org.usfirst.frc.team2084.CMonster2015.Robot;
 import org.usfirst.frc.team2084.CMonster2015.RobotMap;
 import org.usfirst.frc.team2084.CMonster2015.drive.EncoderGyroMecanumDriveAlgorithm;
 import org.usfirst.frc.team2084.CMonster2015.drive.EncoderWheelController;
-import org.usfirst.frc.team2084.CMonster2015.drive.processors.LinearRamper;
-import org.usfirst.frc.team2084.CMonster2015.drive.processors.LinearRamper.Type;
 import org.usfirst.frc.team2084.CMonster2015.drive.processors.RescalingDeadband;
 import org.usfirst.frc.team2084.CMonster2015.drive.processors.Scaler;
 
@@ -46,7 +44,6 @@ public class MecanumDriveCommand extends Command {
     private final RescalingDeadband rotationDeadband = new RescalingDeadband(ROTATION_DEADBAND);
     private final Scaler rotationScaler = new Scaler(MAX_ROTATE_SPEED);
     private final Scaler driveScaler = new Scaler(MAX_SPEED);
-    private final LinearRamper autoRotateRamper = new LinearRamper(AUTO_ROTATE_RAMP_RATE, Type.UP);
 
     private final EncoderGyroMecanumDriveAlgorithm<EncoderWheelController<SpeedController>> mecanumDriveAlgorithm = RobotMap.driveSubsystemMecanumDriveAlgorithm;
 
