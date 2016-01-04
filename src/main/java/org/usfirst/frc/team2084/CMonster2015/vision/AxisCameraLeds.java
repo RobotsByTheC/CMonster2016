@@ -218,7 +218,6 @@ public class AxisCameraLeds {
                     }
                 } catch (IOException e) {
                     System.err.printf("Failed to connect to camera (%s) over SSH.\n", address);
-                    e.printStackTrace();
                 }
             }
         }
