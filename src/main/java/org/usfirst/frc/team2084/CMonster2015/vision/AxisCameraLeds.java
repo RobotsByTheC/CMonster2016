@@ -163,7 +163,6 @@ public class AxisCameraLeds {
         @Override
         protected void write(SSHClient client) throws ConnectionException, TransportException {
             String command = String.format("echo %s > %s", stringValue, file);
-            System.out.println(command);
             client.startSession().exec(command).join();
         }
     }
@@ -206,8 +205,6 @@ public class AxisCameraLeds {
                     client.addHostKeyVerifier(new PromiscuousVerifier());
                     client.connect(address);
                     client.authPassword("root", password);
-
-                    System.out.println("Connected.");
 
                     while (true) {
                         try {
