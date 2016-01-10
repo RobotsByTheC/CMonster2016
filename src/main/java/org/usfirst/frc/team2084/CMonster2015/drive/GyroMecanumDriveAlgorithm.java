@@ -10,6 +10,8 @@ import org.usfirst.frc.team2084.CMonster2015.Gyro;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -68,11 +70,11 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      *
      * @param controller the {@link FourWheelDriveController} to control
      * @param gyro the {@link SynchronizedRadianGyro} to use for orientation
-     *            correction and field-oriented driving
+     *        correction and field-oriented driving
      * @param headingPIDConstants the {@link PIDConstants} to use for heading
-     *            control
+     *        control
      * @param headingTolerance the tolerance (in radians) to consider as on
-     *            target
+     *        target
      */
     public GyroMecanumDriveAlgorithm(FourWheelDriveController<S> controller, Gyro gyro,
             PIDConstants headingPIDConstants, double headingTolerance) {
@@ -80,7 +82,23 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
         this.gyro = gyro;
 
         headingPIDController = DriveUtils.createPIDControllerFromConstants(headingPIDConstants,
-                this::getHeading, (o) -> headingPID = -o);
+                new PIDSource() {
+
+                    @Override
+                    public void setPIDSourceType(PIDSourceType pidSource) {
+                    }
+
+                    @Override
+                    public double pidGet() {
+                        // TODO Auto-generated method stub
+                        return getHeading();
+                    }
+
+                    @Override
+                    public PIDSourceType getPIDSourceType() {
+                        return PIDSourceType.kDisplacement;
+                    }
+                }, (o) -> headingPID = -o);
         // (o) -> headingPID = Math.abs(o) > 0.9 ? 0.0 : -o);
         headingPIDController.setAbsoluteTolerance(headingTolerance);
         headingPIDController.setInputRange(-Math.PI, Math.PI);
@@ -116,7 +134,7 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      * @param x the forward speed (negative = backward, positive = forward)
      * @param y the sideways (crab) speed (negative = left, positive = right)
      * @param rotation the speed to rotate at while moving (negative =
-     *            clockwise, positive = counterclockwise)
+     *        clockwise, positive = counterclockwise)
      */
     public void driveFieldCartesian(double x, double y, double rotation) {
         driveFieldCartesianImplPID(x, y, rotation, getHeading());
@@ -155,7 +173,7 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      */
     public void driveFieldHeadingCartesian(double x, double y, double heading,
             double maxRotationSpeed) {
-        if (!headingPIDController.isEnable() || headingPIDController.getSetpoint() != heading) {
+        if (!headingPIDController.isEnabled() || headingPIDController.getSetpoint() != heading) {
             headingPIDController.setSetpoint(heading);
             headingPIDController.enable();
         }
@@ -173,7 +191,7 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      * @param x the forward speed (negative = backward, positive = forward)
      * @param y the sideways (crab) speed (negative = left, positive = right)
      * @param rotation The speed to rotate at while moving (negative =
-     *            clockwise, positive = counterclockwise)
+     *        clockwise, positive = counterclockwise)
      * @param gyroAngle the current angle reading from the gyro
      */
     private void driveFieldCartesianImplPID(double x, double y, double rotation, double gyroAngle) {
@@ -188,7 +206,7 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      * @param x the forward speed (negative = backward, positive = forward)
      * @param y the sideways (crab) speed (negative = left, positive = right)
      * @param rotation The speed to rotate at while moving (negative =
-     *            clockwise, positive = counterclockwise)
+     *        clockwise, positive = counterclockwise)
      * @param gyroAngle the current angle reading from the gyro
      */
     private void driveFieldCartesianImplNoPID(double x, double y, double rotation,
@@ -227,7 +245,7 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      */
     public boolean driveFieldHeadingPolar(double magnitude, double direction, double heading,
             double maxRotationSpeed) {
-        if (!headingPIDController.isEnable() || headingPIDController.getSetpoint() != heading) {
+        if (!headingPIDController.isEnabled() || headingPIDController.getSetpoint() != heading) {
             headingPIDController.setSetpoint(heading);
             headingPIDController.enable();
         }
@@ -245,9 +263,9 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      * correction, but it has not been tested because we do not use it.
      *
      * @param magnitude the speed that the robot should drive in a given
-     *            direction.
+     *        direction.
      * @param direction the direction the robot should drive in radians,
-     *            independent of rotation
+     *        independent of rotation
      */
     public void driveFieldPolar(double magnitude, double direction) {
         driveFieldPolar(magnitude, direction, 0);
@@ -259,11 +277,11 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      * correction, but it has not been tested because we do not use it.
      *
      * @param magnitude the speed that the robot should drive in a given
-     *            direction.
+     *        direction.
      * @param direction the direction the robot should drive in radians,
-     *            independent of rotation
+     *        independent of rotation
      * @param rotation the rate of rotation for the robot that is completely
-     *            independent of the magnitude or direction. [-1.0..1.0]
+     *        independent of the magnitude or direction. [-1.0..1.0]
      */
     public void driveFieldPolar(double magnitude, double direction, double rotation) {
         driveFieldPolarImplPID(magnitude, direction, rotation, getHeading());
@@ -274,11 +292,11 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      * accounts for PID heading correction.
      *
      * @param magnitude the speed that the robot should drive in a given
-     *            direction.
+     *        direction.
      * @param direction the direction the robot should drive in radians,
-     *            independent of rotation
+     *        independent of rotation
      * @param rotation the rate of rotation for the robot that is completely
-     *            independent of the magnitude or direction. [-1.0..1.0]
+     *        independent of the magnitude or direction. [-1.0..1.0]
      * @param gyroAngle the current angle reading from the gyro
      */
     private void driveFieldPolarImplPID(double magnitude, double direction, double rotation,
@@ -292,11 +310,11 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      * not account for PID heading correction.
      *
      * @param magnitude the speed that the robot should drive in a given
-     *            direction.
+     *        direction.
      * @param direction the direction the robot should drive in radians,
-     *            independent of rotation
+     *        independent of rotation
      * @param rotation the rate of rotation for the robot that is completely
-     *            independent of the magnitude or direction. [-1.0..1.0]
+     *        independent of the magnitude or direction. [-1.0..1.0]
      * @param gyroAngle the current angle reading from the gyro
      */
     private void driveFieldPolarImplNoPID(double magnitude, double direction, double rotation,
@@ -309,7 +327,7 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      * Moves the robot sideways at the specified speed.
      *
      * @param speed The speed and direction to crab (negative = left, positive =
-     *            right)
+     *        right)
      */
     public void crab(double speed) {
         driveCartesian(speed, 0);
@@ -328,7 +346,7 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
             // If the controller is already enabled, check to see if it should
             // be disabled or kept running. Otherwise check to see if it needs
             // to be enabled.
-            if (headingPIDController.isEnable()) {
+            if (headingPIDController.isEnabled()) {
                 // If the rotation rate is greater than the deadband disable the
                 // PID controller. Otherwise, return the latest value from the
                 // controller.
@@ -452,7 +470,7 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      * @return true if the robot is on target
      */
     public boolean isHeadingOnTarget() {
-        if (headingPIDController.isEnable()) {
+        if (headingPIDController.isEnabled()) {
             return headingPIDController.onTarget();
         } else {
             return true;

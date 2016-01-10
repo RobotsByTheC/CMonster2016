@@ -7,6 +7,7 @@
 package org.usfirst.frc.team2084.CMonster2015.drive;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 
 /**
  * Wheel controller that uses a CANTalon with an attached quadrature encoder to
@@ -48,7 +49,7 @@ public class CANTalonEncoderWheelController extends EncoderWheelController<CANTa
         masterMotor = motors[0];
         // Set all other motors as slaves
         for (int i = 1; i < motors.length; i++) {
-            motors[i].changeControlMode(CANTalon.ControlMode.Follower);
+            motors[i].changeControlMode(TalonControlMode.Follower);
             // Setup the motors to follow the master
             motors[i].set(motors[0].getDeviceID());
         }
@@ -100,10 +101,10 @@ public class CANTalonEncoderWheelController extends EncoderWheelController<CANTa
     @Override
     public void set(double speed) {
         if (isEncoderEnabled()) {
-            masterMotor.changeControlMode(CANTalon.ControlMode.Speed);
+            masterMotor.changeControlMode(TalonControlMode.Speed);
             masterMotor.set(convertThrottleToCountPer10ms(speed));
         } else {
-            masterMotor.changeControlMode(CANTalon.ControlMode.PercentVbus);
+            masterMotor.changeControlMode(TalonControlMode.Voltage);
             masterMotor.set(speed);
         }
     }

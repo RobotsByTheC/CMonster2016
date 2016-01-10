@@ -8,6 +8,8 @@ package org.usfirst.frc.team2084.CMonster2015.drive;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SpeedController;
 
 /**
@@ -45,7 +47,7 @@ public class DIOEncoderWheelController<S extends SpeedController> extends Encode
      * 
      * @param encoder the encoder to use for closed loop control
      * @param speedPIDConstants the PID constants to use for the speed control
-     *            loop
+     *        loop
      * @param pdpPorts the PDP ports the motors are connected to
      * @param motors the list of motors to control
      */
@@ -54,7 +56,23 @@ public class DIOEncoderWheelController<S extends SpeedController> extends Encode
             double maxSpeed, int[] pdpPorts, S... motors) {
         super(pdpPorts, motors);
         speedPIDController = DriveUtils.createPIDControllerFromConstants(speedPIDConstants,
-                encoder::getRate, (o) -> pidOutput = o);
+                new PIDSource() {
+
+                    @Override
+                    public void setPIDSourceType(PIDSourceType pidSource) {
+                    }
+
+                    @Override
+                    public double pidGet() {
+                        // TODO Auto-generated method stub
+                        return encoder.getRate();
+                    }
+
+                    @Override
+                    public PIDSourceType getPIDSourceType() {
+                        return PIDSourceType.kDisplacement;
+                    }
+                }, (o) -> pidOutput = o);
         speedPIDController.enable();
         this.maxSpeed = maxSpeed;
 

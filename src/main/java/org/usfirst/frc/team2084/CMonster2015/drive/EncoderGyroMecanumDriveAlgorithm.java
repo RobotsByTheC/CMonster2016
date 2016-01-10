@@ -9,6 +9,8 @@ package org.usfirst.frc.team2084.CMonster2015.drive;
 import org.usfirst.frc.team2084.CMonster2015.Gyro;
 
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 
 /**
  * A mecanum drive algorithm that uses a set of encoders and a gyro to do a lot
@@ -76,10 +78,40 @@ public class EncoderGyroMecanumDriveAlgorithm<S extends EncoderWheelController<?
         // Initialize the location PID controllers. They simply write their
         // outputs to variables.
         xLocationPIDController = DriveUtils.createPIDControllerFromConstants(xLocationPIDConstants,
-                () -> (pidLocation = getLocation()).getX(), (o) -> xPIDOutput = o);
+                new PIDSource() {
+
+                    @Override
+                    public void setPIDSourceType(PIDSourceType pidSource) {
+                    }
+
+                    @Override
+                    public double pidGet() {
+                        return (pidLocation = getLocation()).getX();
+                    }
+
+                    @Override
+                    public PIDSourceType getPIDSourceType() {
+                        return PIDSourceType.kDisplacement;
+                    }
+                }, (o) -> xPIDOutput = o);
         xLocationPIDController.setAbsoluteTolerance(xLocationTolerance);
         yLocationPIDController = DriveUtils.createPIDControllerFromConstants(yLocationPIDConstants,
-                pidLocation::getY, (o) -> yPIDOutput = o);
+                new PIDSource() {
+
+                    @Override
+                    public void setPIDSourceType(PIDSourceType pidSource) {
+                    }
+
+                    @Override
+                    public double pidGet() {
+                        return (pidLocation = getLocation()).getY();
+                    }
+
+                    @Override
+                    public PIDSourceType getPIDSourceType() {
+                        return PIDSourceType.kDisplacement;
+                    }
+                }, (o) -> yPIDOutput = o);
         yLocationPIDController.setAbsoluteTolerance(yLocationTolerance);
     }
 
@@ -110,7 +142,7 @@ public class EncoderGyroMecanumDriveAlgorithm<S extends EncoderWheelController<?
             double maxRotationSpeed) {
         xLocationPIDController.setSetpoint(location.getX());
         yLocationPIDController.setSetpoint(location.getY());
-        if (!xLocationPIDController.isEnable() || !yLocationPIDController.isEnable()) {
+        if (!xLocationPIDController.isEnabled() || !yLocationPIDController.isEnabled()) {
             setLocationPIDControllerEnabled(true);
         }
         // Take a snapshot of the PID outputs
@@ -195,7 +227,7 @@ public class EncoderGyroMecanumDriveAlgorithm<S extends EncoderWheelController<?
     private void setLocationPIDControllerEnabled(boolean enabled) {
         if (enabled) {
             // Only run if they aren't already enabled
-            if (!xLocationPIDController.isEnable() || !yLocationPIDController.isEnable()) {
+            if (!xLocationPIDController.isEnabled() || !yLocationPIDController.isEnabled()) {
                 // Reset PID output variables
                 xPIDOutput = 0;
                 yPIDOutput = 0;

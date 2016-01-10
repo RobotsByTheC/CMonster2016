@@ -52,6 +52,7 @@ public class Robot extends IterativeRobot {
      * Operator interface: defines all button, joysticks and other controls.
      */
     public static OI oi;
+
     /**
      * Global Power Distribution Panel (PDP) object.
      */

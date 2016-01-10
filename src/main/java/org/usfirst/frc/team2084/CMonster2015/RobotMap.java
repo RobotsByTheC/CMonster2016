@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Jaguar;
-import edu.wpi.first.wpilibj.PIDSource.PIDSourceParameter;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
@@ -154,7 +154,7 @@ public class RobotMap {
         LiveWindow.addSensor("Drive Subsystem", "Front Left Encoder",
                 driveSubsystemFrontLeftEncoder);
         driveSubsystemFrontLeftEncoder.setDistancePerPulse(0.00177325);
-        driveSubsystemFrontLeftEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
+        driveSubsystemFrontLeftEncoder.setPIDSourceType(PIDSourceType.kRate);
         driveSubsystemFrontRightJaguar = new Jaguar(1);
         LiveWindow.addActuator("Drive Subsystem", "Front Right Jaguar",
                 (Jaguar) driveSubsystemFrontRightJaguar);
@@ -163,7 +163,7 @@ public class RobotMap {
         LiveWindow.addSensor("Drive Subsystem", "Front Right Encoder",
                 driveSubsystemFrontRightEncoder);
         driveSubsystemFrontRightEncoder.setDistancePerPulse(0.00177325);
-        driveSubsystemFrontRightEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
+        driveSubsystemFrontRightEncoder.setPIDSourceType(PIDSourceType.kRate);
         driveSubsystemRearLeftJaguar = new Jaguar(2);
         LiveWindow.addActuator("Drive Subsystem", "Rear Left Jaguar",
                 (Jaguar) driveSubsystemRearLeftJaguar);
@@ -171,7 +171,7 @@ public class RobotMap {
         driveSubsystemRearLeftEncoder = new Encoder(4, 5, true, EncodingType.k4X);
         LiveWindow.addSensor("Drive Subsystem", "Rear Left Encoder", driveSubsystemRearLeftEncoder);
         driveSubsystemRearLeftEncoder.setDistancePerPulse(0.00255);
-        driveSubsystemRearLeftEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
+        driveSubsystemRearLeftEncoder.setPIDSourceType(PIDSourceType.kRate);
         driveSubsystemRearRightJaguar = new Jaguar(3);
         LiveWindow.addActuator("Drive Subsystem", "Rear Right Jaguar",
                 (Jaguar) driveSubsystemRearRightJaguar);
@@ -180,7 +180,7 @@ public class RobotMap {
         LiveWindow.addSensor("Drive Subsystem", "Rear Right Encoder",
                 driveSubsystemRearRightEncoder);
         driveSubsystemRearRightEncoder.setDistancePerPulse(0.00177325);
-        driveSubsystemRearRightEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
+        driveSubsystemRearRightEncoder.setPIDSourceType(PIDSourceType.kRate);
         toteLifterSubsystemRaiseSolenoid = new Solenoid(0, 0);
         LiveWindow.addActuator("Tote Lifter Subsystem", "Raise Solenoid",
                 toteLifterSubsystemRaiseSolenoid);
