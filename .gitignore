@@ -19,3 +19,7 @@
 .gradle/
 
 !gradle-wrapper.jar
+
+build.xml
+build.properties
+BSD_License_for_WPILib_code.txt
