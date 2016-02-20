@@ -81,24 +81,23 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
         super(controller);
         this.gyro = gyro;
 
-        headingPIDController = DriveUtils.createPIDControllerFromConstants(headingPIDConstants,
-                new PIDSource() {
+        headingPIDController = DriveUtils.createPIDControllerFromConstants(headingPIDConstants, new PIDSource() {
 
-                    @Override
-                    public void setPIDSourceType(PIDSourceType pidSource) {
-                    }
+            @Override
+            public void setPIDSourceType(PIDSourceType pidSource) {
+            }
 
-                    @Override
-                    public double pidGet() {
-                        // TODO Auto-generated method stub
-                        return getHeading();
-                    }
+            @Override
+            public double pidGet() {
+                // TODO Auto-generated method stub
+                return getHeading();
+            }
 
-                    @Override
-                    public PIDSourceType getPIDSourceType() {
-                        return PIDSourceType.kDisplacement;
-                    }
-                }, (o) -> headingPID = -o);
+            @Override
+            public PIDSourceType getPIDSourceType() {
+                return PIDSourceType.kDisplacement;
+            }
+        }, (o) -> headingPID = -o);
         // (o) -> headingPID = Math.abs(o) > 0.9 ? 0.0 : -o);
         headingPIDController.setAbsoluteTolerance(headingTolerance);
         headingPIDController.setInputRange(-Math.PI, Math.PI);
@@ -171,17 +170,14 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      * @param heading the heading to maintain
      * @param maxRotationSpeed the maximum speed rotation speed
      */
-    public void driveFieldHeadingCartesian(double x, double y, double heading,
-            double maxRotationSpeed) {
+    public void driveFieldHeadingCartesian(double x, double y, double heading, double maxRotationSpeed) {
         if (!headingPIDController.isEnabled() || headingPIDController.getSetpoint() != heading) {
             headingPIDController.setSetpoint(heading);
             headingPIDController.enable();
         }
         double headingPIDSign = headingPID > 0 ? 1 : -1;
         driveFieldCartesianImplNoPID(x, y,
-                Math.abs(headingPID) > maxRotationSpeed ? maxRotationSpeed
-                        * headingPIDSign : headingPID,
-                getHeading());
+                Math.abs(headingPID) > maxRotationSpeed ? maxRotationSpeed * headingPIDSign : headingPID, getHeading());
     }
 
     /**
@@ -209,8 +205,7 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      *        clockwise, positive = counterclockwise)
      * @param gyroAngle the current angle reading from the gyro
      */
-    private void driveFieldCartesianImplNoPID(double x, double y, double rotation,
-            double gyroAngle) {
+    private void driveFieldCartesianImplNoPID(double x, double y, double rotation, double gyroAngle) {
         // Compensate for gyro angle.
         double rotated[] = DriveUtils.rotateVector(x, y, gyroAngle);
         x = rotated[0];
@@ -243,17 +238,14 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      * @param maxRotationSpeed the maximum speed rotation speed
      * @return true when the heading is on target
      */
-    public boolean driveFieldHeadingPolar(double magnitude, double direction, double heading,
-            double maxRotationSpeed) {
+    public boolean driveFieldHeadingPolar(double magnitude, double direction, double heading, double maxRotationSpeed) {
         if (!headingPIDController.isEnabled() || headingPIDController.getSetpoint() != heading) {
             headingPIDController.setSetpoint(heading);
             headingPIDController.enable();
         }
         double headingPIDSign = headingPID > 0 ? 1 : -1;
         driveFieldPolarImplNoPID(magnitude, direction,
-                Math.abs(headingPID) > maxRotationSpeed ? maxRotationSpeed
-                        * headingPIDSign : headingPID,
-                getHeading());
+                Math.abs(headingPID) > maxRotationSpeed ? maxRotationSpeed * headingPIDSign : headingPID, getHeading());
         return headingPIDController.onTarget();
     }
 
@@ -299,8 +291,7 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      *        independent of the magnitude or direction. [-1.0..1.0]
      * @param gyroAngle the current angle reading from the gyro
      */
-    private void driveFieldPolarImplPID(double magnitude, double direction, double rotation,
-            double gyroAngle) {
+    private void driveFieldPolarImplPID(double magnitude, double direction, double rotation, double gyroAngle) {
         rotation = getRotationPID(rotation);
         driveFieldPolarImplNoPID(magnitude, direction, rotation, gyroAngle);
     }
@@ -317,8 +308,7 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      *        independent of the magnitude or direction. [-1.0..1.0]
      * @param gyroAngle the current angle reading from the gyro
      */
-    private void driveFieldPolarImplNoPID(double magnitude, double direction, double rotation,
-            double gyroAngle) {
+    private void driveFieldPolarImplNoPID(double magnitude, double direction, double rotation, double gyroAngle) {
         direction += gyroAngle;
         drivePolar(magnitude, direction, rotation);
     }
@@ -458,14 +448,12 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      * @return the angular speed
      */
     public double getAngularSpeed() {
-        synchronized (this) {
-            return gyro.getRate() * headingInverted;
-        }
+        return getRotationRate();
     }
 
     /**
      * Gets whether the robot is facing the direction it should be. This always
-     * returns true if the robot is being commanded to spinat a certain rate.
+     * returns true if the robot is being commanded to spin at a certain rate.
      * 
      * @return true if the robot is on target
      */

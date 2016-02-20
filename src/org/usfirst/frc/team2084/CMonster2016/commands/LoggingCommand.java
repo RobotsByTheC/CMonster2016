@@ -8,6 +8,7 @@ package org.usfirst.frc.team2084.CMonster2016.commands;
 
 import org.usfirst.frc.team2084.CMonster2016.Robot;
 import org.usfirst.frc.team2084.CMonster2016.RobotMap;
+import org.usfirst.frc.team2084.CMonster2016.vision.VisionResults;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -51,11 +52,8 @@ public class LoggingCommand extends Command {
     protected void execute() {
         // Report gyro values
         SmartDashboard.putNumber("Gyro Angle", RobotMap.driveSubsystemGyro.getAngle());
-        SmartDashboard.putNumber("Gyro Rate", RobotMap.driveSubsystemGyro.getRate());
 
-        // Report accelerometer values
-        SmartDashboard.putNumber("X Acceleration", accelerometer.getX());
-        SmartDashboard.putNumber("Y Acceleration", accelerometer.getY());
+        SmartDashboard.putBoolean("Valid Vision Data", !VisionResults.isStale());
 
         // Report remaining match time
         double matchTime = Timer.getMatchTime();
@@ -64,6 +62,11 @@ public class LoggingCommand extends Command {
         // Report energy and current
         SmartDashboard.putNumber("Total energy (J)", Robot.pdp.getTotalEnergy());
         SmartDashboard.putNumber("Total current (amps)", Robot.pdp.getTotalCurrent());
+
+        // Report arm angle
+        SmartDashboard.putNumber("Arm Angle", Math.toDegrees(Robot.armSubsystem.getAngle()));
+
+        VisionResults.setCurrentHeading(RobotMap.driveSubsystemArcadeDriveAlgorithm.getHeading());
     }
 
     /**

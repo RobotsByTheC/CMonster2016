@@ -30,8 +30,7 @@ public class ArcadeDriveAlgorithm extends DriveAlgorithm<DriveController<? exten
      *
      * @param driveController the {@link DriveController} to control
      */
-    public ArcadeDriveAlgorithm(
-            DriveController<? extends WheelController<? extends SpeedController>> driveController) {
+    public ArcadeDriveAlgorithm(DriveController<?> driveController) {
         super(driveController);
     }
 
@@ -55,8 +54,7 @@ public class ArcadeDriveAlgorithm extends DriveAlgorithm<DriveController<? exten
      * @param rotateAxis The axis on the {@code rotateStick} to use for the
      *        rotate speed (typically X_AXIS)
      */
-    public void arcadeDrive(GenericHID moveStick, final int moveAxis, GenericHID rotateStick,
-            final int rotateAxis) {
+    public void arcadeDrive(GenericHID moveStick, final int moveAxis, GenericHID rotateStick, final int rotateAxis) {
         arcadeDrive(moveStick.getRawAxis(moveAxis), rotateStick.getRawAxis(rotateAxis));
     }
 

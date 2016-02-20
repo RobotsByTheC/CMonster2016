@@ -37,8 +37,8 @@ public class CANTalonEncoderWheelController extends EncoderWheelController<CANTa
      * @param pdpPorts the PDP ports the motors are connected to
      * @param motors the list of motors that make up this wheel controller
      */
-    public CANTalonEncoderWheelController(PIDConstants speedPIDConstants,
-            double maxSpeed, double encoderDistancePerPulse, int[] pdpPorts, CANTalon... motors) {
+    public CANTalonEncoderWheelController(PIDConstants speedPIDConstants, double maxSpeed,
+            double encoderDistancePerPulse, int[] pdpPorts, CANTalon... motors) {
         super(pdpPorts, motors);
 
         this.maxSpeed = maxSpeed;
@@ -57,8 +57,7 @@ public class CANTalonEncoderWheelController extends EncoderWheelController<CANTa
         masterMotor.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
 
         // Speed profile (using 0 ramp value to disable ramping)
-        masterMotor.setPID(speedPIDConstants.p, speedPIDConstants.i, speedPIDConstants.d,
-                speedPIDConstants.f, 0, 0, 0);
+        masterMotor.setPID(speedPIDConstants.p, speedPIDConstants.i, speedPIDConstants.d, speedPIDConstants.f, 0, 0, 0);
     }
 
     /**

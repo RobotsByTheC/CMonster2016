@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) 2015 RobotsByTheC. All rights reserved.
+ * Copyright (c) 2016 RobotsByTheC. All rights reserved.
  *
  * Open Source Software - may be modified and shared by FRC teams. The code must
  * be accompanied by the BSD license file in the root directory of the project.
@@ -160,10 +160,7 @@ public class AnalogGyro extends SensorBase implements LiveWindowSendable, Gyro {
 
         long value = result.value - (long) (result.count * offset);
 
-        double scaledValue = value
-                * 1e-9
-                * analogInput.getLSBWeight()
-                * (1 << analogInput.getAverageBits())
+        double scaledValue = value * 1e-9 * analogInput.getLSBWeight() * (1 << analogInput.getAverageBits())
                 / (AnalogInput.getGlobalSampleRate() * voltsPerRadianPerSecond);
 
         return scaledValue + angleOffset;
@@ -184,9 +181,7 @@ public class AnalogGyro extends SensorBase implements LiveWindowSendable, Gyro {
      */
     @Override
     public double getRate() {
-        return (analogInput.getAverageValue() - (center + offset))
-                * 1e-9
-                * analogInput.getLSBWeight()
+        return (analogInput.getAverageValue() - (center + offset)) * 1e-9 * analogInput.getLSBWeight()
                 / ((1 << analogInput.getOversampleBits()) * voltsPerRadianPerSecond);
 
     }
@@ -212,8 +207,7 @@ public class AnalogGyro extends SensorBase implements LiveWindowSendable, Gyro {
      * @param volts The size of the deadband in volts
      */
     public void setDeadband(double volts) {
-        int deadband = (int) (volts * 1e9 / analogInput.getLSBWeight()
-                * (1 << analogInput.getOversampleBits()));
+        int deadband = (int) (volts * 1e9 / analogInput.getLSBWeight() * (1 << analogInput.getOversampleBits()));
         analogInput.setAccumulatorDeadband(deadband);
     }
 
@@ -262,8 +256,7 @@ public class AnalogGyro extends SensorBase implements LiveWindowSendable, Gyro {
      * changed.
      */
     private void updateSampleRate() {
-        double sr = sampleRate
-                * (1 << (analogInput.getAverageBits() + analogInput.getOversampleBits()));
+        double sr = sampleRate * (1 << (analogInput.getAverageBits() + analogInput.getOversampleBits()));
         AnalogInput.setGlobalSampleRate(sr);
     }
 

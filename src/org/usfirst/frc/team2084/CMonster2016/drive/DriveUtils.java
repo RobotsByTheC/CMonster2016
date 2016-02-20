@@ -107,8 +107,23 @@ public final class DriveUtils {
      * @param output the PID output
      * @return a shiny new PID controller
      */
-    public static PIDController createPIDControllerFromConstants(PIDConstants constants,
-            PIDSource source, PIDOutput output) {
+    public static PIDController createPIDControllerFromConstants(PIDConstants constants, PIDSource source,
+            PIDOutput output) {
+        return new PIDController(constants.p, constants.i, constants.d, constants.f, source, output);
+    }
+    
+    /**
+     * Creates a {@link PIDController} from a {@link PIDConstants} object and
+     * the specified source and output.
+     * 
+     * @param constants the PID constants
+     * @param source the PID source
+     * @param output the PID output
+     * @param period the update period for the PID controller
+     * @return a shiny new PID controller
+     */
+    public static PIDController createPIDControllerFromConstants(PIDConstants constants, PIDSource source,
+            PIDOutput output, double period) {
         return new PIDController(constants.p, constants.i, constants.d, constants.f, source, output);
     }
 }

@@ -52,27 +52,26 @@ public class DIOEncoderWheelController<S extends SpeedController> extends Encode
      * @param motors the list of motors to control
      */
     @SafeVarargs
-    public DIOEncoderWheelController(Encoder encoder, PIDConstants speedPIDConstants,
-            double maxSpeed, int[] pdpPorts, S... motors) {
+    public DIOEncoderWheelController(Encoder encoder, PIDConstants speedPIDConstants, double maxSpeed, int[] pdpPorts,
+            S... motors) {
         super(pdpPorts, motors);
-        speedPIDController = DriveUtils.createPIDControllerFromConstants(speedPIDConstants,
-                new PIDSource() {
+        speedPIDController = DriveUtils.createPIDControllerFromConstants(speedPIDConstants, new PIDSource() {
 
-                    @Override
-                    public void setPIDSourceType(PIDSourceType pidSource) {
-                    }
+            @Override
+            public void setPIDSourceType(PIDSourceType pidSource) {
+            }
 
-                    @Override
-                    public double pidGet() {
-                        // TODO Auto-generated method stub
-                        return encoder.getRate();
-                    }
+            @Override
+            public double pidGet() {
+                // TODO Auto-generated method stub
+                return encoder.getRate();
+            }
 
-                    @Override
-                    public PIDSourceType getPIDSourceType() {
-                        return PIDSourceType.kDisplacement;
-                    }
-                }, (o) -> pidOutput = o);
+            @Override
+            public PIDSourceType getPIDSourceType() {
+                return PIDSourceType.kDisplacement;
+            }
+        }, (o) -> pidOutput = o);
         speedPIDController.enable();
         this.maxSpeed = maxSpeed;
 
