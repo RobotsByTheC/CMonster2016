@@ -14,7 +14,18 @@ import org.usfirst.frc.team2084.CMonster2016.vision.VisionResults;
  */
 public class AimArm extends SetArmAngle {
 
+    public static final double TIMEOUT = 3;
+    
     public AimArm() {
-        super(() -> ShooterSubsystem.getCalibrationAngle(VisionResults.getGoalDistance()), () -> true);
+        super(() -> ShooterSubsystem.getCalibrationAngle(VisionResults.getGoalDistance()));
+        setTimeout(TIMEOUT);
+    }
+    
+    /**
+     * @return
+     */
+    @Override
+    protected boolean isFinished() {
+        return super.isFinished() || isTimedOut();
     }
 }

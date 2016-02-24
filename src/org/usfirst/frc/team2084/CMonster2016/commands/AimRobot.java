@@ -13,7 +13,15 @@ import org.usfirst.frc.team2084.CMonster2016.vision.VisionResults;
  */
 public class AimRobot extends RotateToHeading {
 
+    public static final double TIMEOUT = 5;
+    
     public AimRobot() {
-        super(() -> VisionResults.getGoalHeading() + Math.toRadians(4));
+        super(() -> VisionResults.getGoalHeading() + Math.toRadians(3));
+        setTimeout(TIMEOUT);
+    }
+    
+    @Override
+    protected boolean isFinished() {
+        return super.isFinished() || isTimedOut();
     }
 }

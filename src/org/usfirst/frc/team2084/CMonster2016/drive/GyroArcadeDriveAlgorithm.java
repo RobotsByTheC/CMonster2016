@@ -6,7 +6,11 @@
  */
 package org.usfirst.frc.team2084.CMonster2016.drive;
 
+import java.lang.reflect.Field;
+
 import org.usfirst.frc.team2084.CMonster2016.Gyro;
+import org.usfirst.frc.team2084.CMonster2016.RollingAverage;
+import org.usfirst.frc.team2084.CMonster2016.drive.processors.LinearRamper;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -18,8 +22,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
 
-    public static final int TOLERANCE_BUFFER_LENGTH = 40;
+    public static final double PID_I_ZONE = 0.05;
+    public static final int TOLERANCE_BUFFER_LENGTH = 20;
     public static final int PID_PERIOD = 10;
+    public static final double MAX_PID_OUTPUT = 0.6;
+    public static final double PID_RAMP_RATE = 2.7;
 
     /**
      * The {@link Gyro} that the {@link GyroArcadeDriveAlgorithm} uses for
@@ -38,15 +45,22 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
      */
     private final PIDController headingPIDController;
 
+    private Field pidIAcculmulator;
+
     private double headingInverted = 1.0;
+    private double tolerance;
+
+    private final LinearRamper pidRamper = new LinearRamper(PID_RAMP_RATE, LinearRamper.Type.UP);
+    
+    private final RollingAverage averageError = new RollingAverage(50);
 
     /**
      * @param driveController
      */
-    public GyroArcadeDriveAlgorithm(DriveController<?> controller, Gyro gyro, PIDConstants headingPIDConstants,
-            double headingTolerance) {
+    public GyroArcadeDriveAlgorithm(DriveController<?> controller, Gyro gyro, PIDConstants headingPIDConstants, double headingTolerance) {
         super(controller);
         this.gyro = gyro;
+        this.tolerance = headingTolerance;
 
         headingPIDController = DriveUtils.createPIDControllerFromConstants(headingPIDConstants, new PIDSource() {
 
@@ -68,22 +82,49 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
         headingPIDController.setAbsoluteTolerance(headingTolerance);
         headingPIDController.setInputRange(-Math.PI, Math.PI);
         headingPIDController.setContinuous(true);
+        headingPIDController.setOutputRange(-MAX_PID_OUTPUT, MAX_PID_OUTPUT);
+        headingPIDController.setToleranceBuffer(TOLERANCE_BUFFER_LENGTH);
+
+        try {
+            pidIAcculmulator = PIDController.class.getDeclaredField("m_totalError");
+            pidIAcculmulator.setAccessible(true);
+        } catch (NoSuchFieldException | SecurityException e) {
+            e.printStackTrace();
+        }
+
         SmartDashboard.putData("Heading PID Controller", headingPIDController);
     }
 
-    public void rotateTo(double heading) {
+    public void driveHeading(double speed, double heading) {
         if (!headingPIDController.isEnabled()) {
             resetPID();
             headingPIDController.enable();
+            pidRamper.reset();
         }
+        if (Math.abs(headingPIDController.getError()) < PID_I_ZONE) {
+            try {
+                pidIAcculmulator.setDouble(headingPIDController, 0);
+            } catch (IllegalArgumentException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
         headingPIDController.setSetpoint(heading);
 
+        averageError.newValue(Math.abs(headingPIDController.getError()));
+        SmartDashboard.putNumber("heading avg err", averageError.getAverage());
+        SmartDashboard.putNumber("heading err", headingPIDController.getError());
+        
         // headingPIDController.setPID(headingPIDController.getP(),
         // Math.abs(headingPIDController.getError()) < 0.1 ?
         // headingPIDController.getI() : 0,
         // headingPIDController.getD());
 
-        arcadeDrive(0, -headingPID);
+        arcadeDrive(speed, pidRamper.process(-headingPID));
+    }
+    
+    public void rotateTo(double heading) {
+        driveHeading(0, heading);
     }
 
     /**
@@ -135,7 +176,7 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
      */
     public boolean isHeadingOnTarget() {
         if (headingPIDController.isEnabled()) {
-            return headingPIDController.onTarget();
+            return Math.abs(averageError.getAverage()) < tolerance;
         } else {
             return true;
         }

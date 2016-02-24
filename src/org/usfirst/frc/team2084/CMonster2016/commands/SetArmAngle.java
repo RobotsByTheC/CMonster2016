@@ -6,7 +6,6 @@
  */
 package org.usfirst.frc.team2084.CMonster2016.commands;
 
-import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import org.usfirst.frc.team2084.CMonster2016.Robot;
@@ -17,32 +16,22 @@ import org.usfirst.frc.team2084.CMonster2016.Robot;
 public class SetArmAngle extends ParameterCommand {
 
     private static final String ANGLE_KEY = "Angle";
-    private static final String HOLD_KEY = "Hold";
 
     private DoubleSupplier angleSupplier;
-    private BooleanSupplier holdSupplier;
     private double angle;
-    private boolean hold;
 
-    public SetArmAngle(DoubleSupplier angle, BooleanSupplier hold) {
+    public SetArmAngle(DoubleSupplier angle) {
         this.angleSupplier = angle;
-        this.holdSupplier = hold;
-        init();
-    }
-
-    public SetArmAngle(double angle, boolean hold) {
-        addNumberParameter(ANGLE_KEY, Math.toDegrees(angle));
-        addBooleanParameter(HOLD_KEY, hold);
-
-        this.angleSupplier = () -> Math.toRadians(getNumberParameter(ANGLE_KEY));
-        this.holdSupplier = () -> getBooleanParameter(HOLD_KEY);
         init();
     }
 
     public SetArmAngle(double angle) {
-        this(angle, false);
-    }
+        addNumberParameter(ANGLE_KEY, Math.toDegrees(angle));
 
+        this.angleSupplier = () -> Math.toRadians(getNumberParameter(ANGLE_KEY));
+        init();
+    }
+    
     private void init() {
         requires(Robot.armSubsystem);
     }
@@ -51,7 +40,6 @@ public class SetArmAngle extends ParameterCommand {
     @Override
     protected void initialize() {
         angle = angleSupplier.getAsDouble();
-        hold = holdSupplier.getAsBoolean();
 
         Robot.armSubsystem.setAngle(angle);
         Robot.armSubsystem.resetAverageError();
@@ -66,7 +54,7 @@ public class SetArmAngle extends ParameterCommand {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return hold ? false : Robot.armSubsystem.onTarget();
+        return Robot.armSubsystem.onTarget();
     }
 
     // Called once after isFinished returns true

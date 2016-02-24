@@ -8,6 +8,8 @@ package org.usfirst.frc.team2084.CMonster2016;
 
 import org.usfirst.frc.team2084.CMonster2016.commands.HomeArm;
 import org.usfirst.frc.team2084.CMonster2016.commands.LoggingCommand;
+import org.usfirst.frc.team2084.CMonster2016.commands.LowBarAutonomous;
+import org.usfirst.frc.team2084.CMonster2016.commands.LowBarShootAutonomous;
 import org.usfirst.frc.team2084.CMonster2016.commands.PowerOnJetson;
 import org.usfirst.frc.team2084.CMonster2016.subsystems.ArmSubsystem;
 import org.usfirst.frc.team2084.CMonster2016.subsystems.DriveSubsystem;
@@ -96,6 +98,8 @@ public class Robot extends IterativeRobot {
 
         // Add autonomous modes to the chooser
         autonomousChooser.addObject("Do nothing", null);
+        autonomousChooser.addObject("Low Bar", new LowBarAutonomous());
+        autonomousChooser.addObject("Low Bar and Shoot", new LowBarShootAutonomous());
         autonomousChooser.addDefault("Home Arm", new HomeArm());
         SmartDashboard.putData("Autonomous Mode", autonomousChooser);
     }
