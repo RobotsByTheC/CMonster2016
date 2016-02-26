@@ -10,22 +10,39 @@ import org.usfirst.frc.team2084.CMonster2016.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team2084.CMonster2016.vision.VisionResults;
 
 /**
- *
+ * Aims the arm to the angle given by the vision system. If the vision data is
+ * stale, it immediately ends.
  */
 public class AimArm extends SetArmAngle {
 
-    public static final double TIMEOUT = 3;
-    
+    /**
+     * It should take a maximum of 5 seconds for the arm to aim. If it takes
+     * longer than this, it probably means the error is slightly larger than the
+     * tolerance.
+     */
+    public static final double TIMEOUT = 5;
+    private boolean stale = false;
+
     public AimArm() {
         super(() -> ShooterSubsystem.getCalibrationAngle(VisionResults.getGoalDistance()));
         setTimeout(TIMEOUT);
     }
-    
+
     /**
-     * @return
+     * 
+     */
+    @Override
+    protected void initialize() {
+        super.initialize();
+
+        stale = VisionResults.isStale();
+    }
+
+    /**
+     * @return true if the command should end
      */
     @Override
     protected boolean isFinished() {
-        return super.isFinished() || isTimedOut();
+        return super.isFinished() || isTimedOut() || stale;
     }
 }

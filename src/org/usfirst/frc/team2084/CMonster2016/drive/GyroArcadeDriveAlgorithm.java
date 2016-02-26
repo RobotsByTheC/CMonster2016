@@ -51,13 +51,14 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
     private double tolerance;
 
     private final LinearRamper pidRamper = new LinearRamper(PID_RAMP_RATE, LinearRamper.Type.UP);
-    
+
     private final RollingAverage averageError = new RollingAverage(50);
 
     /**
      * @param driveController
      */
-    public GyroArcadeDriveAlgorithm(DriveController<?> controller, Gyro gyro, PIDConstants headingPIDConstants, double headingTolerance) {
+    public GyroArcadeDriveAlgorithm(DriveController<?> controller, Gyro gyro, PIDConstants headingPIDConstants,
+            double headingTolerance) {
         super(controller);
         this.gyro = gyro;
         this.tolerance = headingTolerance;
@@ -114,7 +115,7 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
         averageError.newValue(Math.abs(headingPIDController.getError()));
         SmartDashboard.putNumber("heading avg err", averageError.getAverage());
         SmartDashboard.putNumber("heading err", headingPIDController.getError());
-        
+
         // headingPIDController.setPID(headingPIDController.getP(),
         // Math.abs(headingPIDController.getError()) < 0.1 ?
         // headingPIDController.getI() : 0,
@@ -122,7 +123,7 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
 
         arcadeDrive(speed, pidRamper.process(-headingPID));
     }
-    
+
     public void rotateTo(double heading) {
         driveHeading(0, heading);
     }

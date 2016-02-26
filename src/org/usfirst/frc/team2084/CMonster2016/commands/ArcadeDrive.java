@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * Command that drives in arcade drive mode. This isn't used so it might not
- * work.
+ * Command that drives in arcade drive mode. This is the drive mode used in
+ * 2016.
  *
  * @author Ben Wolsieffer
  */
@@ -52,10 +52,13 @@ public class ArcadeDrive extends Command {
     @Override
     protected void execute() {
         Joystick j = Robot.oi.getDriveJoystick();
+
+        // Square the inputs
         double x = j.getX();
         double y = j.getY();
         x *= x * x < 0 ? -1 : 1;
         y *= y * y < 0 ? -1 : 1;
+
         SmartDashboard.putNumber("Joystick X", x);
         SmartDashboard.putNumber("Joystick Y", y);
         RobotMap.driveSubsystemArcadeDriveAlgorithm.arcadeDrive(-y, x);

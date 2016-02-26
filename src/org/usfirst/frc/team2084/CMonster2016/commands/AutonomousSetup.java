@@ -9,18 +9,15 @@ package org.usfirst.frc.team2084.CMonster2016.commands;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- * Autonomous mode that drives under the low bar. This possible would work for
- * other defenses too.
+ * Base command that runs before any autonomous mode. It homes that are and
+ * resets the gyro.
  * 
  * @author Ben Wolsieffer
  */
-public class LowBarAutonomous extends CommandGroup {
+public class AutonomousSetup extends CommandGroup {
 
-    /**
-     * 
-     */
-    public LowBarAutonomous() {
-        addSequential(new AutonomousSetup());
-        addSequential(new DriveHeading(0, 0.6, 2.7));
+    public AutonomousSetup() {
+        addSequential(new ResetGyro());
+        addSequential(new HomeArm());
     }
 }

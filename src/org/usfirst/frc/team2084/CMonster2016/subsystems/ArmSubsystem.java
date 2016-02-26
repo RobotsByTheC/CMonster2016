@@ -19,17 +19,43 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * Subsystem that controls the arm, but not the shooter.
+ * 
+ * @author Ben Wolsieffer
  */
 public class ArmSubsystem extends Subsystem {
 
+    /**
+     * Number of revolutions that cause one inch of movement of the lead screw.
+     */
     public static final double REVS_PER_INCH = 32;
 
+    /**
+     * Distance from the pivot point to the top attachment point for the lifting
+     * linkage.
+     */
     public static final double ARM_ATTACHMENT_POINT = 8.3125;
+
+    /**
+     * Length of the linkage bar that connects the slider to the arm.
+     */
     public static final double LIFTING_BAR_LENGTH = 14;
+
+    /**
+     * Vertical distance from slider to arm pivot.
+     */
     public static final double PIVOT_POINT_HEIGHT = 5;
 
+    /**
+     * Lead screw position when the arm is lowered.
+     */
     public static final double ARM_HOME_POSITION = angleToRevs(0);
+
+    /**
+     * Maximum allowable arm angle. This is currently enforced in the software,
+     * but it could be moved to the Talon SRX.
+     */
+    public static final double ARM_MAX_ANGLE = Math.toRadians(65);
 
     public static final double ARM_MAX_POSITION = ARM_HOME_POSITION;
     public static final double ARM_MIN_POSITION = 5 * REVS_PER_INCH;
@@ -56,9 +82,6 @@ public class ArmSubsystem extends Subsystem {
 
     private final RollingAverage averageError = new RollingAverage(10);
 
-    /**
-     * 
-     */
     public ArmSubsystem() {
         leftTalon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
         rightTalon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
@@ -70,8 +93,8 @@ public class ArmSubsystem extends Subsystem {
         leftTalon.enableLimitSwitch(true, true);
         rightTalon.enableLimitSwitch(true, true);
 
-        //
-
+        // Make sure soft limits are disabled, or annoying behavior results,
+        // because the Talon saves its state between power cycles
         setLimitsEnabled(false);
 
         setBrakeEnabled(true);
@@ -85,16 +108,26 @@ public class ArmSubsystem extends Subsystem {
         leftTalon.reverseOutput(true);
         rightTalon.reverseOutput(true);
 
+        // Set initial angle to 0, even though the arm usually starts in the up
+        // position
         resetAngle();
 
-        if (leftTalon.isSensorPresent(FeedbackDevice.CtreMagEncoder_Relative) != FeedbackDeviceStatus.FeedbackStatusPresent) {
+        // Check for sensors
+        if (leftTalon.isSensorPresent(
+                FeedbackDevice.CtreMagEncoder_Relative) != FeedbackDeviceStatus.FeedbackStatusPresent) {
             DriverStation.reportError("Error: left arm encoder cannot be found", false);
         }
-        if (rightTalon.isSensorPresent(FeedbackDevice.CtreMagEncoder_Relative) != FeedbackDeviceStatus.FeedbackStatusPresent) {
+        if (rightTalon.isSensorPresent(
+                FeedbackDevice.CtreMagEncoder_Relative) != FeedbackDeviceStatus.FeedbackStatusPresent) {
             DriverStation.reportError("Error: right arm encoder cannot be found", false);
         }
     }
 
+    /**
+     * Sets the output power of the arm.
+     * 
+     * @param speed the speed, between -1.0 and 1.0
+     */
     public void setSpeed(double speed) {
         leftTalon.changeControlMode(TalonControlMode.PercentVbus);
         rightTalon.changeControlMode(TalonControlMode.PercentVbus);
@@ -105,7 +138,19 @@ public class ArmSubsystem extends Subsystem {
 
     private double setpoint = 0;
 
+    /**
+     * Sets the angle of the arm to the specified value. This must be called
+     * repeatedly to update the average error.
+     * 
+     * @param angle the angle in radians
+     */
     public void setAngle(double angle) {
+        // Make sure the arm does not get over-extended. The Talons can do this
+        // but I never got it working.
+        if (angle > ARM_MAX_ANGLE) {
+            angle = ARM_MAX_ANGLE;
+        }
+
         leftTalon.changeControlMode(TalonControlMode.Position);
         rightTalon.changeControlMode(TalonControlMode.Position);
 
@@ -122,39 +167,86 @@ public class ArmSubsystem extends Subsystem {
 
     }
 
+    /**
+     * Resets the rolling average error to the current error.
+     */
     public void resetAverageError() {
         averageError.reset(Math.abs(getError()));
     }
 
+    /**
+     * Gets whether the arm is at its target angle.
+     * 
+     * @return true if the average error is less than {@link #ANGLE_TOLERANCE}
+     */
     public boolean onTarget() {
         return getAverageError() < ANGLE_TOLERANCE;
     }
 
+    /**
+     * Stops the arm's motion.
+     */
     public void stop() {
         setSpeed(0);
     }
 
+    /**
+     * Gets the difference between the setpoint and the current angle.
+     * 
+     * @return the error in radians
+     */
     public double getError() {
         return getAngle() - setpoint;
     }
 
+    /**
+     * Gets the rolling average of the error in the arm's angle.
+     * 
+     * @return the average error in radians
+     */
     public double getAverageError() {
         return averageError.getAverage();
     }
 
+    /**
+     * Gets the current angle of the arm. This is based on the average angle of
+     * both sides.
+     * 
+     * @return the current angle in radians
+     */
     public double getAngle() {
         return revsToAngle((leftTalon.getPosition() + rightTalon.getPosition()) / 2);
     }
 
+    /**
+     * Enables or disables the brake mode of the motor controllers for the arm.
+     * 
+     * @param enabled if true, enable brake mode
+     */
     public void setBrakeEnabled(boolean enabled) {
         leftTalon.enableBrakeMode(enabled);
         rightTalon.enableBrakeMode(enabled);
     }
 
+    /**
+     * Utility method that sets the PID constants of a CAN Talon SRX.
+     * 
+     * @param talon the talon to modify
+     * @param constants {@link PIDConstants} object
+     * @param izone the zone where the I term is disabled
+     * @param rampRate the ramp rate for the output
+     */
     public static void setTalonPID(CANTalon talon, PIDConstants constants, int izone, double rampRate) {
         talon.setPID(constants.p, constants.i, constants.d, constants.f, izone, rampRate, 0);
     }
 
+    /**
+     * Converts the revolutions of the motor to the corresponding arm angle.
+     * Fewer revolutions mean a larger angle.
+     * 
+     * @param revs the number of revolutions
+     * @return the angle of the arm
+     */
     private static double revsToAngle(double revs) {
         // Moves 1 inch every 32 rotations (16:1 gearbox + 0.5" per rev lead
         // screw)
@@ -163,25 +255,42 @@ public class ArmSubsystem extends Subsystem {
         // Distance from pivot to slide attachment
         double c = Math.sqrt(PIVOT_POINT_HEIGHT * PIVOT_POINT_HEIGHT + d * d);
         double theta = Math.atan(d / PIVOT_POINT_HEIGHT);
-        double angle = Math.acos((ARM_ATTACHMENT_POINT * ARM_ATTACHMENT_POINT - (LIFTING_BAR_LENGTH * LIFTING_BAR_LENGTH) + c * c) / (2 * ARM_ATTACHMENT_POINT * c));
+        double angle = Math
+                .acos((ARM_ATTACHMENT_POINT * ARM_ATTACHMENT_POINT - (LIFTING_BAR_LENGTH * LIFTING_BAR_LENGTH) + c * c)
+                        / (2 * ARM_ATTACHMENT_POINT * c));
 
         return (angle + theta) - (Math.PI / 2);
     }
 
+    /**
+     * Converts an angle to its corresponding number of motor revolutions.
+     * 
+     * @param angle the angle in radians
+     * @return the number of revolutions
+     */
     private static double angleToRevs(double angle) {
 
         double kh = ARM_ATTACHMENT_POINT * Math.sin(angle) + PIVOT_POINT_HEIGHT;
 
-        double d = Math.sqrt(LIFTING_BAR_LENGTH * LIFTING_BAR_LENGTH - kh * kh) + ARM_ATTACHMENT_POINT * Math.cos(angle);
+        double d =
+                Math.sqrt(LIFTING_BAR_LENGTH * LIFTING_BAR_LENGTH - kh * kh) + ARM_ATTACHMENT_POINT * Math.cos(angle);
 
         return d * REVS_PER_INCH;
     }
 
+    /**
+     * Resets the angle of the arm to 0.
+     */
     public void resetAngle() {
         leftTalon.setPosition(ARM_HOME_POSITION);
         rightTalon.setPosition(ARM_HOME_POSITION);
     }
 
+    /**
+     * Enables or disables the software limits of the Talons.
+     * 
+     * @param enabled if true, enable the limits
+     */
     public void setLimitsEnabled(boolean enabled) {
         leftTalon.enableForwardSoftLimit(enabled);
         leftTalon.enableReverseSoftLimit(enabled);
@@ -191,12 +300,5 @@ public class ArmSubsystem extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
-        // BEGIN AUTOGENERATED CODE, SOURCE=ROBOTBUILDER ID=DEFAULT_COMMAND
-
-        // setDefaultCommand(new ManualArmControl());
-        // END AUTOGENERATED CODE, SOURCE=ROBOTBUILDER ID=DEFAULT_COMMAND
-
-        // Set the default command for a subsystem here.
-        // setDefaultCommand(new MySpecialCommand());
     }
 }

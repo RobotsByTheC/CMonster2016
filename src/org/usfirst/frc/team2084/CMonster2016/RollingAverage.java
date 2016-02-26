@@ -34,7 +34,7 @@ public class RollingAverage {
     }
 
     public double getAverage() {
-        return sum / (double)numSamples;
+        return sum / (double) numSamples;
     }
 
     public void reset(double value) {

@@ -31,7 +31,7 @@ public class SetArmAngle extends ParameterCommand {
         this.angleSupplier = () -> Math.toRadians(getNumberParameter(ANGLE_KEY));
         init();
     }
-    
+
     private void init() {
         requires(Robot.armSubsystem);
     }

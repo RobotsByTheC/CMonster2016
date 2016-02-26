@@ -55,7 +55,6 @@ public class SetShooterSpeed extends ParameterCommand {
     protected void initialize() {
         Robot.shooterSubsystem.resetAverageError();
         speed = speedSupplier.getAsDouble();
-        System.out.println("SetSHOOTERSpeed: " + speed);
     }
 
     // Called repeatedly when this Command is scheduled to run

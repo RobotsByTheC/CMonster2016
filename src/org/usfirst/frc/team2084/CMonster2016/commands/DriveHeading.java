@@ -55,10 +55,10 @@ public class DriveHeading extends RotateToHeading {
     @Override
     protected void initialize() {
         speedRamper.reset();
-        
+
         speed = speedSupplier.getAsDouble();
         time = timeSupplier.getAsDouble();
-        
+
         setTimeout(time);
         super.initialize();
     }

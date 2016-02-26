@@ -19,7 +19,6 @@ public class HomeArm extends Command {
 
     public static final double HOMING_SPEED = -0.8;
     public static final double MAX_TIME = 10;
-    public static final double EXTRA_TIME = 0.4;
 
     private final ArmSubsystem armSubsystem = Robot.armSubsystem;
 
