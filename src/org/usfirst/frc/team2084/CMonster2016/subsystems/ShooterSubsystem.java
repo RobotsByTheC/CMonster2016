@@ -96,7 +96,7 @@ public class ShooterSubsystem extends Subsystem {
         }
     }
 
-    public static final PIDConstants SHOOTER_PID_CONSTANTS = new PIDConstants(1.3, 0, 0, 0.69);
+    public static final PIDConstants SHOOTER_PID_CONSTANTS = new PIDConstants(100, 0, 0, 0.69);
 
     public static final double INTAKE_SPEED = -2000;
     public static final double LOW_GOAL_SPEED = 2000;
@@ -175,6 +175,17 @@ public class ShooterSubsystem extends Subsystem {
     public void setShooterSpeed(double speed) {
         leftTalon.changeControlMode(TalonControlMode.Speed);
         rightTalon.changeControlMode(TalonControlMode.Speed);
+
+        if (speed > 0) {
+            leftTalon.configPeakOutputVoltage(0, -12);
+            rightTalon.configPeakOutputVoltage(12, 0);
+        } else if (speed < 0) {
+            leftTalon.configPeakOutputVoltage(12, 0);
+            rightTalon.configPeakOutputVoltage(0, -12);
+        } else {
+            setShooterPower(0);
+            return;
+        }
 
         leftTalon.set(-speed);
         rightTalon.set(speed);
