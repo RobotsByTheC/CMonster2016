@@ -133,6 +133,8 @@ public class ShooterSubsystem extends Subsystem {
 
         ArmSubsystem.setTalonPID(leftTalon, SHOOTER_PID_CONSTANTS, 0, RAMP_RATE);
         ArmSubsystem.setTalonPID(rightTalon, SHOOTER_PID_CONSTANTS, 0, RAMP_RATE);
+
+        setFiringServo(false);
     }
 
     /**
@@ -176,6 +178,8 @@ public class ShooterSubsystem extends Subsystem {
         leftTalon.changeControlMode(TalonControlMode.Speed);
         rightTalon.changeControlMode(TalonControlMode.Speed);
 
+        // Make sure power is never applied in the opposite direction from the
+        // rotation.
         if (speed > 0) {
             leftTalon.configPeakOutputVoltage(0, -12);
             rightTalon.configPeakOutputVoltage(12, 0);
@@ -183,6 +187,8 @@ public class ShooterSubsystem extends Subsystem {
             leftTalon.configPeakOutputVoltage(12, 0);
             rightTalon.configPeakOutputVoltage(0, -12);
         } else {
+            // Edge case, if someone wants the wheels to stop, just let them
+            // coast
             setShooterPower(0);
             return;
         }

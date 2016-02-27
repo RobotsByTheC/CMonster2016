@@ -63,6 +63,14 @@ public class EncoderGyroMecanumDriveAlgorithm<S extends EncoderWheelController<?
      * 
      * @param controller the drive controller with encoder wheel controllers
      * @param gyro the gyro to use
+     * @param headingPIDConstants the PID constants used for rotation
+     * @param headingTolerance heading PID tolerance
+     * @param xLocationPIDConstants PID constants for robot x location
+     * @param yLocationPIDConstants PID constants for robot y location
+     * @param xLocationTolerance the tolerance for the x PID controller
+     * @param yLocationTolerance the tolerance for the y PID controller
+     * @param driveBaseWidth the width of the drive base
+     * @param driveBaseLength the length of the drive base
      */
     public EncoderGyroMecanumDriveAlgorithm(FourWheelDriveController<S> controller, Gyro gyro,
             PIDConstants headingPIDConstants, double headingTolerance, PIDConstants xLocationPIDConstants,

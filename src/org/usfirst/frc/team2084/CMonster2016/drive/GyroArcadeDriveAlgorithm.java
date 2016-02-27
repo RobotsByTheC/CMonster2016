@@ -55,7 +55,13 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
     private final RollingAverage averageError = new RollingAverage(50);
 
     /**
-     * @param driveController
+     * Creates a new {@link GyroArcadeDriveAlgorithm} using the parameters
+     * described below.
+     * 
+     * @param controller the drive controller for this algorithm
+     * @param gyro the gyroscope to use
+     * @param headingPIDConstants the PID constants used to control the heading
+     * @param headingTolerance the amount of error that is considered on target
      */
     public GyroArcadeDriveAlgorithm(DriveController<?> controller, Gyro gyro, PIDConstants headingPIDConstants,
             double headingTolerance) {
@@ -147,7 +153,7 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
      * {@link Gyro#setAngle(double)} to prevent the robot from trying to rotate
      * to this new heading, which is generally not the desired behavior.
      * 
-     * @param heading
+     * @param heading the heading to set in radians
      */
     public void setHeading(double heading) {
         synchronized (this) {
@@ -158,7 +164,7 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
     /**
      * Gets the rate of rotation of the robot in radians per second according to
      * the gyro. This also inverts the value if necessary. This *must* be used
-     * to retrieve the rotation rate rather than calling {@link Gyro#getRate(s)}
+     * to retrieve the rotation rate rather than calling {@link Gyro#getRate()}
      * to prevent race conditions with the {@link PIDController}.
      * 
      * @return the heading

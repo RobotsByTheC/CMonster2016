@@ -10,7 +10,7 @@ import org.usfirst.frc.team2084.CMonster2016.vision.VisionResults;
 
 /**
  * Aims the robot to the heading given by the vision system. If the vision data
- * is stale, it immediately ends.
+ * is stale, it immediately ends without doing anything.
  */
 public class AimRobot extends RotateToHeading {
 

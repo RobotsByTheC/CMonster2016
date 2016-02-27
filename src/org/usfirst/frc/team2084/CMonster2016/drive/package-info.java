@@ -19,7 +19,8 @@
  * <li>full speed/power = +/-1.0</li>
  * <li>off/neutral = 0.0</li>
  * <li>distance units = meters</li>
- * <li>angle units = radians</li>
+ * <li>angle units = radians (except for user facing values, for example on the
+ * SmartDashboard)</li>
  * <li>x axis = left/right</li>
  * <li>y axis = forward/back</li>
  * </ul>

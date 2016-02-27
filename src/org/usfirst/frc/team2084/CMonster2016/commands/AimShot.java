@@ -9,19 +9,27 @@ package org.usfirst.frc.team2084.CMonster2016.commands;
 import org.usfirst.frc.team2084.CMonster2016.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team2084.CMonster2016.vision.VisionResults;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.ConditionalCommandGroup;
 import edu.wpi.first.wpilibj.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
+ * Aims the robot, arm and shooter using the vision system. It only runs if
+ * there is valid vision data.
+ * 
  * @author Ben Wolsieffer
  */
-public class AimShot extends CommandGroup {
+public class AimShot extends ConditionalCommandGroup {
 
     public AimShot() {
         addSequential(new ShotReadyNotify(false));
         addParallel(new SetShooterSpeed(() -> ShooterSubsystem.getCalibrationSpeed(VisionResults.getGoalDistance())));
         addSequential(new ParallelCommandGroup(new AimArm(), new AimRobot(), new WaitCommand(0.75)));
         addSequential(new ShotReadyNotify(true));
+    }
+
+    @Override
+    protected boolean shouldRun() {
+        return !VisionResults.isStale();
     }
 }

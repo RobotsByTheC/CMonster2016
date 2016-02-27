@@ -15,7 +15,10 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * Command that is always running and reports debugging values.
+ * Command that is always running and reports debugging values. It is more
+ * important than it sounds, and is actually critical to the vision system.
+ * Basically, anything that needs to run in the main loop all the time goes in
+ * here.
  *
  * @author Ben Wolsieffer
  */

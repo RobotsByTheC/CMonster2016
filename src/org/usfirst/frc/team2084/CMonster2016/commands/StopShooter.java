@@ -11,6 +11,9 @@ import org.usfirst.frc.team2084.CMonster2016.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
+ * Stops the shooter. This just lets the wheels coast to a stop, rather than
+ * using motor power or braking to slow them down.
+ * 
  * @author Ben Wolsieffer
  */
 public class StopShooter extends Command {

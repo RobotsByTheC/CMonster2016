@@ -39,7 +39,7 @@ public class AimArm extends SetArmAngle {
     }
 
     /**
-     * @return true if the command should end
+     * @return true when the arm gets to its setpoint or the operation times out
      */
     @Override
     protected boolean isFinished() {

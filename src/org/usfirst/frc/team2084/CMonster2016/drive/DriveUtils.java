@@ -39,7 +39,7 @@ public final class DriveUtils {
      * Checks if a value is between -1.0 and 1.0.
      *
      * @param value true if value {@literal >}=-1.0 and {@literal <}=1.0
-     * @return
+     * @return true if the value is valid
      */
     public static boolean isValid(double value) {
         return value >= -1.0 && value <= 1.0;

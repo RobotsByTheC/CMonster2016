@@ -9,16 +9,13 @@ package org.usfirst.frc.team2084.CMonster2016.commands;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- * Autonomous mode that drives under the low bar. This possible would work for
+ * Autonomous mode that drives under the low bar. This possibly would work for
  * other defenses too.
  * 
  * @author Ben Wolsieffer
  */
 public class LowBarAutonomous extends CommandGroup {
 
-    /**
-     * 
-     */
     public LowBarAutonomous() {
         addSequential(new AutonomousSetup());
         addSequential(new DriveHeading(0, 0.6, 2.7));

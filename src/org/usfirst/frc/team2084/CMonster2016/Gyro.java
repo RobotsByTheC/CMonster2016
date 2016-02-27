@@ -29,7 +29,7 @@ public interface Gyro {
      * Sets the angle to the specified value in order compensate for robot
      * orientation at the start of autonomous.
      * 
-     * @param angle
+     * @param angle the angle to set
      */
     public void setAngle(double angle);
 

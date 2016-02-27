@@ -9,27 +9,46 @@ package edu.wpi.first.wpilibj.buttons;
 import edu.wpi.first.wpilibj.GenericHID;
 
 /**
- * @author ben
+ * A "button" that is triggered by a certain direction of a POV hat.
+ * 
+ * @author Ben Wolsieffer
  */
 public class POVHatButton extends Button {
 
     private final int direction;
+    private final int hat;
     private final GenericHID joystick;
 
     /**
+     * Creates a new POV hat button on the specified joystick, using the
+     * specified hat and direction.
      * 
+     * @param joystick the joystick to poll
+     * @param hat the hat index to use
+     * @param direction the direction to trigger on
      */
-    public POVHatButton(GenericHID joystick, int direction) {
+    public POVHatButton(GenericHID joystick, int hat, int direction) {
         this.direction = direction;
+        this.hat = hat;
         this.joystick = joystick;
     }
 
     /**
-     * @return
+     * 
+     * 
+     * @param joystick the joystick to poll
+     * @param direction the direction to trigger on
+     */
+    public POVHatButton(GenericHID joystick, int direction) {
+        this(joystick, 0, direction);
+    }
+
+    /**
+     * @return true when the POV hat is pointing in the configured direction
      */
     @Override
     public boolean get() {
-        return joystick.getPOV() == direction;
+        return joystick.getPOV(hat) == direction;
     }
 
 }

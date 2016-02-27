@@ -48,6 +48,7 @@ public class DIOEncoderWheelController<S extends SpeedController> extends Encode
      * @param encoder the encoder to use for closed loop control
      * @param speedPIDConstants the PID constants to use for the speed control
      *        loop
+     * @param maxSpeed the maximum allowable output speed
      * @param pdpPorts the PDP ports the motors are connected to
      * @param motors the list of motors to control
      */

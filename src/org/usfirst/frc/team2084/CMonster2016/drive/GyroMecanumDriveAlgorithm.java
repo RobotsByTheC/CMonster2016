@@ -69,8 +69,8 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      * specified {@link FourWheelDriveController}.
      *
      * @param controller the {@link FourWheelDriveController} to control
-     * @param gyro the {@link SynchronizedRadianGyro} to use for orientation
-     *        correction and field-oriented driving
+     * @param gyro the {@link Gyro} to use for orientation correction and
+     *        field-oriented driving
      * @param headingPIDConstants the {@link PIDConstants} to use for heading
      *        control
      * @param headingTolerance the tolerance (in radians) to consider as on
@@ -409,7 +409,7 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
      * {@link Gyro#setAngle(double)} to prevent the robot from trying to rotate
      * to this new heading, which is generally not the desired behavior.
      * 
-     * @param heading
+     * @param heading the heading to set in radians
      */
     public void setHeading(double heading) {
         synchronized (this) {
@@ -422,7 +422,7 @@ public class GyroMecanumDriveAlgorithm<S extends WheelController<?>> extends Mec
     /**
      * Gets the rate of rotation of the robot in radians per second according to
      * the gyro. This also inverts the value if necessary. This *must* be used
-     * to retrieve the rotation rate rather than calling {@link Gyro#getRate(s)}
+     * to retrieve the rotation rate rather than calling {@link Gyro#getRate()}
      * to prevent race conditions with the {@link PIDController}.
      * 
      * @return the heading

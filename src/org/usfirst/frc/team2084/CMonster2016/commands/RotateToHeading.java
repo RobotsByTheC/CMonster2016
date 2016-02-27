@@ -13,7 +13,9 @@ import org.usfirst.frc.team2084.CMonster2016.RobotMap;
 import org.usfirst.frc.team2084.CMonster2016.drive.GyroArcadeDriveAlgorithm;
 
 /**
- * Rotates the robot to the specified heading.
+ * Rotates the robot to the specified heading. This command ends when the
+ * rotation has been completed. Sometimes, the end condition is not triggered,
+ * because PID controllers are hard to tune effectively.
  */
 public class RotateToHeading extends ParameterCommand {
 
@@ -54,20 +56,22 @@ public class RotateToHeading extends ParameterCommand {
         arcadeDrive.rotateTo(heading);
     }
 
-    // Make this return true when this Command no longer needs to run execute()
+    /**
+     * @return true when the heading is on target
+     */
     @Override
     protected boolean isFinished() {
-        return arcadeDrive.isHeadingOnTarget() || isTimedOut();
+        return arcadeDrive.isHeadingOnTarget();
     }
 
-    // Called once after isFinished returns true
+    /**
+     * Stops the drive train.
+     */
     @Override
     protected void end() {
         RobotMap.driveSubsystemArcadeDriveAlgorithm.stop();
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
     @Override
     protected void interrupted() {
         end();

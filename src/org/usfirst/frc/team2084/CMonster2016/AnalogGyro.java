@@ -77,6 +77,8 @@ public class AnalogGyro extends SensorBase implements LiveWindowSendable, Gyro {
      * is not moving while the centering calculations are in progress, this is
      * automatically done when the robot is first turned on while it's sitting
      * at rest before the competition starts.
+     * 
+     * @param time the number of seconds to spend calibrating
      */
     public void calibrate(double time) {
         reset();
