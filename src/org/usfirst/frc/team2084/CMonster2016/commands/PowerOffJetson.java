@@ -6,27 +6,24 @@
  */
 package org.usfirst.frc.team2084.CMonster2016.commands;
 
-import org.usfirst.frc.team2084.CMonster2016.RobotMap;
+import org.usfirst.frc.team2084.CMonster2016.vision.VisionParameters;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Command that turns on the NVidia Jetson TK1 using a DIO pin. This never
- * seemed to work right and has been replaced by a physical power button on the
- * Jetson.
+ * Command that turns off the NVidia Jetson TK1.
  *
  * @author Ben Wolsieffer
  */
-public class PowerOnJetson extends Command {
+public class PowerOffJetson extends Command {
 
-    public PowerOnJetson() {
-        setTimeout(0.5);
+    public PowerOffJetson() {
         setRunWhenDisabled(true);
     }
 
     @Override
     protected void initialize() {
-        RobotMap.shooterSubsystemJetsonPower.set(false);
+        VisionParameters.shutdown();
     }
 
     @Override
@@ -35,16 +32,14 @@ public class PowerOnJetson extends Command {
 
     @Override
     protected boolean isFinished() {
-        return isTimedOut();
+        return true;
     }
 
     @Override
     protected void end() {
-        RobotMap.shooterSubsystemJetsonPower.set(true);
     }
 
     @Override
     protected void interrupted() {
-        end();
     }
 }
