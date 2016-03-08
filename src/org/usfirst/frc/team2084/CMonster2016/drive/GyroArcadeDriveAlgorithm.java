@@ -22,10 +22,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
 
-    public static final double PID_I_ZONE = 0.05;
+    public static final double DEFAULT_I_ZONE = 0.05;
+    public static final double DEFAULT_TOLERANCE = 0.01;
     public static final int TOLERANCE_BUFFER_LENGTH = 20;
     public static final int PID_PERIOD = 10;
-    public static final double MAX_PID_OUTPUT = 0.6;
+    public static final double DEFAULT_MAX_PID_OUTPUT = 0.6;
     public static final double PID_RAMP_RATE = 2.7;
 
     /**
@@ -48,7 +49,10 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
     private Field pidIAcculmulator;
 
     private double headingInverted = 1.0;
-    private double tolerance;
+    private double tolerance = DEFAULT_TOLERANCE;
+
+    private double iZone = DEFAULT_I_ZONE;
+    private double maxPIDOutput = DEFAULT_MAX_PID_OUTPUT;
 
     private final LinearRamper pidRamper = new LinearRamper(PID_RAMP_RATE, LinearRamper.Type.UP);
 
@@ -63,11 +67,9 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
      * @param headingPIDConstants the PID constants used to control the heading
      * @param headingTolerance the amount of error that is considered on target
      */
-    public GyroArcadeDriveAlgorithm(DriveController<?> controller, Gyro gyro, PIDConstants headingPIDConstants,
-            double headingTolerance) {
+    public GyroArcadeDriveAlgorithm(DriveController<?> controller, Gyro gyro, PIDConstants headingPIDConstants) {
         super(controller);
         this.gyro = gyro;
-        this.tolerance = headingTolerance;
 
         headingPIDController = DriveUtils.createPIDControllerFromConstants(headingPIDConstants, new PIDSource() {
 
@@ -86,10 +88,10 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
             }
         }, (o) -> headingPID = -o, PID_PERIOD);
 
-        headingPIDController.setAbsoluteTolerance(headingTolerance);
+        setTolerance(DEFAULT_TOLERANCE);
         headingPIDController.setInputRange(-Math.PI, Math.PI);
         headingPIDController.setContinuous(true);
-        headingPIDController.setOutputRange(-MAX_PID_OUTPUT, MAX_PID_OUTPUT);
+        setMaxPIDOutput(DEFAULT_MAX_PID_OUTPUT);
         headingPIDController.setToleranceBuffer(TOLERANCE_BUFFER_LENGTH);
 
         try {
@@ -108,7 +110,7 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
             headingPIDController.enable();
             pidRamper.reset();
         }
-        if (Math.abs(headingPIDController.getError()) < PID_I_ZONE) {
+        if (Math.abs(headingPIDController.getError()) < iZone) {
             try {
                 pidIAcculmulator.setDouble(headingPIDController, 0);
             } catch (IllegalArgumentException | IllegalAccessException e) {
@@ -187,6 +189,32 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
         } else {
             return true;
         }
+    }
+
+    public void setIZone(double iZone) {
+        this.iZone = iZone;
+    }
+
+    public double getIZone() {
+        return iZone;
+    }
+
+    public void setMaxPIDOutput(double max) {
+        maxPIDOutput = max;
+        headingPIDController.setOutputRange(-max, max);
+    }
+
+    public double getMaxPIDOutput() {
+        return maxPIDOutput;
+    }
+
+    public void setTolerance(double tolerance) {
+        this.tolerance = tolerance;
+        headingPIDController.setAbsoluteTolerance(tolerance);
+    }
+
+    public double getTolerance() {
+        return tolerance;
     }
 
     public double getHeadingError() {

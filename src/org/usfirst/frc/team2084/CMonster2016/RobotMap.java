@@ -48,16 +48,14 @@ public class RobotMap {
      * Parameters that are used for the gyro heading PID controller.
      */
     public static final PIDConstants DRIVE_SUBSYSTEM_HEADING_PID_CONSTANTS = new PIDConstants(2.75, 0.1, 12);
-    /**
-     * Maximum allowed tolerance (in meters) that is considered on target for
-     * location.
-     */
 
     /**
      * Maximum allowed tolerance (in radians) that is considered on target for
      * heading.
      */
     public static final double DRIVE_SUBSYSTEM_HEADING_TOLERANCE = 0.01;
+
+    public static final double DRIVE_SUBSYSTEM_HEADING_I_ZONE = 0.05;
 
     public static SpeedController driveSubsystemLeftTalon1;
     public static SpeedController driveSubsystemLeftTalon2;
@@ -161,7 +159,9 @@ public class RobotMap {
                 driveSubsystemLeftWheels, driveSubsystemRightWheels);
 
         driveSubsystemArcadeDriveAlgorithm = new GyroArcadeDriveAlgorithm(driveSubsystemDriveController,
-                driveSubsystemGyro, DRIVE_SUBSYSTEM_HEADING_PID_CONSTANTS, DRIVE_SUBSYSTEM_HEADING_TOLERANCE);
+                driveSubsystemGyro, DRIVE_SUBSYSTEM_HEADING_PID_CONSTANTS);
+        driveSubsystemArcadeDriveAlgorithm.setTolerance(DRIVE_SUBSYSTEM_HEADING_TOLERANCE);
+        driveSubsystemArcadeDriveAlgorithm.setIZone(DRIVE_SUBSYSTEM_HEADING_I_ZONE);
 
         // ledController = new LEDController(Port.kUSB);
     }

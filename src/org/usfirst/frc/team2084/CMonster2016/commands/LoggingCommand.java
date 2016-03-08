@@ -40,6 +40,10 @@ public class LoggingCommand extends Command {
      */
     @Override
     protected void initialize() {
+        SmartDashboard.putNumber("Heading I Zone", RobotMap.DRIVE_SUBSYSTEM_HEADING_I_ZONE);
+        SmartDashboard.putNumber("Heading Tolerance", RobotMap.DRIVE_SUBSYSTEM_HEADING_TOLERANCE);
+
+        SmartDashboard.putNumber(AimRobot.GOAL_HEADING_OFFSET_KEY, Math.toDegrees(AimRobot.GOAL_HEADING_OFFSET));
     }
 
     /**
@@ -65,6 +69,12 @@ public class LoggingCommand extends Command {
 
         // Update the current robot heading for the vision system
         VisionResults.setCurrentHeading(RobotMap.driveSubsystemArcadeDriveAlgorithm.getHeading());
+
+        // Update drive subsystem parameters
+        RobotMap.driveSubsystemArcadeDriveAlgorithm
+                .setIZone(SmartDashboard.getNumber("Heading I Zone", RobotMap.DRIVE_SUBSYSTEM_HEADING_I_ZONE));
+        RobotMap.driveSubsystemArcadeDriveAlgorithm.setTolerance(
+                SmartDashboard.getNumber("Heading Tolerance", RobotMap.DRIVE_SUBSYSTEM_HEADING_TOLERANCE));
     }
 
     /**
