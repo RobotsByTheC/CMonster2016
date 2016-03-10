@@ -112,7 +112,7 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
             headingPIDController.enable();
             pidRamper.reset();
         }
-        if (Math.abs(headingPIDController.getError()) < iZone) {
+        if (Math.abs(headingPIDController.getError()) > iZone) {
             try {
                 pidIAcculmulator.setDouble(headingPIDController, 0);
             } catch (IllegalArgumentException | IllegalAccessException e) {
