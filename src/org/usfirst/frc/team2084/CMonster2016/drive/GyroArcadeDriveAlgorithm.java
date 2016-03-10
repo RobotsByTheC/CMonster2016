@@ -26,6 +26,7 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
     public static final double DEFAULT_TOLERANCE = 0.01;
     public static final int TOLERANCE_BUFFER_LENGTH = 20;
     public static final int PID_PERIOD = 10;
+    public static final double DEFAULT_MIN_PID_OUTPUT = 0;
     public static final double DEFAULT_MAX_PID_OUTPUT = 0.6;
     public static final double PID_RAMP_RATE = 2.7;
 
@@ -53,6 +54,7 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
 
     private double iZone = DEFAULT_I_ZONE;
     private double maxPIDOutput = DEFAULT_MAX_PID_OUTPUT;
+    private double minPIDOutput = DEFAULT_MIN_PID_OUTPUT;
 
     private final LinearRamper pidRamper = new LinearRamper(PID_RAMP_RATE, LinearRamper.Type.UP);
 
@@ -129,7 +131,12 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
         // headingPIDController.getI() : 0,
         // headingPIDController.getD());
 
-        arcadeDrive(speed, pidRamper.process(-headingPID));
+        double localHeadingPID = -headingPID;
+        if (Math.abs(localHeadingPID) < minPIDOutput) {
+            localHeadingPID = minPIDOutput * localHeadingPID < 0 ? -1 : 1;
+        }
+
+        arcadeDrive(speed, pidRamper.process(localHeadingPID));
     }
 
     public void rotateTo(double heading) {
@@ -197,6 +204,14 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
 
     public double getIZone() {
         return iZone;
+    }
+
+    public void setMinPIDOutput(double min) {
+        minPIDOutput = min;
+    }
+
+    public double getMinPIDOutput() {
+        return minPIDOutput;
     }
 
     public void setMaxPIDOutput(double max) {

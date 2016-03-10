@@ -75,6 +75,8 @@ public class LoggingCommand extends Command {
                 .setIZone(SmartDashboard.getNumber("Heading I Zone", RobotMap.DRIVE_SUBSYSTEM_HEADING_I_ZONE));
         RobotMap.driveSubsystemArcadeDriveAlgorithm.setTolerance(
                 SmartDashboard.getNumber("Heading Tolerance", RobotMap.DRIVE_SUBSYSTEM_HEADING_TOLERANCE));
+        RobotMap.driveSubsystemArcadeDriveAlgorithm.setMinPIDOutput(
+                SmartDashboard.getNumber("Heading PID Min Output", RobotMap.DRIVE_SUBSYSTEM_HEADING_PID_MIN_OUTPUT));
     }
 
     /**

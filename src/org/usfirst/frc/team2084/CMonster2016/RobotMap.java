@@ -57,6 +57,8 @@ public class RobotMap {
 
     public static final double DRIVE_SUBSYSTEM_HEADING_I_ZONE = 0.05;
 
+    public static final double DRIVE_SUBSYSTEM_HEADING_PID_MIN_OUTPUT = 0.05;
+
     public static SpeedController driveSubsystemLeftTalon1;
     public static SpeedController driveSubsystemLeftTalon2;
     public static SpeedController driveSubsystemRightTalon1;
