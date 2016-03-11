@@ -39,7 +39,7 @@ public class ArmSubsystem extends Subsystem {
     /**
      * Length of the linkage bar that connects the slider to the arm.
      */
-    public static final double LIFTING_BAR_LENGTH = 14;
+    public static final double LIFTING_BAR_LENGTH = 13.625;
 
     /**
      * Vertical distance from slider to arm pivot.

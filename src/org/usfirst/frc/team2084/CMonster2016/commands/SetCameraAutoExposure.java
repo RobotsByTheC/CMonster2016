@@ -8,19 +8,15 @@ package org.usfirst.frc.team2084.CMonster2016.commands;
 
 import org.usfirst.frc.team2084.CMonster2016.vision.VisionParameters;
 
-import edu.wpi.first.wpilibj.command.Command;
-
 /**
  * Notifies the driver about whether the robot is ready to take a shot. This
  * prints a value on the SmartDashboard.
  * 
  * @author Ben Wolsieffer
  */
-public class SetCameraAutoExposure extends Command {
+public class SetCameraAutoExposure extends ParameterCommand {
 
-    private static final double TIMEOUT = 0.3;
-
-    private final boolean enabled;
+    public static final String ENABLED_KEY = "Enabled";
 
     /**
      * Updates the SmartDashboard indicator based on whether the robot is ready
@@ -29,13 +25,13 @@ public class SetCameraAutoExposure extends Command {
      * @param ready whether the robot is ready
      */
     public SetCameraAutoExposure(boolean enabled) {
-        this.enabled = enabled;
-        setTimeout(TIMEOUT);
+        setRunWhenDisabled(true);
+        addBooleanParameter(ENABLED_KEY, enabled);
     }
 
     @Override
     protected void initialize() {
-        VisionParameters.setAutoExposure(enabled);
+        VisionParameters.setAutoExposure(getBooleanParameter(ENABLED_KEY));
     }
 
     @Override
@@ -44,7 +40,7 @@ public class SetCameraAutoExposure extends Command {
 
     @Override
     protected boolean isFinished() {
-        return isTimedOut();
+        return true;
     }
 
     @Override
@@ -53,6 +49,5 @@ public class SetCameraAutoExposure extends Command {
 
     @Override
     protected void interrupted() {
-        end();
     }
 }

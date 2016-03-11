@@ -42,6 +42,7 @@ public class LoggingCommand extends Command {
     protected void initialize() {
         SmartDashboard.putNumber("Heading I Zone", RobotMap.DRIVE_SUBSYSTEM_HEADING_I_ZONE);
         SmartDashboard.putNumber("Heading Tolerance", RobotMap.DRIVE_SUBSYSTEM_HEADING_TOLERANCE);
+        SmartDashboard.putNumber("Heading PID Min Output", RobotMap.DRIVE_SUBSYSTEM_HEADING_PID_MIN_OUTPUT);
 
         SmartDashboard.putNumber(AimRobot.GOAL_HEADING_OFFSET_KEY, Math.toDegrees(AimRobot.GOAL_HEADING_OFFSET));
     }

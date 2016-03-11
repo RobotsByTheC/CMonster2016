@@ -96,12 +96,12 @@ public class ShooterSubsystem extends Subsystem {
         }
     }
 
-    public static final PIDConstants SHOOTER_PID_CONSTANTS = new PIDConstants(100, 0, 0, 0.69);
+    public static final PIDConstants SHOOTER_PID_CONSTANTS = new PIDConstants(1.3, 0, 0, 0.69);
 
     public static final double INTAKE_SPEED = -2000;
     public static final double LOW_GOAL_SPEED = 2000;
-    public static final double FIRING_SERVO_EXTEND_POSITION = 0.26;
-    public static final double FIRING_SERVO_RETRACT_POSITION = 0.685;
+    public static final double FIRING_SERVO_EXTEND_POSITION = 0.55;
+    public static final double FIRING_SERVO_RETRACT_POSITION = 0.3;
 
     /**
      * Encoder counts per revolution.
