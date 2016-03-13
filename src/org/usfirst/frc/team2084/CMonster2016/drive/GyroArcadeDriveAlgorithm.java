@@ -132,10 +132,10 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
         // headingPIDController.getI() : 0,
         // headingPIDController.getD());
 
+        // Add the minimum output to the PID output to get the real command.
+        // This compensates for a dead band in the system
         double localHeadingPID = -headingPID;
-        if (Math.abs(localHeadingPID) < minPIDOutput) {
-            localHeadingPID = minPIDOutput * localHeadingPID < 0 ? -1 : 1;
-        }
+        localHeadingPID += minPIDOutput * localHeadingPID < 0 ? -1 : 1;
 
         arcadeDrive(speed, pidRamper.process(localHeadingPID));
     }

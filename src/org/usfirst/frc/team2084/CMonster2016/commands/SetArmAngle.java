@@ -73,10 +73,14 @@ public class SetArmAngle extends ParameterCommand {
 
     @Override
     protected void end() {
-        Robot.armSubsystem.stop();
+        interrupted();
+        if (Robot.armSubsystem.onTarget()) {
+            Robot.armSubsystem.saveArmAngle();
+        }
     }
 
     @Override
     protected void interrupted() {
+        Robot.armSubsystem.stop();
     }
 }

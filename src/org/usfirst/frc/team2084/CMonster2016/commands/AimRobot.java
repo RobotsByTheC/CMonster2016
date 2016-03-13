@@ -22,10 +22,16 @@ public class AimRobot extends RotateToHeading {
     public static final double TIMEOUT = 5;
     private boolean stale = false;
 
-    public AimRobot() {
+    public AimRobot(boolean shouldTimeout) {
         super(() -> VisionResults.getGoalHeading() + Math
                 .toRadians(SmartDashboard.getNumber(GOAL_HEADING_OFFSET_KEY, Math.toDegrees(GOAL_HEADING_OFFSET))));
-        setTimeout(TIMEOUT);
+        if (shouldTimeout) {
+            setTimeout(TIMEOUT);
+        }
+    }
+    
+    public AimRobot() {
+        this(true);
     }
 
     @Override
@@ -36,6 +42,6 @@ public class AimRobot extends RotateToHeading {
 
     @Override
     protected boolean isFinished() {
-        return super.isFinished() || isTimedOut() || stale;
+        return super.isFinished() || stale;
     }
 }

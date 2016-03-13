@@ -6,6 +6,8 @@
  */
 package org.usfirst.frc.team2084.CMonster2016.commands;
 
+import org.usfirst.frc.team2084.CMonster2016.subsystems.ArmSubsystem;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -18,7 +20,7 @@ public class LowBarAutonomous extends CommandGroup {
 
     public LowBarAutonomous() {
         addSequential(new AutonomousSetup());
-        addParallel(new SetArmAngle(Math.toRadians(15)));
+        addSequential(new SetArmAngle(ArmSubsystem.AIM_ANGLE));
         addSequential(new DriveHeading(0, 0.8, 3.3));
     }
 }

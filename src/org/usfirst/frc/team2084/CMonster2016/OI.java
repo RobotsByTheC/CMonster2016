@@ -31,6 +31,7 @@ import org.usfirst.frc.team2084.CMonster2016.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.POVHatButton;
+import edu.wpi.first.wpilibj.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -51,6 +52,7 @@ public class OI {
     public JoystickButton snapshotButton;
     public POVHatButton lowGoalButton;
     public JoystickButton visionPrepareButton;
+    public JoystickButton chevalDeFriseButton;
 
     public OI() {
 
@@ -83,12 +85,15 @@ public class OI {
 
         portcullisButton = new JoystickButton(driveJoystick, 11);
         portcullisButton.whenPressed(new SetArmAngle(Math.toRadians(40)));
-        
+
         snapshotButton = new JoystickButton(driveJoystick, 9);
         snapshotButton.whenPressed(new TakeSnapshot());
-        
+
         visionPrepareButton = new JoystickButton(secondaryJoystick, 1);
-        visionPrepareButton.whenPressed(new SetArmAngle(ArmSubsystem.AIM_ANGLE));
+        visionPrepareButton.whenPressed(new ParallelCommandGroup(new SetArmAngle(ArmSubsystem.AIM_ANGLE), new SetShooterSpeed(ShooterSubsystem.INTAKE_SPEED)));
+
+        chevalDeFriseButton = new JoystickButton(driveJoystick, 6);
+        chevalDeFriseButton.whenPressed(new SetArmAngle(Math.toRadians(20)));
 
         // SmartDashboard Buttons
         SmartDashboard.putData("Clear Faults", new ClearFaults());

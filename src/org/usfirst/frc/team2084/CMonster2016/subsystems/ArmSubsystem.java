@@ -8,6 +8,7 @@ package org.usfirst.frc.team2084.CMonster2016.subsystems;
 
 import org.usfirst.frc.team2084.CMonster2016.RobotMap;
 import org.usfirst.frc.team2084.CMonster2016.RollingAverage;
+import org.usfirst.frc.team2084.CMonster2016.commands.SetArmAngle;
 import org.usfirst.frc.team2084.CMonster2016.drive.PIDConstants;
 
 import edu.wpi.first.wpilibj.CANTalon;
@@ -15,6 +16,7 @@ import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDeviceStatus;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -110,15 +112,13 @@ public class ArmSubsystem extends Subsystem {
 
         // Set initial angle to 0, even though the arm usually starts in the up
         // position
-        resetAngle();
+        setMeasuredArmAngle(getSavedArmAngle());
 
         // Check for sensors
-        if (leftTalon.isSensorPresent(
-                FeedbackDevice.CtreMagEncoder_Relative) != FeedbackDeviceStatus.FeedbackStatusPresent) {
+        if (leftTalon.isSensorPresent(FeedbackDevice.CtreMagEncoder_Relative) != FeedbackDeviceStatus.FeedbackStatusPresent) {
             DriverStation.reportError("Error: left arm encoder cannot be found", false);
         }
-        if (rightTalon.isSensorPresent(
-                FeedbackDevice.CtreMagEncoder_Relative) != FeedbackDeviceStatus.FeedbackStatusPresent) {
+        if (rightTalon.isSensorPresent(FeedbackDevice.CtreMagEncoder_Relative) != FeedbackDeviceStatus.FeedbackStatusPresent) {
             DriverStation.reportError("Error: right arm encoder cannot be found", false);
         }
     }
@@ -240,6 +240,16 @@ public class ArmSubsystem extends Subsystem {
         talon.setPID(constants.p, constants.i, constants.d, constants.f, izone, rampRate, 0);
     }
 
+    public static final String ARM_ANGLE_PREFERNCE = "arm_angle";
+
+    public double getSavedArmAngle() {
+        return Preferences.getInstance().getDouble(ARM_ANGLE_PREFERNCE, 0);
+    }
+
+    public void saveArmAngle() {
+        Preferences.getInstance().putDouble(ARM_ANGLE_PREFERNCE, getAngle());
+    }
+
     /**
      * Converts the revolutions of the motor to the corresponding arm angle.
      * Fewer revolutions mean a larger angle.
@@ -255,9 +265,7 @@ public class ArmSubsystem extends Subsystem {
         // Distance from pivot to slide attachment
         double c = Math.sqrt(PIVOT_POINT_HEIGHT * PIVOT_POINT_HEIGHT + d * d);
         double theta = Math.atan(d / PIVOT_POINT_HEIGHT);
-        double angle = Math
-                .acos((ARM_ATTACHMENT_POINT * ARM_ATTACHMENT_POINT - (LIFTING_BAR_LENGTH * LIFTING_BAR_LENGTH) + c * c)
-                        / (2 * ARM_ATTACHMENT_POINT * c));
+        double angle = Math.acos((ARM_ATTACHMENT_POINT * ARM_ATTACHMENT_POINT - (LIFTING_BAR_LENGTH * LIFTING_BAR_LENGTH) + c * c) / (2 * ARM_ATTACHMENT_POINT * c));
 
         return (angle + theta) - (Math.PI / 2);
     }
@@ -272,12 +280,17 @@ public class ArmSubsystem extends Subsystem {
 
         double kh = ARM_ATTACHMENT_POINT * Math.sin(angle) + PIVOT_POINT_HEIGHT;
 
-        double d =
-                Math.sqrt(LIFTING_BAR_LENGTH * LIFTING_BAR_LENGTH - kh * kh) + ARM_ATTACHMENT_POINT * Math.cos(angle);
+        double d = Math.sqrt(LIFTING_BAR_LENGTH * LIFTING_BAR_LENGTH - kh * kh) + ARM_ATTACHMENT_POINT * Math.cos(angle);
 
         return d * REVS_PER_INCH;
     }
 
+    private void setMeasuredArmAngle(double angle) {
+        double revs = angleToRevs(angle);
+        leftTalon.setPosition(revs);
+        rightTalon.setPosition(revs);
+    }
+    
     /**
      * Resets the angle of the arm to 0.
      */
