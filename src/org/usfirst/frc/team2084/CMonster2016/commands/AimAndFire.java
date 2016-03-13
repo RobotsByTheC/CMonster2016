@@ -29,14 +29,14 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 public class AimAndFire extends ConditionalCommandGroup {
 
     public AimAndFire() {
-        addSequential(new SetCameraAutoExposure(false));
+//        addSequential(new SetCameraAutoExposure(false));
 
         addParallel(new SetShooterSpeed(() -> ShooterSubsystem.getCalibrationSpeed(VisionResults.getGoalDistance())));
         // Aim the robot and the arm, but make sure that it takes at least a
         // second to allow the shooter to spin up
         addSequential(new ParallelCommandGroup(new AimArm(), new AimRobot(), new WaitCommand(1)));
         addSequential(new SetFiringServo(true));
-        addSequential(new WaitCommand(0.5));
+        addSequential(new WaitCommand(0.75));
         addSequential(new SetFiringServo(false));
     }
 
@@ -47,7 +47,7 @@ public class AimAndFire extends ConditionalCommandGroup {
 
     @Override
     protected void end() {
-        VisionParameters.setAutoExposure(false);
+        VisionParameters.setAutoExposure(true);
     }
 
     /**

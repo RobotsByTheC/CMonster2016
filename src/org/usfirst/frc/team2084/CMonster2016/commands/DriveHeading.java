@@ -40,7 +40,7 @@ public class DriveHeading extends RotateToHeading {
      * @param time the time to drive
      */
     public DriveHeading(double heading, double speed, double time) {
-        super(heading);
+        super(heading, time);
 
         addNumberParameter(SPEED_KEY, speed);
         speedSupplier = () -> getNumberParameter(SPEED_KEY);

@@ -10,6 +10,7 @@ import org.usfirst.frc.team2084.CMonster2016.Robot;
 import org.usfirst.frc.team2084.CMonster2016.RobotMap;
 import org.usfirst.frc.team2084.CMonster2016.vision.VisionResults;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -44,6 +45,8 @@ public class LoggingCommand extends Command {
         SmartDashboard.putNumber("Heading Tolerance", RobotMap.DRIVE_SUBSYSTEM_HEADING_TOLERANCE);
         SmartDashboard.putNumber("Heading PID Min Output", RobotMap.DRIVE_SUBSYSTEM_HEADING_PID_MIN_OUTPUT);
 
+//        SmartDashboard.putNumber(LowBarShootAutonomous.ROTATION_KEY, Preferences.getInstance().getDouble(LowBarShootAutonomous.ROTATION_KEY, 0));
+        
         SmartDashboard.putNumber(AimRobot.GOAL_HEADING_OFFSET_KEY, Math.toDegrees(AimRobot.GOAL_HEADING_OFFSET));
     }
 

@@ -95,6 +95,7 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
         headingPIDController.setContinuous(true);
         setMaxPIDOutput(DEFAULT_MAX_PID_OUTPUT);
         headingPIDController.setToleranceBuffer(TOLERANCE_BUFFER_LENGTH);
+        headingPIDController.disable();
 
         try {
             pidIAcculmulator = PIDController.class.getDeclaredField("m_totalError");

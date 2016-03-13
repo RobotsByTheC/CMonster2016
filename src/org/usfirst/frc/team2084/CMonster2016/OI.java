@@ -47,6 +47,8 @@ public class OI {
     public JoystickButton fireButton;
     public POVHatButton intakeButton;
     public JoystickButton expelButton;
+    public JoystickButton portcullisButton;
+    public JoystickButton snapshotButton;
     public POVHatButton lowGoalButton;
     public JoystickButton visionPrepareButton;
 
@@ -79,6 +81,12 @@ public class OI {
         lowGoalButton = new POVHatButton(driveJoystick, 0);
         lowGoalButton.whileHeld(new LowGoalScore());
 
+        portcullisButton = new JoystickButton(driveJoystick, 11);
+        portcullisButton.whenPressed(new SetArmAngle(Math.toRadians(40)));
+        
+        snapshotButton = new JoystickButton(driveJoystick, 9);
+        snapshotButton.whenPressed(new TakeSnapshot());
+        
         visionPrepareButton = new JoystickButton(secondaryJoystick, 1);
         visionPrepareButton.whenPressed(new SetArmAngle(ArmSubsystem.AIM_ANGLE));
 
@@ -94,7 +102,7 @@ public class OI {
         SmartDashboard.putData("Home Arm", new HomeArm());
         SmartDashboard.putData("Reset Arm Position", new ResetArmAngle());
         SmartDashboard.putData("Set Firing Servo", new SetFiringServo(false));
-        SmartDashboard.putData("Rotate To Heading", new RotateToHeading(0));
+        SmartDashboard.putData("Rotate To Heading", new RotateToHeading(0, 100));
         SmartDashboard.putData("Drive Heading", new DriveHeading(0, 0.4, 2));
         SmartDashboard.putData("Set Camera Auto Exposure", new SetCameraAutoExposure(true));
         SmartDashboard.putData("Take Snapshot", new TakeSnapshot());

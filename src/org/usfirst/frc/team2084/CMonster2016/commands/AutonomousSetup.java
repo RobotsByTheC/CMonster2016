@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutonomousSetup extends CommandGroup {
 
     public AutonomousSetup() {
-        addSequential(new ResetGyro());
         addSequential(new HomeArm());
+        addSequential(new ResetGyro());
     }
 }

@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class AimRobot extends RotateToHeading {
 
-    public static final double GOAL_HEADING_OFFSET = Math.toRadians(3);
+    public static final double GOAL_HEADING_OFFSET = Math.toRadians(7.6);
     public static final String GOAL_HEADING_OFFSET_KEY = "Goal Heading Offset";
 
     public static final double TIMEOUT = 5;

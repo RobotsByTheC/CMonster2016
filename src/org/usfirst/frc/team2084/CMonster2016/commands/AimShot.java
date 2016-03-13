@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 public class AimShot extends ConditionalCommandGroup {
 
     public AimShot() {
-        addSequential(new SetCameraAutoExposure(false));
+//        addSequential(new SetCameraAutoExposure(false));
         addSequential(new ShotReadyNotify(false));
         addParallel(new SetShooterSpeed(() -> ShooterSubsystem.getCalibrationSpeed(VisionResults.getGoalDistance())));
         addSequential(new ParallelCommandGroup(new AimArm(), new AimRobot(), new WaitCommand(0.75)));
@@ -37,7 +37,7 @@ public class AimShot extends ConditionalCommandGroup {
 
     @Override
     protected void end() {
-        VisionParameters.setAutoExposure(false);
+        VisionParameters.setAutoExposure(true);
     }
 
     /**

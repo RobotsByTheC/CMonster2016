@@ -47,15 +47,15 @@ public class RobotMap {
     /**
      * Parameters that are used for the gyro heading PID controller.
      */
-    public static final PIDConstants DRIVE_SUBSYSTEM_HEADING_PID_CONSTANTS = new PIDConstants(2.75, 0.1, 12);
+    public static final PIDConstants DRIVE_SUBSYSTEM_HEADING_PID_CONSTANTS = new PIDConstants(1, 1.7, 9);
 
     /**
      * Maximum allowed tolerance (in radians) that is considered on target for
      * heading.
      */
-    public static final double DRIVE_SUBSYSTEM_HEADING_TOLERANCE = 0.01;
+    public static final double DRIVE_SUBSYSTEM_HEADING_TOLERANCE = 0.003;
 
-    public static final double DRIVE_SUBSYSTEM_HEADING_I_ZONE = 0.05;
+    public static final double DRIVE_SUBSYSTEM_HEADING_I_ZONE = 0.07;
 
     public static final double DRIVE_SUBSYSTEM_HEADING_PID_MIN_OUTPUT = 0.0;
 
@@ -69,7 +69,8 @@ public class RobotMap {
     public static CANTalon armSubsystemRightTalon;
     public static CANTalon shooterSubsystemLeftTalon;
     public static CANTalon shooterSubsystemRightTalon;
-    public static Servo shooterSubsystemFiringServo;
+    public static Servo shooterSubsystemRightFiringServo;
+    public static Servo shooterSubsystemLeftFiringServo;
     public static DigitalOutput shooterSubsystemJetsonPower;
     public static SpeedController intakeSubsystemVictor;
 
@@ -138,8 +139,11 @@ public class RobotMap {
         shooterSubsystemRightTalon = new CANTalon(1);
         LiveWindow.addActuator("Shooter Subsystem", "Right Talon", shooterSubsystemRightTalon);
 
-        shooterSubsystemFiringServo = new Servo(5);
-        LiveWindow.addActuator("Shooter Subsystem", "Firing Servo", shooterSubsystemFiringServo);
+        shooterSubsystemLeftFiringServo = new Servo(6);
+        LiveWindow.addActuator("Shooter Subsystem", "Left Firing Servo", shooterSubsystemLeftFiringServo);
+        
+        shooterSubsystemRightFiringServo = new Servo(5);
+        LiveWindow.addActuator("Shooter Subsystem", "Right Firing Servo", shooterSubsystemRightFiringServo);
 
         shooterSubsystemJetsonPower = new DigitalOutput(11);
         LiveWindow.addActuator("Shooter Subsystem", "Jetson Power", shooterSubsystemJetsonPower);

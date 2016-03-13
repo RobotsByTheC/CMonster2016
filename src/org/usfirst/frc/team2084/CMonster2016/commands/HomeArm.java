@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class HomeArm extends Command {
 
-    public static final double HOMING_SPEED = -0.8;
+    public static final double HOMING_SPEED = -1;
     /**
      * In case our crappy limit switches fail, this makes sure that the command
      * still ends and doesn't kill the motors.

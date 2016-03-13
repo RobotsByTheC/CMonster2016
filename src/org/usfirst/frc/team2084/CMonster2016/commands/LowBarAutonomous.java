@@ -18,6 +18,7 @@ public class LowBarAutonomous extends CommandGroup {
 
     public LowBarAutonomous() {
         addSequential(new AutonomousSetup());
-        addSequential(new DriveHeading(0, 0.6, 2.7));
+        addParallel(new SetArmAngle(Math.toRadians(15)));
+        addSequential(new DriveHeading(0, 0.8, 3.3));
     }
 }

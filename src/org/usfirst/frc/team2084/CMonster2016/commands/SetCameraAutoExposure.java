@@ -40,7 +40,7 @@ public class SetCameraAutoExposure extends ParameterCommand {
 
     @Override
     protected boolean isFinished() {
-        return true;
+        return isTimedOut();
     }
 
     @Override

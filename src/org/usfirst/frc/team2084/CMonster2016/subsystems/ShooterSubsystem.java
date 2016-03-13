@@ -37,7 +37,7 @@ public class ShooterSubsystem extends Subsystem {
         { 12, 39, 2700 },
         { 13, 38, 2740 }, 
         { 14, 36.5, 2740 },
-        { 15.1, 36, 2740 }, 
+        { 15.1, 35, 2740 }, 
         { 16, 37, 3000 }, 
         { 17, 35, 3000 }
     };
@@ -100,8 +100,10 @@ public class ShooterSubsystem extends Subsystem {
 
     public static final double INTAKE_SPEED = -2000;
     public static final double LOW_GOAL_SPEED = 2000;
-    public static final double FIRING_SERVO_EXTEND_POSITION = 0.55;
-    public static final double FIRING_SERVO_RETRACT_POSITION = 0.3;
+    public static final double RIGHT_FIRING_SERVO_EXTEND_POSITION = 0.54;
+    public static final double RIGHT_FIRING_SERVO_RETRACT_POSITION = 0.285;
+    public static final double LEFT_FIRING_SERVO_EXTEND_POSITION = 0.17;
+    public static final double LEFT_FIRING_SERVO_RETRACT_POSITION = 0.44;
 
     /**
      * Encoder counts per revolution.
@@ -114,7 +116,8 @@ public class ShooterSubsystem extends Subsystem {
 
     private final CANTalon leftTalon = RobotMap.shooterSubsystemLeftTalon;
     private final CANTalon rightTalon = RobotMap.shooterSubsystemRightTalon;
-    private final Servo firingServo = RobotMap.shooterSubsystemFiringServo;
+    private final Servo leftFiringServo = RobotMap.shooterSubsystemLeftFiringServo;
+    private final Servo rightFiringServo = RobotMap.shooterSubsystemRightFiringServo;
 
     /**
      * Rolling average of the shooter error.
@@ -233,6 +236,8 @@ public class ShooterSubsystem extends Subsystem {
      * @param fire if true, extend the servo arm
      */
     public void setFiringServo(boolean fire) {
-        firingServo.set(fire ? FIRING_SERVO_EXTEND_POSITION : FIRING_SERVO_RETRACT_POSITION);
+        leftFiringServo.set(fire ? LEFT_FIRING_SERVO_EXTEND_POSITION : LEFT_FIRING_SERVO_RETRACT_POSITION);
+        rightFiringServo.set(fire ? RIGHT_FIRING_SERVO_EXTEND_POSITION : RIGHT_FIRING_SERVO_RETRACT_POSITION);
+
     }
 }
