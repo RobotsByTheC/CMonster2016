@@ -10,7 +10,7 @@ import org.usfirst.frc.team2084.CMonster2016.commands.HomeArm;
 import org.usfirst.frc.team2084.CMonster2016.commands.LoggingCommand;
 import org.usfirst.frc.team2084.CMonster2016.commands.LowBarAutonomous;
 import org.usfirst.frc.team2084.CMonster2016.commands.LowBarShootAutonomous;
-import org.usfirst.frc.team2084.CMonster2016.commands.PowerOnJetson;
+import org.usfirst.frc.team2084.CMonster2016.commands.SetCameraAutoExposure;
 import org.usfirst.frc.team2084.CMonster2016.subsystems.ArmSubsystem;
 import org.usfirst.frc.team2084.CMonster2016.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2084.CMonster2016.subsystems.IntakeSubsystem;
@@ -91,7 +91,7 @@ public class Robot extends IterativeRobot {
         loggingCommand = new LoggingCommand();
         loggingCommand.start();
 
-        new PowerOnJetson().start();
+        new SetCameraAutoExposure(false).start();
 
         // Add autonomous modes to the chooser
         autonomousChooser.addObject("Do nothing", null);
