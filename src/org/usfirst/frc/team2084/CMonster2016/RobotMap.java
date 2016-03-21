@@ -85,7 +85,7 @@ public class RobotMap {
     /**
      * The navX Micro used for autonomous and aiming
      */
-    public static AHRS driveSubsystemNavX = new AHRS(I2C.Port.kMXP);
+    public static AHRS driveSubsystemNavX;
 
     /**
      * The builtin accelerometer in the roboRIO, not currently used for
@@ -160,7 +160,13 @@ public class RobotMap {
         LiveWindow.addActuator("Intake Subsystem", "Victor", (Victor) intakeSubsystemVictor);
 
         driveSubsystemGyro = new AnalogGyro(0);
+        LiveWindow.addSensor("Drive Subsystem", "Gyro", driveSubsystemGyro);
+
+        driveSubsystemNavX = new AHRS(I2C.Port.kMXP);
+        LiveWindow.addSensor("Drive Subsystem", "navX", driveSubsystemNavX);
+
         driveSubsystemAccelerometer = new BuiltInAccelerometer(Range.k8G);
+        LiveWindow.addSensor("Drive Subsystem", "Accelerometer", (BuiltInAccelerometer) driveSubsystemAccelerometer);
 
         driveSubsystemLeftWheels =
                 new DIOEncoderWheelController<>(driveSubsystemLeftEncoder, DRIVE_SUBSYSTEM_WHEEL_SPEED_PID_CONSTANTS, 1,
