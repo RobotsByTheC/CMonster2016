@@ -20,8 +20,8 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
@@ -78,11 +78,14 @@ public class RobotMap {
     public static SpeedController intakeSubsystemVictor;
 
     /**
-     * The gyro used for autonomous and field oriented driving.
+     * The analog gyro that was replaced by the navX.
      */
     public static AnalogGyro driveSubsystemGyro;
-    
-    public static AHRS navX = new AHRS(Port.kMXP);
+
+    /**
+     * The navX Micro used for autonomous and aiming
+     */
+    public static AHRS driveSubsystemNavX = new AHRS(I2C.Port.kMXP);
 
     /**
      * The builtin accelerometer in the roboRIO, not currently used for
@@ -146,7 +149,7 @@ public class RobotMap {
 
         shooterSubsystemLeftFiringServo = new Servo(6);
         LiveWindow.addActuator("Shooter Subsystem", "Left Firing Servo", shooterSubsystemLeftFiringServo);
-        
+
         shooterSubsystemRightFiringServo = new Servo(5);
         LiveWindow.addActuator("Shooter Subsystem", "Right Firing Servo", shooterSubsystemRightFiringServo);
 
@@ -170,7 +173,7 @@ public class RobotMap {
                 driveSubsystemLeftWheels, driveSubsystemRightWheels);
 
         driveSubsystemArcadeDriveAlgorithm = new GyroArcadeDriveAlgorithm(driveSubsystemDriveController,
-                driveSubsystemGyro, DRIVE_SUBSYSTEM_HEADING_PID_CONSTANTS);
+                driveSubsystemNavX, DRIVE_SUBSYSTEM_HEADING_PID_CONSTANTS);
         driveSubsystemArcadeDriveAlgorithm.setTolerance(DRIVE_SUBSYSTEM_HEADING_TOLERANCE);
         driveSubsystemArcadeDriveAlgorithm.setIZone(DRIVE_SUBSYSTEM_HEADING_I_ZONE);
 

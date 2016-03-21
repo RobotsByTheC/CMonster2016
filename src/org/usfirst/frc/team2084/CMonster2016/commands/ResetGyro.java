@@ -26,7 +26,7 @@ public class ResetGyro extends Command {
      */
     @Override
     protected void initialize() {
-        RobotMap.driveSubsystemGyro.reset();
+        RobotMap.driveSubsystemNavX.reset();
     }
 
     @Override

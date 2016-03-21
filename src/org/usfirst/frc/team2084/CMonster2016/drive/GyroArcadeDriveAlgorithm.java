@@ -12,6 +12,8 @@ import org.usfirst.frc.team2084.CMonster2016.Gyro;
 import org.usfirst.frc.team2084.CMonster2016.RollingAverage;
 import org.usfirst.frc.team2084.CMonster2016.drive.processors.LinearRamper;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -31,10 +33,9 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
     public static final double PID_RAMP_RATE = 2.7;
 
     /**
-     * The {@link Gyro} that the {@link GyroArcadeDriveAlgorithm} uses for
-     * rotating.
+     * The navX that the {@link GyroArcadeDriveAlgorithm} uses for rotating.
      */
-    protected final Gyro gyro;
+    protected final AHRS gyro;
 
     /**
      * The output of the heading PID controller.
@@ -69,7 +70,7 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
      * @param headingPIDConstants the PID constants used to control the heading
      * @param headingTolerance the amount of error that is considered on target
      */
-    public GyroArcadeDriveAlgorithm(DriveController<?> controller, Gyro gyro, PIDConstants headingPIDConstants) {
+    public GyroArcadeDriveAlgorithm(DriveController<?> controller, AHRS gyro, PIDConstants headingPIDConstants) {
         super(controller);
         this.gyro = gyro;
 
@@ -135,7 +136,7 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
         // Add the minimum output to the PID output to get the real command.
         // This compensates for a dead band in the system
         double localHeadingPID = -headingPID;
-//        localHeadingPID += minPIDOutput * localHeadingPID < 0 ? -1 : 1;
+        localHeadingPID += minPIDOutput * localHeadingPID < 0 ? -1 : 1;
 
         arcadeDrive(speed, pidRamper.process(localHeadingPID));
     }
@@ -154,20 +155,7 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
      */
     public double getHeading() {
         synchronized (this) {
-            return DriveUtils.normalizeHeading(gyro.getAngle() * headingInverted);
-        }
-    }
-
-    /**
-     * Sets the heading of the robot. This should be called rather than
-     * {@link Gyro#setAngle(double)} to prevent the robot from trying to rotate
-     * to this new heading, which is generally not the desired behavior.
-     * 
-     * @param heading the heading to set in radians
-     */
-    public void setHeading(double heading) {
-        synchronized (this) {
-            gyro.setAngle(DriveUtils.normalizeHeading(heading * headingInverted));
+            return Math.toRadians(gyro.getYaw()) * headingInverted;
         }
     }
 

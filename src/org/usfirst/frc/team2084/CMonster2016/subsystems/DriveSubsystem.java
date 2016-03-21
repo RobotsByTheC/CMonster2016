@@ -13,6 +13,8 @@ import org.usfirst.frc.team2084.CMonster2016.drive.EncoderWheelController;
 import org.usfirst.frc.team2084.CMonster2016.drive.GyroArcadeDriveAlgorithm;
 import org.usfirst.frc.team2084.CMonster2016.drive.TwoWheelDriveController;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -34,6 +36,7 @@ public class DriveSubsystem extends Subsystem {
     private final Encoder rightEncoder = RobotMap.driveSubsystemRightEncoder;
 
     private final AnalogGyro gyro = RobotMap.driveSubsystemGyro;
+    private final AHRS navX = RobotMap.driveSubsystemNavX;
     private final Accelerometer accelerometer = RobotMap.driveSubsystemAccelerometer;
     private final EncoderWheelController<SpeedController> leftWheels = RobotMap.driveSubsystemLeftWheels;
     private final EncoderWheelController<SpeedController> rightWheels = RobotMap.driveSubsystemRightWheels;
