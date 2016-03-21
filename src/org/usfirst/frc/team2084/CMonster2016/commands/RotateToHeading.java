@@ -21,15 +21,14 @@ public class RotateToHeading extends ParameterCommand {
 
     private static final String HEADING_KEY = "Heading";
 
-    protected double heading;
-    private DoubleSupplier headingSupplier;
+    protected DoubleSupplier headingSupplier;
     private final GyroArcadeDriveAlgorithm arcadeDrive = RobotMap.driveSubsystemArcadeDriveAlgorithm;
 
     public RotateToHeading(DoubleSupplier heading) {
         headingSupplier = heading;
         init();
     }
-    
+
     public RotateToHeading(DoubleSupplier heading, double timeout) {
         headingSupplier = heading;
         setTimeout(timeout);
@@ -42,7 +41,7 @@ public class RotateToHeading extends ParameterCommand {
         headingSupplier = () -> getNumberParameter(HEADING_KEY);
 
         setTimeout(timeout);
-        
+
         init();
 
     }
@@ -54,22 +53,23 @@ public class RotateToHeading extends ParameterCommand {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        heading = headingSupplier.getAsDouble();
-        arcadeDrive.rotateTo(heading);
+        execute();
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        arcadeDrive.rotateTo(heading);
+        arcadeDrive.rotateTo(headingSupplier.getAsDouble());
     }
 
     /**
-     * @return true when the heading is on target
+     * @return true when the heading is on target, the command times out, or the
+     *         navX disconnects
      */
     @Override
     protected boolean isFinished() {
-        return arcadeDrive.isHeadingOnTarget() || isTimedOut();
+        return arcadeDrive.isHeadingOnTarget() || isTimedOut()
+                || /* If we lose the gyro, stop */!RobotMap.driveSubsystemNavX.isConnected();
     }
 
     /**

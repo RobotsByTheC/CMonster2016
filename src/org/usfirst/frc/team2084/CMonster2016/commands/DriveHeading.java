@@ -68,7 +68,8 @@ public class DriveHeading extends RotateToHeading {
 
     @Override
     protected void execute() {
-        RobotMap.driveSubsystemArcadeDriveAlgorithm.driveHeading(speedRamper.process(speed), heading);
+        RobotMap.driveSubsystemArcadeDriveAlgorithm.driveHeading(speedRamper.process(speed),
+                headingSupplier.getAsDouble());
     }
 
     /**

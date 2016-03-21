@@ -29,7 +29,7 @@ public class AimRobot extends RotateToHeading {
             setTimeout(TIMEOUT);
         }
     }
-    
+
     public AimRobot() {
         this(true);
     }
