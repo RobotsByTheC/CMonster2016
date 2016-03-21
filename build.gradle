@@ -27,6 +27,7 @@ gradlerio.rioIP = "10.20.84.2"                         //Uncomment to specify th
 
 dependencies {
   compile project(':VisionProcessor2016')
+  compile files(System.properties['user.home'] + "/navx-mxp/java/lib/navx_frc.jar")
 }
 sourceSets {
     main {

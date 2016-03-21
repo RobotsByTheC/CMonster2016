@@ -285,7 +285,7 @@ public class ArmSubsystem extends Subsystem {
         return d * REVS_PER_INCH;
     }
 
-    private void setMeasuredArmAngle(double angle) {
+    public void setMeasuredArmAngle(double angle) {
         double revs = angleToRevs(angle);
         leftTalon.setPosition(revs);
         rightTalon.setPosition(revs);

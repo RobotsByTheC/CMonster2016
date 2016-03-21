@@ -6,11 +6,14 @@
  */
 package org.usfirst.frc.team2084.CMonster2016.commands;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import org.usfirst.frc.team2084.CMonster2016.Robot;
 import org.usfirst.frc.team2084.CMonster2016.RobotMap;
 import org.usfirst.frc.team2084.CMonster2016.vision.VisionResults;
 
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,7 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * @author Ben Wolsieffer
  */
 public class LoggingCommand extends Command {
-
+        
     /**
      * The length of a match in seconds.
      */
@@ -48,6 +51,8 @@ public class LoggingCommand extends Command {
 //        SmartDashboard.putNumber(LowBarShootAutonomous.ROTATION_KEY, Preferences.getInstance().getDouble(LowBarShootAutonomous.ROTATION_KEY, 0));
         
         SmartDashboard.putNumber(AimRobot.GOAL_HEADING_OFFSET_KEY, Math.toDegrees(AimRobot.GOAL_HEADING_OFFSET));
+
+        
     }
 
     /**
@@ -55,9 +60,10 @@ public class LoggingCommand extends Command {
      */
     @Override
     protected void execute() {
+        
         // Report gyro values
         SmartDashboard.putNumber("Gyro Angle", RobotMap.driveSubsystemGyro.getAngle());
-
+        
         SmartDashboard.putBoolean("Valid Vision Data", !VisionResults.isStale());
 
         // Report remaining match time
@@ -70,6 +76,8 @@ public class LoggingCommand extends Command {
         // Report shooter wheel speeds
         SmartDashboard.putNumber("Shooter Left Speed", Robot.shooterSubsystem.getLeftSpeed());
         SmartDashboard.putNumber("Shooter Right Speed", Robot.shooterSubsystem.getRightSpeed());
+        
+        SmartDashboard.putNumber("NavX Angle", RobotMap.navX.getAngle());
 
         // Update the current robot heading for the vision system
         VisionResults.setCurrentHeading(RobotMap.driveSubsystemArcadeDriveAlgorithm.getHeading());

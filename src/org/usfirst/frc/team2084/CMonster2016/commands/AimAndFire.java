@@ -36,8 +36,6 @@ public class AimAndFire extends ConditionalCommandGroup {
         // second to allow the shooter to spin up
         addSequential(new ParallelCommandGroup(new AimArm(), new AimRobot(), new WaitCommand(1)));
         addSequential(new SetFiringServo(true));
-        addSequential(new WaitCommand(0.75));
-        addSequential(new SetFiringServo(false));
     }
 
     @Override
@@ -47,7 +45,6 @@ public class AimAndFire extends ConditionalCommandGroup {
 
     @Override
     protected void end() {
-        VisionParameters.setAutoExposure(true);
     }
 
     /**

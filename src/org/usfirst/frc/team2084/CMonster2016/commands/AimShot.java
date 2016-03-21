@@ -38,7 +38,6 @@ public class AimShot extends ConditionalCommandGroup {
 
     @Override
     protected void end() {
-        VisionParameters.setAutoExposure(true);
     }
 
     /**

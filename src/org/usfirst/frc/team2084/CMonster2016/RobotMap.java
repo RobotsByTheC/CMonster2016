@@ -13,12 +13,15 @@ import org.usfirst.frc.team2084.CMonster2016.drive.GyroArcadeDriveAlgorithm;
 import org.usfirst.frc.team2084.CMonster2016.drive.PIDConstants;
 import org.usfirst.frc.team2084.CMonster2016.drive.TwoWheelDriveController;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
@@ -47,7 +50,7 @@ public class RobotMap {
     /**
      * Parameters that are used for the gyro heading PID controller.
      */
-    public static final PIDConstants DRIVE_SUBSYSTEM_HEADING_PID_CONSTANTS = new PIDConstants(1, 1.7, 9);
+    public static final PIDConstants DRIVE_SUBSYSTEM_HEADING_PID_CONSTANTS = new PIDConstants(1, 2, 12);
 
     /**
      * Maximum allowed tolerance (in radians) that is considered on target for
@@ -78,6 +81,8 @@ public class RobotMap {
      * The gyro used for autonomous and field oriented driving.
      */
     public static AnalogGyro driveSubsystemGyro;
+    
+    public static AHRS navX = new AHRS(Port.kMXP);
 
     /**
      * The builtin accelerometer in the roboRIO, not currently used for

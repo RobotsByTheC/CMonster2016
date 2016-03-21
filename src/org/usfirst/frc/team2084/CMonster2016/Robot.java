@@ -99,6 +99,7 @@ public class Robot extends IterativeRobot {
         autonomousChooser.addObject("Low Bar and Shoot", new LowBarShootAutonomous());
         autonomousChooser.addDefault("Home Arm", new HomeArm());
         SmartDashboard.putData("Autonomous Mode", autonomousChooser);
+        
     }
 
     /**
