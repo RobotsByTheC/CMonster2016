@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -61,6 +62,16 @@ public class RobotMap {
     public static final double DRIVE_SUBSYSTEM_HEADING_I_ZONE = 0.07;
 
     public static final double DRIVE_SUBSYSTEM_HEADING_PID_MIN_OUTPUT = 0.0;
+
+    /**
+     * Wheel diameter in meters.
+     */
+    public static final double DRIVE_SUBSYSTEM_WHEEL_DIAMETER = 0.19431;
+
+    public static final double DRIVE_SUBSYSTEM_BELT_RATIO = 42 / 39;
+
+    public static final double DRIVE_SUBYSTEM_ENCODER_DISTANCE_PER_PULSE =
+            (Math.PI * DRIVE_SUBSYSTEM_WHEEL_DIAMETER) / 2048 / DRIVE_SUBSYSTEM_BELT_RATIO;
 
     public static SpeedController driveSubsystemLeftTalon1;
     public static SpeedController driveSubsystemLeftTalon2;
@@ -129,11 +140,11 @@ public class RobotMap {
 
         driveSubsystemLeftEncoder = new Encoder(0, 1, false, EncodingType.k4X);
         LiveWindow.addSensor("Drive Subsystem", "Left Encoder", driveSubsystemLeftEncoder);
-        driveSubsystemLeftEncoder.setDistancePerPulse(1.0);
+        driveSubsystemLeftEncoder.setDistancePerPulse(DRIVE_SUBYSTEM_ENCODER_DISTANCE_PER_PULSE);
         driveSubsystemLeftEncoder.setPIDSourceType(PIDSourceType.kRate);
         driveSubsystemRightEncoder = new Encoder(2, 3, false, EncodingType.k4X);
         LiveWindow.addSensor("Drive Subsystem", "Right Encoder", driveSubsystemRightEncoder);
-        driveSubsystemRightEncoder.setDistancePerPulse(1.0);
+        driveSubsystemRightEncoder.setDistancePerPulse(DRIVE_SUBYSTEM_ENCODER_DISTANCE_PER_PULSE);
         driveSubsystemRightEncoder.setPIDSourceType(PIDSourceType.kRate);
         armSubsystemLeftTalon = new CANTalon(2);
         LiveWindow.addActuator("Arm Subsystem", "Left Talon", armSubsystemLeftTalon);
@@ -171,9 +182,11 @@ public class RobotMap {
         driveSubsystemLeftWheels =
                 new DIOEncoderWheelController<>(driveSubsystemLeftEncoder, DRIVE_SUBSYSTEM_WHEEL_SPEED_PID_CONSTANTS, 1,
                         new int[] { 2, 3 }, driveSubsystemLeftTalon1, driveSubsystemLeftTalon2);
+        SmartDashboard.putData("Left Wheels", driveSubsystemLeftWheels);
         driveSubsystemRightWheels =
                 new DIOEncoderWheelController<>(driveSubsystemRightEncoder, DRIVE_SUBSYSTEM_WHEEL_SPEED_PID_CONSTANTS,
                         1, new int[] { 13, 12 }, driveSubsystemRightTalon1, driveSubsystemRightTalon2);
+        SmartDashboard.putData("Right Wheels", driveSubsystemRightWheels);
 
         driveSubsystemDriveController = new TwoWheelDriveController<EncoderWheelController<SpeedController>>(
                 driveSubsystemLeftWheels, driveSubsystemRightWheels);

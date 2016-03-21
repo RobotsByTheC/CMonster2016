@@ -64,13 +64,12 @@ public class DIOEncoderWheelController<S extends SpeedController> extends Encode
 
             @Override
             public double pidGet() {
-                // TODO Auto-generated method stub
                 return encoder.getRate();
             }
 
             @Override
             public PIDSourceType getPIDSourceType() {
-                return PIDSourceType.kDisplacement;
+                return PIDSourceType.kRate;
             }
         }, (o) -> pidOutput = o);
         speedPIDController.enable();

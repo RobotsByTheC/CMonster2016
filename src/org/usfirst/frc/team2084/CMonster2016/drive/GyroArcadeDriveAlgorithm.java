@@ -125,13 +125,8 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
         headingPIDController.setSetpoint(heading);
 
         averageError.newValue(Math.abs(headingPIDController.getError()));
-        SmartDashboard.putNumber("heading avg err", averageError.getAverage());
-        SmartDashboard.putNumber("heading err", headingPIDController.getError());
-
-        // headingPIDController.setPID(headingPIDController.getP(),
-        // Math.abs(headingPIDController.getError()) < 0.1 ?
-        // headingPIDController.getI() : 0,
-        // headingPIDController.getD());
+        SmartDashboard.putNumber("Heading Avg. Error", Math.toDegrees(averageError.getAverage()));
+        SmartDashboard.putNumber("Heading Error", Math.toDegrees(headingPIDController.getError()));
 
         // Add the minimum output to the PID output to get the real command.
         // This compensates for a dead band in the system
