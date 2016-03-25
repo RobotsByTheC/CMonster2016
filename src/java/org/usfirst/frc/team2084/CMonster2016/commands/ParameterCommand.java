@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.tables.ITable;
+import edu.wpi.first.wpilibj.tables.ITableListener;
 
 /**
  * A {@link Command} that has parameters which can be set interactively through
@@ -18,6 +19,18 @@ import edu.wpi.first.wpilibj.tables.ITable;
  * @author Ben Wolsieffer
  */
 public abstract class ParameterCommand extends Command {
+
+    protected interface ParameterListener {
+
+        default void stringChanged(String name, String value) {
+        }
+
+        default void numberChanged(String name, double value) {
+        }
+
+        default void booleanChanged(String name, boolean value) {
+        }
+    }
 
     private ITable parameterTable;
     private final HashMap<String, Object> defaultParameterValues = new HashMap<>(1);
@@ -126,6 +139,25 @@ public abstract class ParameterCommand extends Command {
         } else {
             return (boolean) defaultObject;
         }
+    }
+
+    public void addParameterListener(ParameterListener listener) {
+        parameterTable.addTableListener(new ITableListener() {
+
+            @Override
+            public void valueChanged(ITable source, String key, Object value, boolean isNew) {
+                Object defaultObject = defaultParameterValues.get(key);
+                if (defaultObject != null && defaultObject.getClass().isAssignableFrom(value.getClass())) {
+                    if (value instanceof Number) {
+                        listener.numberChanged(key, (double) value);
+                    } else if (value instanceof Boolean) {
+                        listener.booleanChanged(key, (boolean) value);
+                    } else if (value instanceof String) {
+                        listener.stringChanged(key, (String) value);
+                    }
+                }
+            }
+        }, true);
     }
 
     /**

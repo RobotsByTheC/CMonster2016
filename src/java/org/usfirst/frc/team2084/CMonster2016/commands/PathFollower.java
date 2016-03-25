@@ -24,7 +24,7 @@ import com.team254.lib.trajectory.TrajectoryFollower;
 import com.team254.lib.trajectory.io.TextFileDeserializer;
 import com.team254.lib.util.ChezyMath;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Follows the specified trajectory, which is read from a file. This uses 254's
@@ -32,9 +32,29 @@ import edu.wpi.first.wpilibj.command.Command;
  * 
  * @author Ben Wolsieffer
  */
-public class PathFollower extends Command {
+public class PathFollower extends ParameterCommand {
 
-    private Path path;
+    public static final String TRAJECTORY_P_KEY = "Trajectory P";
+    public static final String TRAJECTORY_I_KEY = "Trajectory I";
+    public static final String TRAJECTORY_D_KEY = "Trajectory D";
+    public static final String TRAJECTORY_F_KEY = "Trajectory F";
+    public static final String TRAJECTORY_A_KEY = "Trajectory A";
+    public static final String TRAJECTORY_TURN_KEY = "Trajectory Turn";
+
+    static {
+        PIDConstants pid = RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_PID_CONSTANTS;
+
+        SmartDashboard.putNumber(TRAJECTORY_P_KEY, pid.p);
+        SmartDashboard.putNumber(TRAJECTORY_I_KEY, pid.i);
+        SmartDashboard.putNumber(TRAJECTORY_D_KEY, pid.d);
+        SmartDashboard.putNumber(TRAJECTORY_F_KEY, pid.f);
+        SmartDashboard.putNumber(TRAJECTORY_A_KEY, RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_ACC_F);
+        SmartDashboard.putNumber(TRAJECTORY_TURN_KEY, RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_TURN);
+    }
+
+    private static final String NAME_KEY = "Name";
+
+    private volatile Path path;
 
     private final Timer trajectoryTimer = new Timer(true);
 
@@ -56,7 +76,8 @@ public class PathFollower extends Command {
             double angleDiffRads = ChezyMath.getDifferenceInAngleRadians(observedHeading, goalHeading);
             double angleDiff = Math.toDegrees(angleDiffRads);
 
-            double turn = RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_TURN * angleDiff;
+            double turn =
+                    SmartDashboard.getNumber(TRAJECTORY_TURN_KEY, RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_TURN) * angleDiff;
 
             RobotMap.driveSubsystemDriveController.drive(leftSpeed + turn, rightSpeed - turn);
 
@@ -69,16 +90,27 @@ public class PathFollower extends Command {
     }
 
     public PathFollower(String pathName) {
-        String serialized;
-        try {
-            serialized = readPathFile(pathName);
-            path = (new TextFileDeserializer()).deserialize(serialized);
+        addStringParameter(NAME_KEY, pathName);
 
-            leftFollower.setTrajectory(path.getLeftWheelTrajectory());
-            rightFollower.setTrajectory(path.getRightWheelTrajectory());
-        } catch (IOException e) {
-            System.err.println("Could not load path: " + pathName + ", " + e);
-        }
+        addParameterListener(new ParameterListener() {
+
+            @Override
+            public void stringChanged(String name, String pathName) {
+                if (name.equals(NAME_KEY)) {
+                    String serialized;
+                    try {
+                        serialized = readPathFile(pathName);
+                        path = (new TextFileDeserializer()).deserialize(serialized);
+
+                        leftFollower.setTrajectory(path.getLeftWheelTrajectory());
+                        rightFollower.setTrajectory(path.getRightWheelTrajectory());
+                    } catch (IOException e) {
+                        System.err.println(e);
+                    }
+                }
+            }
+        });
+
     }
 
     @Override
@@ -87,8 +119,14 @@ public class PathFollower extends Command {
 
         PIDConstants pid = RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_PID_CONSTANTS;
 
-        leftFollower.configure(pid.p, pid.i, pid.d, pid.f, RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_ACC_F);
-        rightFollower.configure(pid.p, pid.i, pid.d, pid.f, RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_ACC_F);
+        double p = SmartDashboard.getNumber(TRAJECTORY_P_KEY, pid.p);
+        double i = SmartDashboard.getNumber(TRAJECTORY_I_KEY, pid.i);
+        double d = SmartDashboard.getNumber(TRAJECTORY_D_KEY, pid.d);
+        double f = SmartDashboard.getNumber(TRAJECTORY_F_KEY, pid.f);
+        double accF = SmartDashboard.getNumber(TRAJECTORY_A_KEY, RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_ACC_F);
+
+        leftFollower.configure(p, i, d, f, accF);
+        rightFollower.configure(p, i, d, f, accF);
 
         Robot.driveSubsystem.setEncodersEnabled(false);
 
@@ -107,6 +145,7 @@ public class PathFollower extends Command {
     @Override
     protected void end() {
         trajectoryTimer.cancel();
+
     }
 
     @Override
