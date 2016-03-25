@@ -42,12 +42,13 @@ public class RobotMap {
     /**
      * The maximum speed the wheels can travel in meters/second.
      */
-    public static final double DRIVE_SUBSYSTEM_MAX_WHEEL_SPEED = 1.0;
+    public static final double DRIVE_SUBSYSTEM_MAX_WHEEL_SPEED = 3.35;
     /**
      * Parameters that are used for the encoder based wheel speed PID
      * controller.
      */
-    public static final PIDConstants DRIVE_SUBSYSTEM_WHEEL_SPEED_PID_CONSTANTS = new PIDConstants(0, 0, 0, 1);
+    public static final PIDConstants DRIVE_SUBSYSTEM_WHEEL_SPEED_PID_CONSTANTS =
+            new PIDConstants(0, 0, 0, 1.0 / DRIVE_SUBSYSTEM_MAX_WHEEL_SPEED);
     /**
      * Parameters that are used for the gyro heading PID controller.
      */
@@ -72,6 +73,13 @@ public class RobotMap {
 
     public static final double DRIVE_SUBYSTEM_ENCODER_DISTANCE_PER_PULSE =
             (Math.PI * DRIVE_SUBSYSTEM_WHEEL_DIAMETER) / 2048 / DRIVE_SUBSYSTEM_BELT_RATIO;
+
+    public static final PIDConstants DRIVE_SUBSYSTEM_TRAJECTORY_PID_CONSTANTS =
+            new PIDConstants(1.5, 0, 0, 1.0 / DRIVE_SUBSYSTEM_MAX_WHEEL_SPEED);
+
+    public static final double DRIVE_SUBSYSTEM_TRAJECTORY_ACC_F = 1.0 / 34.0;
+
+    public static final double DRIVE_SUBSYSTEM_TRAJECTORY_TURN = -3.0 / 80.0;
 
     public static SpeedController driveSubsystemLeftTalon1;
     public static SpeedController driveSubsystemLeftTalon2;

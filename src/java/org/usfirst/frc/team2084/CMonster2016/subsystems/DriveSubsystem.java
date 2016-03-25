@@ -66,4 +66,12 @@ public class DriveSubsystem extends Subsystem {
         leftWheels.setEncoderEnabled(enabled);
         rightWheels.setEncoderEnabled(enabled);
     }
+
+    public EncoderWheelController<SpeedController> getLeftWheels() {
+        return leftWheels;
+    }
+
+    public EncoderWheelController<SpeedController> getRightWheels() {
+        return rightWheels;
+    }
 }

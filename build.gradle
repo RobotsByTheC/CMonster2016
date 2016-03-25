@@ -7,7 +7,7 @@ buildscript {
 	}
   }
   dependencies {
-    classpath group: 'jaci.openrio.gradle', name: 'GradleRIO', version: '+'			//Change this line if you wish to Update GradleRIO
+    classpath group: 'jaci.openrio.gradle', name: 'GradleRIO', version: '+' // Change this line if you wish to update GradleRIO
   }
 }
 
@@ -20,21 +20,25 @@ repositories {
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
-apply plugin: 'GradleRIO'                                 //Apply the GradleRIO plugin
+apply plugin: 'GradleRIO' // Apply the GradleRIO plugin
 
-gradlerio.robotClass = "org.usfirst.frc.team2084.CMonster2016.Robot"   //The class for the main Robot Class. Used in manifest
-gradlerio.team = "2084"                                   //Your FRC team number (e.g. 5333 for team 'Can't C#', or 47 for Chief Delphi)
-gradlerio.rioIP = "10.20.84.2"                         //Uncomment to specify the IP address of the RIO
+gradlerio.robotClass = "org.usfirst.frc.team2084.CMonster2016.Robot" // The class for the main Robot Class. Used in manifest
+gradlerio.team = "2084" // FRC team number
+gradlerio.rioIP = "10.20.84.2" // Static IP address IP address of the roboRIO
 
 dependencies {
   compile project(':VisionProcessor2016')
+  compile project(':TrajectoryLib')
   compile ':navx_frc'
 }
 sourceSets {
     main {
         java {
-            srcDir 'src'
+            srcDir 'src/java'
             exclude '*~'
+        }
+        resources {
+        	srcDir 'src/resources'
         }
 	}
 }
@@ -51,13 +55,4 @@ def robotManifest = {
 jar {
   from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
   manifest robotManifest
-}
-
-task genJavadoc(type: Jar, dependsOn: javadoc) {
-  classifier = 'javadoc'
-  from javadoc.destinationDir
-}
-
-artifacts {
-  archives genJavadoc
 }
