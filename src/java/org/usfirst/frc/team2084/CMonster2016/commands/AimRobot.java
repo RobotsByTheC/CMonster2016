@@ -6,6 +6,8 @@
  */
 package org.usfirst.frc.team2084.CMonster2016.commands;
 
+import java.util.function.DoubleSupplier;
+
 import org.usfirst.frc.team2084.CMonster2016.vision.VisionResults;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,12 +21,30 @@ public class AimRobot extends RotateToHeading {
     public static final double GOAL_HEADING_OFFSET = Math.toRadians(7.6);
     public static final String GOAL_HEADING_OFFSET_KEY = "Goal Heading Offset";
 
+    public static final double HEADING_CHANGE_TOLERANCE = Math.toDegrees(20);
+
     public static final double TIMEOUT = 5;
     private boolean stale = false;
 
     public AimRobot(boolean shouldTimeout) {
-        super(() -> VisionResults.getGoalHeading() + Math
-                .toRadians(SmartDashboard.getNumber(GOAL_HEADING_OFFSET_KEY, Math.toDegrees(GOAL_HEADING_OFFSET))));
+        super(new DoubleSupplier() {
+
+            private double lastHeading = Double.MAX_VALUE;
+
+            @Override
+            public double getAsDouble() {
+                double heading = getAimHeading();
+                // Only update the heading if it has not changed by a huge
+                // amount
+                if (lastHeading < Double.MAX_VALUE && Math.abs(heading - lastHeading) > HEADING_CHANGE_TOLERANCE) {
+                    heading = lastHeading;
+                }
+
+                lastHeading = heading;
+
+                return heading;
+            }
+        });
         if (shouldTimeout) {
             setTimeout(TIMEOUT);
         }
@@ -32,6 +52,11 @@ public class AimRobot extends RotateToHeading {
 
     public AimRobot() {
         this(true);
+    }
+
+    private static double getAimHeading() {
+        return VisionResults.getGoalHeading() + Math
+                .toRadians(SmartDashboard.getNumber(GOAL_HEADING_OFFSET_KEY, Math.toDegrees(GOAL_HEADING_OFFSET)));
     }
 
     @Override
