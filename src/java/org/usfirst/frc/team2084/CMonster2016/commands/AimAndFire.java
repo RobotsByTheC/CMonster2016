@@ -29,7 +29,7 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 public class AimAndFire extends ConditionalCommandGroup {
 
     public AimAndFire() {
-//        addSequential(new SetCameraAutoExposure(false));
+        addSequential(new SetCameraAutoExposure(false));
         addSequential(new TakeSnapshot());
         addParallel(new SetShooterSpeed(() -> ShooterSubsystem.getCalibrationSpeed(VisionResults.getGoalDistance())));
         // Aim the robot and the arm, but make sure that it takes at least a
@@ -45,6 +45,7 @@ public class AimAndFire extends ConditionalCommandGroup {
 
     @Override
     protected void end() {
+        VisionParameters.setAutoExposure(true);
     }
 
     /**
