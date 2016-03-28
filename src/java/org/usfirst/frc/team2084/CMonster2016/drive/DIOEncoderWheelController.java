@@ -111,6 +111,14 @@ public class DIOEncoderWheelController<S extends SpeedController> extends Encode
     }
 
     /**
+     * 
+     */
+    @Override
+    public void resetEncoder() {
+        encoder.reset();
+    }
+
+    /**
      * Resets the speed PID controller.
      */
     @Override

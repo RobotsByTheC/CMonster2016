@@ -6,10 +6,10 @@
  */
 package org.usfirst.frc.team2084.CMonster2016;
 
+import org.usfirst.frc.team2084.CMonster2016.commands.CrossAutonomous;
+import org.usfirst.frc.team2084.CMonster2016.commands.CrossShootAutonomous;
 import org.usfirst.frc.team2084.CMonster2016.commands.HomeArm;
 import org.usfirst.frc.team2084.CMonster2016.commands.LoggingCommand;
-import org.usfirst.frc.team2084.CMonster2016.commands.LowBarAutonomous;
-import org.usfirst.frc.team2084.CMonster2016.commands.LowBarShootAutonomous;
 import org.usfirst.frc.team2084.CMonster2016.commands.SetCameraAutoExposure;
 import org.usfirst.frc.team2084.CMonster2016.subsystems.ArmSubsystem;
 import org.usfirst.frc.team2084.CMonster2016.subsystems.DriveSubsystem;
@@ -95,11 +95,15 @@ public class Robot extends IterativeRobot {
 
         // Add autonomous modes to the chooser
         autonomousChooser.addObject("Do nothing", null);
-        autonomousChooser.addObject("Low Bar", new LowBarAutonomous());
-        autonomousChooser.addObject("Low Bar and Shoot", new LowBarShootAutonomous());
+        autonomousChooser.addObject("Cross Defense", new CrossAutonomous());
+        autonomousChooser.addObject("Low Bar and Shoot", new CrossShootAutonomous(Math.toRadians(40)));
+        autonomousChooser.addObject("Cross and Shoot - 2", new CrossShootAutonomous(Math.toRadians(20)));
+        autonomousChooser.addObject("Cross and Shoot - 3", new CrossShootAutonomous(Math.toRadians(12)));
+        autonomousChooser.addObject("Cross and Shoot - 4", new CrossShootAutonomous(Math.toRadians(-5)));
+        autonomousChooser.addObject("Cross and Shoot - 5", new CrossShootAutonomous(Math.toRadians(-15)));
         autonomousChooser.addDefault("Home Arm", new HomeArm());
         SmartDashboard.putData("Autonomous Mode", autonomousChooser);
-        
+
     }
 
     /**

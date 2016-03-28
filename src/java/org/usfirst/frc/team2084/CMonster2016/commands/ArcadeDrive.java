@@ -28,8 +28,7 @@ public class ArcadeDrive extends Command {
 
     @Override
     protected void initialize() {
-        // Disable the nonexistant encoders.
-        Robot.driveSubsystem.setEncodersEnabled(false);
+        Robot.driveSubsystem.setEncodersEnabled(true);
     }
 
     /**

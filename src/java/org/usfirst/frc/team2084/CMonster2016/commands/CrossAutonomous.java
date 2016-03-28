@@ -16,9 +16,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  * 
  * @author Ben Wolsieffer
  */
-public class LowBarAutonomous extends CommandGroup {
+public class CrossAutonomous extends CommandGroup {
 
-    public LowBarAutonomous() {
+    public CrossAutonomous() {
         addSequential(new AutonomousSetup());
         addSequential(new SetArmAngle(ArmSubsystem.AIM_ANGLE));
         addSequential(new DriveHeading(0, 0.8, 3.3));

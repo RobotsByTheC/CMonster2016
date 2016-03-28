@@ -15,6 +15,9 @@ repositories {
 	flatDir {
 		dirs 'lib/navx'
 	}
+	flatDir {
+		dirs 'lib/Pathfinder'
+	}
 }
 
 apply plugin: 'java'
@@ -28,8 +31,8 @@ gradlerio.rioIP = "10.20.84.2" // Static IP address IP address of the roboRIO
 
 dependencies {
   compile project(':VisionProcessor2016')
-  compile project(':TrajectoryLib')
   compile ':navx_frc'
+  compile ':Pathfinder'
 }
 sourceSets {
     main {

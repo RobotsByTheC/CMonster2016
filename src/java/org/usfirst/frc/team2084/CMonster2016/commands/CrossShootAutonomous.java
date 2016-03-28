@@ -8,11 +8,9 @@ package org.usfirst.frc.team2084.CMonster2016.commands;
 
 import org.usfirst.frc.team2084.CMonster2016.subsystems.ArmSubsystem;
 
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Autonomous mode that drives under the low bar and shoots using the vision
@@ -20,16 +18,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * 
  * @author Ben Wolsieffer
  */
-public class LowBarShootAutonomous extends CommandGroup {
+public class CrossShootAutonomous extends CommandGroup {
 
     public static final String ROTATION_KEY = "Auto rotation angle";
 
-    public LowBarShootAutonomous() {
-        addSequential(new LowBarAutonomous());
-        
+    public CrossShootAutonomous(double rotationAngle) {
+        addSequential(new CrossAutonomous());
+
         // Get the robot and arm into a position where the camera can see the
         // goal
-        addSequential(new ParallelCommandGroup(new RotateToHeading(() -> Math.toRadians(SmartDashboard.getNumber(ROTATION_KEY, 0)), 1.5), new SetArmAngle(ArmSubsystem.AIM_ANGLE)));
+        addSequential(new ParallelCommandGroup(new RotateToHeading(rotationAngle, true, 1.5),
+                new SetArmAngle(ArmSubsystem.AIM_ANGLE)));
         // Make sure the ball is out of the shooter wheels
         addParallel(new SetShooterSpeed(-1000));
         addSequential(new WaitCommand(0.5));
@@ -42,6 +41,5 @@ public class LowBarShootAutonomous extends CommandGroup {
      */
     @Override
     protected void initialize() {
-        Preferences.getInstance().putDouble(ROTATION_KEY, SmartDashboard.getNumber(ROTATION_KEY));
     }
 }

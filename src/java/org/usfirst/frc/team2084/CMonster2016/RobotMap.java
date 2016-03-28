@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import jaci.pathfinder.Waypoint;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -59,6 +60,7 @@ public class RobotMap {
      * heading.
      */
     public static final double DRIVE_SUBSYSTEM_HEADING_TOLERANCE = 0.003;
+    public static final double DRIVE_SUBSYSTEM_LOOSE_HEADING_TOLERANCE = 0.06;
 
     public static final double DRIVE_SUBSYSTEM_HEADING_I_ZONE = 0.07;
 
@@ -79,7 +81,10 @@ public class RobotMap {
 
     public static final double DRIVE_SUBSYSTEM_TRAJECTORY_ACC_F = 1.0 / 34.0;
 
-    public static final double DRIVE_SUBSYSTEM_TRAJECTORY_TURN = -3.0 / 80.0;
+    public static final double DRIVE_SUBSYSTEM_TRAJECTORY_TURN = 2.14;
+
+    // Trajectories
+    public static final Waypoint[] ROCK_WALL_AUTONOMOUS_TRAJECTORY = {};
 
     public static SpeedController driveSubsystemLeftTalon1;
     public static SpeedController driveSubsystemLeftTalon2;
@@ -201,7 +206,7 @@ public class RobotMap {
 
         driveSubsystemArcadeDriveAlgorithm = new GyroArcadeDriveAlgorithm(driveSubsystemDriveController,
                 driveSubsystemNavX, DRIVE_SUBSYSTEM_HEADING_PID_CONSTANTS);
-        driveSubsystemArcadeDriveAlgorithm.setTolerance(DRIVE_SUBSYSTEM_HEADING_TOLERANCE);
+        driveSubsystemArcadeDriveAlgorithm.setTolerance(DRIVE_SUBSYSTEM_LOOSE_HEADING_TOLERANCE);
         driveSubsystemArcadeDriveAlgorithm.setIZone(DRIVE_SUBSYSTEM_HEADING_I_ZONE);
 
         // ledController = new LEDController(Port.kUSB);

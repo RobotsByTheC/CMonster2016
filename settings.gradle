@@ -1,7 +1,3 @@
 include ':VisionProcessor2016'
 
 project(':VisionProcessor2016').projectDir = new File(settingsDir, '../VisionProcessor2016')
-
-include ':TrajectoryLib'
-
-project(':TrajectoryLib').projectDir = new File(settingsDir, '../TrajectoryLib')

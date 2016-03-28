@@ -6,25 +6,17 @@
  */
 package org.usfirst.frc.team2084.CMonster2016.commands;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import org.usfirst.frc.team2084.CMonster2016.Robot;
 import org.usfirst.frc.team2084.CMonster2016.RobotMap;
+import org.usfirst.frc.team2084.CMonster2016.drive.DriveUtils;
 import org.usfirst.frc.team2084.CMonster2016.drive.PIDConstants;
 
-import com.team254.lib.trajectory.Path;
-import com.team254.lib.trajectory.TrajectoryFollower;
-import com.team254.lib.trajectory.io.TextFileDeserializer;
-import com.team254.lib.util.ChezyMath;
-
+import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.followers.DistanceFollower;
+import jaci.pathfinder.modifiers.TankModifier;
 
 /**
  * Follows the specified trajectory, which is read from a file. This uses 254's
@@ -32,14 +24,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * 
  * @author Ben Wolsieffer
  */
-public class PathFollower extends ParameterCommand {
+public class PathFollower extends Command {
 
     public static final String TRAJECTORY_P_KEY = "Trajectory P";
     public static final String TRAJECTORY_I_KEY = "Trajectory I";
     public static final String TRAJECTORY_D_KEY = "Trajectory D";
-    public static final String TRAJECTORY_F_KEY = "Trajectory F";
+    public static final String TRAJECTORY_V_KEY = "Trajectory V";
     public static final String TRAJECTORY_A_KEY = "Trajectory A";
     public static final String TRAJECTORY_TURN_KEY = "Trajectory Turn";
+
+    private static final int ENCODER_SCALE = 3000;
 
     static {
         PIDConstants pid = RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_PID_CONSTANTS;
@@ -47,90 +41,70 @@ public class PathFollower extends ParameterCommand {
         SmartDashboard.putNumber(TRAJECTORY_P_KEY, pid.p);
         SmartDashboard.putNumber(TRAJECTORY_I_KEY, pid.i);
         SmartDashboard.putNumber(TRAJECTORY_D_KEY, pid.d);
-        SmartDashboard.putNumber(TRAJECTORY_F_KEY, pid.f);
+        SmartDashboard.putNumber(TRAJECTORY_V_KEY, pid.f);
         SmartDashboard.putNumber(TRAJECTORY_A_KEY, RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_ACC_F);
         SmartDashboard.putNumber(TRAJECTORY_TURN_KEY, RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_TURN);
     }
 
-    private static final String NAME_KEY = "Name";
+    private final Notifier trajectoryTimer = new Notifier(new TrajectoryTask());
 
-    private volatile Path path;
-
-    private final Timer trajectoryTimer = new Timer(true);
-
-    private final TrajectoryFollower leftFollower = new TrajectoryFollower();
-    private final TrajectoryFollower rightFollower = new TrajectoryFollower();
+    private final DistanceFollower leftFollower = new DistanceFollower();
+    private final DistanceFollower rightFollower = new DistanceFollower();
 
     private boolean finished = false;
 
-    private class TrajectoryTask extends TimerTask {
+    private class TrajectoryTask implements Runnable {
 
         @Override
         public void run() {
 
-            double leftSpeed = leftFollower.calculate(Robot.driveSubsystem.getLeftWheels().getDistance());
-            double rightSpeed = rightFollower.calculate(Robot.driveSubsystem.getRightWheels().getDistance());
+            double leftSpeed =
+                    leftFollower.calculate((int) (Robot.driveSubsystem.getLeftWheels().getDistance() * ENCODER_SCALE));
+            double rightSpeed = rightFollower
+                    .calculate((int) (Robot.driveSubsystem.getRightWheels().getDistance() * ENCODER_SCALE));
 
             double goalHeading = leftFollower.getHeading();
             double observedHeading = RobotMap.driveSubsystemArcadeDriveAlgorithm.getHeading();
-            double angleDiffRads = ChezyMath.getDifferenceInAngleRadians(observedHeading, goalHeading);
-            double angleDiff = Math.toDegrees(angleDiffRads);
+            double angleDiffRads = DriveUtils.normalizeHeading(observedHeading - goalHeading);
 
-            double turn =
-                    SmartDashboard.getNumber(TRAJECTORY_TURN_KEY, RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_TURN) * angleDiff;
+            double turn = SmartDashboard.getNumber(TRAJECTORY_TURN_KEY, RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_TURN)
+                    * angleDiffRads;
 
             RobotMap.driveSubsystemDriveController.drive(leftSpeed + turn, rightSpeed - turn);
 
-            finished = leftFollower.isFinishedTrajectory() && rightFollower.isFinishedTrajectory();
-
-            if (finished) {
-                cancel();
-            }
+            finished = leftFollower.isFinished() && rightFollower.isFinished();
         }
     }
 
-    public PathFollower(String pathName) {
-        addStringParameter(NAME_KEY, pathName);
+    public PathFollower(Trajectory trajectory) {
 
-        addParameterListener(new ParameterListener() {
+        TankModifier tMod = new TankModifier(trajectory);
+        tMod.modify(1);
 
-            @Override
-            public void stringChanged(String name, String pathName) {
-                if (name.equals(NAME_KEY)) {
-                    String serialized;
-                    try {
-                        serialized = readPathFile(pathName);
-                        path = (new TextFileDeserializer()).deserialize(serialized);
-
-                        leftFollower.setTrajectory(path.getLeftWheelTrajectory());
-                        rightFollower.setTrajectory(path.getRightWheelTrajectory());
-                    } catch (IOException e) {
-                        System.err.println(e);
-                    }
-                }
-            }
-        });
-
+        leftFollower.setTrajectory(tMod.getLeftTrajectory());
+        rightFollower.setTrajectory(tMod.getRightTrajectory());
     }
 
     @Override
     protected void initialize() {
-        trajectoryTimer.cancel();
+        trajectoryTimer.stop();
 
         PIDConstants pid = RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_PID_CONSTANTS;
 
         double p = SmartDashboard.getNumber(TRAJECTORY_P_KEY, pid.p);
         double i = SmartDashboard.getNumber(TRAJECTORY_I_KEY, pid.i);
         double d = SmartDashboard.getNumber(TRAJECTORY_D_KEY, pid.d);
-        double f = SmartDashboard.getNumber(TRAJECTORY_F_KEY, pid.f);
+        double f = SmartDashboard.getNumber(TRAJECTORY_V_KEY, pid.f);
         double accF = SmartDashboard.getNumber(TRAJECTORY_A_KEY, RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_ACC_F);
 
-        leftFollower.configure(p, i, d, f, accF);
-        rightFollower.configure(p, i, d, f, accF);
+        leftFollower.configurePIDVA(p, i, d, f, accF);
+        rightFollower.configurePIDVA(p, i, d, f, accF);
+
+        Robot.driveSubsystem.resetEncoders();
 
         Robot.driveSubsystem.setEncodersEnabled(false);
 
-        trajectoryTimer.scheduleAtFixedRate(new TrajectoryTask(), 0, 10);
+        trajectoryTimer.startPeriodic(0.01);
     }
 
     @Override
@@ -144,40 +118,12 @@ public class PathFollower extends ParameterCommand {
 
     @Override
     protected void end() {
-        trajectoryTimer.cancel();
+        trajectoryTimer.stop();
 
     }
 
     @Override
     protected void interrupted() {
         end();
-    }
-
-    private static String readPathFile(String name) throws IOException {
-        System.out.println("Loading robot path: " + name);
-
-        java.nio.file.Path externalPath = Paths.get("paths/" + name + ".txt");
-        java.nio.file.Path internalPath = null;
-
-        java.nio.file.Path foundPath = null;
-
-        try {
-            internalPath = Paths.get(PathFollower.class.getResource("/path/" + name + ".txt").toURI());
-        } catch (URISyntaxException e) {
-        }
-
-        if (Files.exists(externalPath)) {
-            foundPath = externalPath;
-        } else if (internalPath != null && Files.exists(internalPath)) {
-            foundPath = internalPath;
-        }
-
-        if (foundPath != null) {
-            byte[] encoded = Files.readAllBytes(externalPath);
-            return new String(encoded, Charset.defaultCharset());
-        } else {
-            throw new FileNotFoundException("Could not find file for path: " + name);
-        }
-
     }
 }

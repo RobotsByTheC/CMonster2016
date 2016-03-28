@@ -149,6 +149,14 @@ public class CANTalonEncoderWheelController extends EncoderWheelController<CANTa
     }
 
     /**
+     * 
+     */
+    @Override
+    public void resetEncoder() {
+        masterMotor.setEncPosition(0);
+    }
+
+    /**
      * Resets the speed PID controller.
      */
     @Override

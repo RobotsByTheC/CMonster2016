@@ -46,6 +46,8 @@ public abstract class EncoderWheelController<S extends SpeedController> extends 
      */
     public abstract double getSpeed();
 
+    public abstract void resetEncoder();
+
     /**
      * Resets the wheel controller. This will do different things in different
      * implementations.
