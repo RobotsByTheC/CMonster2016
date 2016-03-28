@@ -31,7 +31,7 @@ public class InertiaGenerator implements Processor {
     /**
      * The inertia gain constant.
      */
-    private final double inertiaGain;
+    private double inertiaGain;
 
     /**
      * Creates a new {@link InertiaGenerator} with the specified inertia gain.
@@ -41,6 +41,20 @@ public class InertiaGenerator implements Processor {
     public InertiaGenerator(double inertiaGain) {
         this.inertiaGain = inertiaGain;
         reset();
+    }
+
+    /**
+     * @param inertiaGain the inertia gain to set
+     */
+    public void setInertiaGain(double inertiaGain) {
+        this.inertiaGain = inertiaGain;
+    }
+
+    /**
+     * @return the inertia gain
+     */
+    public double getInertiaGain() {
+        return inertiaGain;
     }
 
     /**

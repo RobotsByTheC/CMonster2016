@@ -8,6 +8,7 @@ package org.usfirst.frc.team2084.CMonster2016.commands;
 
 import org.usfirst.frc.team2084.CMonster2016.Robot;
 import org.usfirst.frc.team2084.CMonster2016.RobotMap;
+import org.usfirst.frc.team2084.CMonster2016.drive.processors.InertiaGenerator;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
@@ -20,6 +21,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * @author Ben Wolsieffer
  */
 public class ArcadeDrive extends Command {
+
+    private static final String INERTIA_GAIN_KEY = "Inertia Gain";
+
+    private static final double INERTIA_GAIN = 1;
+
+    private final InertiaGenerator inertiaGenerator = new InertiaGenerator(INERTIA_GAIN);
+
+    static {
+        SmartDashboard.putNumber(INERTIA_GAIN_KEY, INERTIA_GAIN);
+    }
 
     public ArcadeDrive() {
         // This command drives, so it requires the drive subsystem.
@@ -45,9 +56,11 @@ public class ArcadeDrive extends Command {
         x *= x * x < 0 ? -1 : 1;
         y *= y * y < 0 ? -1 : 1;
 
+        inertiaGenerator.setInertiaGain(SmartDashboard.getNumber(INERTIA_GAIN_KEY, INERTIA_GAIN));
+
         SmartDashboard.putNumber("Joystick X", x);
         SmartDashboard.putNumber("Joystick Y", y);
-        RobotMap.driveSubsystemArcadeDriveAlgorithm.arcadeDrive(-y, x);
+        RobotMap.driveSubsystemArcadeDriveAlgorithm.arcadeDrive(-y, inertiaGenerator.process(x));
     }
 
     /**
