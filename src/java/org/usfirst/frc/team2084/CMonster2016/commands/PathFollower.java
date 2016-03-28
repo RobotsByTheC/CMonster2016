@@ -105,7 +105,7 @@ public class PathFollower extends Command {
 
             Robot.driveSubsystem.setEncodersEnabled(false);
 
-            trajectoryTimer.startPeriodic(0.01);
+            trajectoryTimer.startPeriodic(RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_PERIOD);
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }

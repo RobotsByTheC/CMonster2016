@@ -90,9 +90,11 @@ public class RobotMap {
 
     public static final double DRIVE_SUBSYSTEM_TRAJECTORY_TURN = 2.14;
 
+    public static final double DRIVE_SUBSYSTEM_TRAJECTORY_PERIOD = 0.01;
+
     // Trajectories
     public static final Trajectory.Config AUTONOMOUS_TRAJECTORY_CONFIG = new Config(Trajectory.FitMethod.HERMITE_CUBIC,
-            Trajectory.Config.SAMPLES_FAST, 0.01, DRIVE_SUBSYSTEM_MAX_WHEEL_SPEED, 2, 60);
+            Trajectory.Config.SAMPLES_FAST, DRIVE_SUBSYSTEM_TRAJECTORY_PERIOD, 2, 2, 60);
     public static final Waypoint[] LOW_BAR_AUTONOMOUS_WAYPOINTS = { new Waypoint(0, 0, 0) };
     public static final Waypoint[] POSITION_2_AUTONOMOUS_WAYPOINTS = { new Waypoint(0, 0, 0) };
     public static final Waypoint[] POSITION_3_AUTONOMOUS_WAYPOINTS = { new Waypoint(0, 0, 0) };
