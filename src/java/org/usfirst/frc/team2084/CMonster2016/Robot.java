@@ -96,11 +96,16 @@ public class Robot extends IterativeRobot {
         // Add autonomous modes to the chooser
         autonomousChooser.addObject("Do nothing", null);
         autonomousChooser.addObject("Cross Defense", new CrossAutonomous());
-        autonomousChooser.addObject("Low Bar and Shoot", new CrossShootAutonomous(Math.toRadians(40)));
-        autonomousChooser.addObject("Cross and Shoot - 2", new CrossShootAutonomous(Math.toRadians(20)));
-        autonomousChooser.addObject("Cross and Shoot - 3", new CrossShootAutonomous(Math.toRadians(12)));
-        autonomousChooser.addObject("Cross and Shoot - 4", new CrossShootAutonomous(Math.toRadians(-5)));
-        autonomousChooser.addObject("Cross and Shoot - 5", new CrossShootAutonomous(Math.toRadians(-15)));
+        autonomousChooser.addObject("Low Bar and Shoot",
+                new CrossShootAutonomous(RobotMap.LOW_BAR_AUTONOMOUS_TRAJECTORY));
+        autonomousChooser.addObject("Cross and Shoot - 2",
+                new CrossShootAutonomous(RobotMap.POSITION_2_AUTONOMOUS_TRAJECTORY));
+        autonomousChooser.addObject("Cross and Shoot - 3",
+                new CrossShootAutonomous(RobotMap.POSITION_3_AUTONOMOUS_TRAJECTORY));
+        autonomousChooser.addObject("Cross and Shoot - 4",
+                new CrossShootAutonomous(RobotMap.POSITION_4_AUTONOMOUS_TRAJECTORY));
+        autonomousChooser.addObject("Cross and Shoot - 5",
+                new CrossShootAutonomous(RobotMap.POSITION_5_AUTONOMOUS_TRAJECTORY));
         autonomousChooser.addDefault("Home Arm", new HomeArm());
         SmartDashboard.putData("Autonomous Mode", autonomousChooser);
 

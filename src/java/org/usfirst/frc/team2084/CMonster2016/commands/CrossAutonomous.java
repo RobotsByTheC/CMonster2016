@@ -11,8 +11,7 @@ import org.usfirst.frc.team2084.CMonster2016.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- * Autonomous mode that drives under the low bar. This possibly would work for
- * other defenses too.
+ * Autonomous mode that drives over a defense.
  * 
  * @author Ben Wolsieffer
  */
