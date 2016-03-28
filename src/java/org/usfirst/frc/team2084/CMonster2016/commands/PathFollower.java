@@ -6,6 +6,9 @@
  */
 package org.usfirst.frc.team2084.CMonster2016.commands;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
 import org.usfirst.frc.team2084.CMonster2016.Robot;
 import org.usfirst.frc.team2084.CMonster2016.RobotMap;
 import org.usfirst.frc.team2084.CMonster2016.drive.DriveUtils;
@@ -14,7 +17,6 @@ import org.usfirst.frc.team2084.CMonster2016.drive.PIDConstants;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.followers.DistanceFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 
@@ -33,8 +35,6 @@ public class PathFollower extends Command {
     public static final String TRAJECTORY_A_KEY = "Trajectory A";
     public static final String TRAJECTORY_TURN_KEY = "Trajectory Turn";
 
-    private static final int ENCODER_SCALE = 3000;
-
     static {
         PIDConstants pid = RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_PID_CONSTANTS;
 
@@ -51,6 +51,8 @@ public class PathFollower extends Command {
     private final DistanceFollower leftFollower = new DistanceFollower();
     private final DistanceFollower rightFollower = new DistanceFollower();
 
+    private final Future<TankModifier> trajectory;
+
     private boolean finished = false;
 
     private class TrajectoryTask implements Runnable {
@@ -58,10 +60,8 @@ public class PathFollower extends Command {
         @Override
         public void run() {
 
-            double leftSpeed =
-                    leftFollower.calculate((int) (Robot.driveSubsystem.getLeftWheels().getDistance() * ENCODER_SCALE));
-            double rightSpeed = rightFollower
-                    .calculate((int) (Robot.driveSubsystem.getRightWheels().getDistance() * ENCODER_SCALE));
+            double leftSpeed = leftFollower.calculate((int) (Robot.driveSubsystem.getLeftWheels().getDistance()));
+            double rightSpeed = rightFollower.calculate((int) (Robot.driveSubsystem.getRightWheels().getDistance()));
 
             double goalHeading = leftFollower.getHeading();
             double observedHeading = RobotMap.driveSubsystemArcadeDriveAlgorithm.getHeading();
@@ -76,35 +76,39 @@ public class PathFollower extends Command {
         }
     }
 
-    public PathFollower(Trajectory trajectory) {
-
-        TankModifier tMod = new TankModifier(trajectory);
-        tMod.modify(1);
-
-        leftFollower.setTrajectory(tMod.getLeftTrajectory());
-        rightFollower.setTrajectory(tMod.getRightTrajectory());
+    public PathFollower(Future<TankModifier> trajectory) {
+        this.trajectory = trajectory;
     }
 
     @Override
     protected void initialize() {
-        trajectoryTimer.stop();
+        try {
+            trajectoryTimer.stop();
 
-        PIDConstants pid = RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_PID_CONSTANTS;
+            TankModifier tMod = trajectory.get();
 
-        double p = SmartDashboard.getNumber(TRAJECTORY_P_KEY, pid.p);
-        double i = SmartDashboard.getNumber(TRAJECTORY_I_KEY, pid.i);
-        double d = SmartDashboard.getNumber(TRAJECTORY_D_KEY, pid.d);
-        double f = SmartDashboard.getNumber(TRAJECTORY_V_KEY, pid.f);
-        double accF = SmartDashboard.getNumber(TRAJECTORY_A_KEY, RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_ACC_F);
+            leftFollower.setTrajectory(tMod.getLeftTrajectory());
+            rightFollower.setTrajectory(tMod.getRightTrajectory());
 
-        leftFollower.configurePIDVA(p, i, d, f, accF);
-        rightFollower.configurePIDVA(p, i, d, f, accF);
+            PIDConstants pid = RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_PID_CONSTANTS;
 
-        Robot.driveSubsystem.resetEncoders();
+            double p = SmartDashboard.getNumber(TRAJECTORY_P_KEY, pid.p);
+            double i = SmartDashboard.getNumber(TRAJECTORY_I_KEY, pid.i);
+            double d = SmartDashboard.getNumber(TRAJECTORY_D_KEY, pid.d);
+            double f = SmartDashboard.getNumber(TRAJECTORY_V_KEY, pid.f);
+            double accF = SmartDashboard.getNumber(TRAJECTORY_A_KEY, RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_ACC_F);
 
-        Robot.driveSubsystem.setEncodersEnabled(false);
+            leftFollower.configurePIDVA(p, i, d, f, accF);
+            rightFollower.configurePIDVA(p, i, d, f, accF);
 
-        trajectoryTimer.startPeriodic(0.01);
+            Robot.driveSubsystem.resetEncoders();
+
+            Robot.driveSubsystem.setEncodersEnabled(false);
+
+            trajectoryTimer.startPeriodic(0.01);
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

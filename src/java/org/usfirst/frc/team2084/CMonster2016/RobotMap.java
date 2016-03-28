@@ -6,12 +6,15 @@
  */
 package org.usfirst.frc.team2084.CMonster2016;
 
+import java.util.concurrent.Future;
+
 import org.usfirst.frc.team2084.CMonster2016.drive.DIOEncoderWheelController;
 import org.usfirst.frc.team2084.CMonster2016.drive.DriveController;
 import org.usfirst.frc.team2084.CMonster2016.drive.EncoderWheelController;
 import org.usfirst.frc.team2084.CMonster2016.drive.GyroArcadeDriveAlgorithm;
 import org.usfirst.frc.team2084.CMonster2016.drive.PIDConstants;
 import org.usfirst.frc.team2084.CMonster2016.drive.TwoWheelDriveController;
+import org.usfirst.frc.team2084.CMonster2016.drive.trajectory.TrajectoryGenerator;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -30,7 +33,10 @@ import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.Trajectory.Config;
 import jaci.pathfinder.Waypoint;
+import jaci.pathfinder.modifiers.TankModifier;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -70,6 +76,7 @@ public class RobotMap {
      * Wheel diameter in meters.
      */
     public static final double DRIVE_SUBSYSTEM_WHEEL_DIAMETER = 0.19431;
+    public static final double DRIVE_SUBSYSTEM_WHEELBASE_WIDTH = 0.5;
 
     public static final double DRIVE_SUBSYSTEM_BELT_RATIO = 42 / 39;
 
@@ -84,7 +91,24 @@ public class RobotMap {
     public static final double DRIVE_SUBSYSTEM_TRAJECTORY_TURN = 2.14;
 
     // Trajectories
-    public static final Waypoint[] ROCK_WALL_AUTONOMOUS_TRAJECTORY = {};
+    public static final Trajectory.Config AUTONOMOUS_TRAJECTORY_CONFIG = new Config(Trajectory.FitMethod.HERMITE_CUBIC,
+            Trajectory.Config.SAMPLES_FAST, 0.01, DRIVE_SUBSYSTEM_MAX_WHEEL_SPEED, 2, 60);
+    public static final Waypoint[] LOW_BAR_AUTONOMOUS_WAYPOINTS = { new Waypoint(0, 0, 0) };
+    public static final Waypoint[] POSITION_2_AUTONOMOUS_WAYPOINTS = { new Waypoint(0, 0, 0) };
+    public static final Waypoint[] POSITION_3_AUTONOMOUS_WAYPOINTS = { new Waypoint(0, 0, 0) };
+    public static final Waypoint[] POSITION_4_AUTONOMOUS_WAYPOINTS = { new Waypoint(0, 0, 0) };
+    public static final Waypoint[] POSITION_5_AUTONOMOUS_WAYPOINTS = { new Waypoint(0, 0, 0) };
+
+    public static final Future<TankModifier> LOW_BAR_AUTONOMOUS_TRAJECTORY =
+            TrajectoryGenerator.generate(LOW_BAR_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
+    public static final Future<TankModifier> POSITION_2_AUTONOMOUS_TRAJECTORY =
+            TrajectoryGenerator.generate(POSITION_2_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
+    public static final Future<TankModifier> POSITION_3_AUTONOMOUS_TRAJECTORY =
+            TrajectoryGenerator.generate(POSITION_3_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
+    public static final Future<TankModifier> POSITION_4_AUTONOMOUS_TRAJECTORY =
+            TrajectoryGenerator.generate(POSITION_4_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
+    public static final Future<TankModifier> POSITION_5_AUTONOMOUS_TRAJECTORY =
+            TrajectoryGenerator.generate(POSITION_5_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
 
     public static SpeedController driveSubsystemLeftTalon1;
     public static SpeedController driveSubsystemLeftTalon2;
