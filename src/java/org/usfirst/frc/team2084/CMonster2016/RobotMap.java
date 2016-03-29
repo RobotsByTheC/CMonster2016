@@ -95,11 +95,16 @@ public class RobotMap {
     // Trajectories
     public static final Trajectory.Config AUTONOMOUS_TRAJECTORY_CONFIG = new Config(Trajectory.FitMethod.HERMITE_CUBIC,
             Trajectory.Config.SAMPLES_FAST, DRIVE_SUBSYSTEM_TRAJECTORY_PERIOD, 2, 2, 60);
-    public static final Waypoint[] LOW_BAR_AUTONOMOUS_WAYPOINTS = { new Waypoint(0, 0, 0) };
-    public static final Waypoint[] POSITION_2_AUTONOMOUS_WAYPOINTS = { new Waypoint(0, 0, 0) };
-    public static final Waypoint[] POSITION_3_AUTONOMOUS_WAYPOINTS = { new Waypoint(0, 0, 0) };
-    public static final Waypoint[] POSITION_4_AUTONOMOUS_WAYPOINTS = { new Waypoint(0, 0, 0) };
-    public static final Waypoint[] POSITION_5_AUTONOMOUS_WAYPOINTS = { new Waypoint(0, 0, 0) };
+    public static final Waypoint[] LOW_BAR_AUTONOMOUS_WAYPOINTS =
+            { new Waypoint(0, 0, 0), new Waypoint(0, 1.5, 0), new Waypoint(1.22, 2.7, Math.toDegrees(45)) };
+    public static final Waypoint[] POSITION_2_AUTONOMOUS_WAYPOINTS =
+            { new Waypoint(0, 0, 0), new Waypoint(0, 1.5, 0), new Waypoint(0, 3, Math.toDegrees(45)) };
+    public static final Waypoint[] POSITION_3_AUTONOMOUS_WAYPOINTS =
+            { new Waypoint(0, 0, 0), new Waypoint(0, 1.25, 0), new Waypoint(0.76, 2, 0) };
+    public static final Waypoint[] POSITION_4_AUTONOMOUS_WAYPOINTS =
+            { new Waypoint(0, 0, 0), new Waypoint(0, 1.25, 0), new Waypoint(-0.76, 2, 0) };
+    public static final Waypoint[] POSITION_5_AUTONOMOUS_WAYPOINTS =
+            { new Waypoint(0, 0, 0), new Waypoint(0, 1.25, 0), new Waypoint(-1.67, 2.25, 0) };
 
     public static final Future<TankModifier> LOW_BAR_AUTONOMOUS_TRAJECTORY =
             TrajectoryGenerator.generate(LOW_BAR_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
