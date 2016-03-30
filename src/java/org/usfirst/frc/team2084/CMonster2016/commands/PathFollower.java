@@ -15,7 +15,6 @@ import org.usfirst.frc.team2084.CMonster2016.drive.DriveUtils;
 import org.usfirst.frc.team2084.CMonster2016.drive.PIDConstants;
 
 import edu.wpi.first.wpilibj.Notifier;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.followers.DistanceFollower;
 import jaci.pathfinder.modifiers.TankModifier;
@@ -25,7 +24,7 @@ import jaci.pathfinder.modifiers.TankModifier;
  * 
  * @author Ben Wolsieffer
  */
-public class PathFollower extends Command {
+public class PathFollower extends ParameterCommand {
 
     public static final String TRAJECTORY_P_KEY = "Trajectory P";
     public static final String TRAJECTORY_I_KEY = "Trajectory I";
@@ -33,6 +32,7 @@ public class PathFollower extends Command {
     public static final String TRAJECTORY_V_KEY = "Trajectory V";
     public static final String TRAJECTORY_A_KEY = "Trajectory A";
     public static final String TRAJECTORY_TURN_KEY = "Trajectory Turn";
+    public static final String TRAJECTORY_DEBUG_KEY = "Debug Trajectory";
 
     static {
         PIDConstants pid = RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_PID_CONSTANTS;
@@ -43,6 +43,7 @@ public class PathFollower extends Command {
         SmartDashboard.putNumber(TRAJECTORY_V_KEY, pid.f);
         SmartDashboard.putNumber(TRAJECTORY_A_KEY, RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_ACC_F);
         SmartDashboard.putNumber(TRAJECTORY_TURN_KEY, RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_TURN);
+        SmartDashboard.putBoolean(TRAJECTORY_DEBUG_KEY, false);
     }
 
     private final Notifier trajectoryTimer = new Notifier(new TrajectoryTask());
@@ -65,6 +66,14 @@ public class PathFollower extends Command {
             double goalHeading = leftFollower.getHeading();
             double observedHeading = RobotMap.driveSubsystemArcadeDriveAlgorithm.getHeading();
             double angleDiffRads = DriveUtils.normalizeHeading(observedHeading - goalHeading);
+
+            if (SmartDashboard.getBoolean(TRAJECTORY_DEBUG_KEY, false)) {
+                SmartDashboard.putNumber("Traj. Goal Heading", Math.toDegrees(goalHeading));
+                SmartDashboard.putNumber("Traj. Left Pos.", leftFollower.getSegment().position);
+                SmartDashboard.putNumber("Traj. Right Pos.", leftFollower.getSegment().position);
+                SmartDashboard.putNumber("Traj. Left Vel.", leftFollower.getSegment().velocity);
+                SmartDashboard.putNumber("Traj. Right Vel.", leftFollower.getSegment().velocity);
+            }
 
             double turn = SmartDashboard.getNumber(TRAJECTORY_TURN_KEY, RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_TURN)
                     * angleDiffRads;
