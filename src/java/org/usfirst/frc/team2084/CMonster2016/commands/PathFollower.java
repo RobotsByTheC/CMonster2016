@@ -21,8 +21,7 @@ import jaci.pathfinder.followers.DistanceFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 
 /**
- * Follows the specified trajectory, which is read from a file. This uses 254's
- * trajectory library.
+ * Follows the specified trajectory, which is read from a file.
  * 
  * @author Ben Wolsieffer
  */
