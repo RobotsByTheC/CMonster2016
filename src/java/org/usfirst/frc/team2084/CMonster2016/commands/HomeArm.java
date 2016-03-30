@@ -59,7 +59,6 @@ public class HomeArm extends Command {
     protected void end() {
         interrupted();
         Robot.armSubsystem.resetAngle();
-        Robot.armSubsystem.saveArmAngle();
     }
 
     /**
