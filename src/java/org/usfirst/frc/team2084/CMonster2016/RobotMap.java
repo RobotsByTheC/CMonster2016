@@ -55,11 +55,11 @@ public class RobotMap {
      * controller.
      */
     public static final PIDConstants DRIVE_SUBSYSTEM_WHEEL_SPEED_PID_CONSTANTS =
-            new PIDConstants(0, 0, 0, 1.0 / DRIVE_SUBSYSTEM_MAX_WHEEL_SPEED);
+            new PIDConstants(0.1, 0, 0, 1.0 / DRIVE_SUBSYSTEM_MAX_WHEEL_SPEED);
     /**
      * Parameters that are used for the gyro heading PID controller.
      */
-    public static final PIDConstants DRIVE_SUBSYSTEM_HEADING_PID_CONSTANTS = new PIDConstants(1, 2, 12);
+    public static final PIDConstants DRIVE_SUBSYSTEM_HEADING_PID_CONSTANTS = new PIDConstants(0.2, 0, 2);
 
     /**
      * Maximum allowed tolerance (in radians) that is considered on target for
@@ -75,7 +75,7 @@ public class RobotMap {
     /**
      * Wheel diameter in meters.
      */
-    public static final double DRIVE_SUBSYSTEM_WHEEL_DIAMETER = 0.19431;
+    public static final double DRIVE_SUBSYSTEM_WHEEL_DIAMETER = 0.184;
     public static final double DRIVE_SUBSYSTEM_WHEELBASE_WIDTH = 0.5;
 
     public static final double DRIVE_SUBSYSTEM_BELT_RATIO = 42 / 39;
@@ -184,11 +184,11 @@ public class RobotMap {
         driveSubsystemRightTalon2 = new Talon(3);
         LiveWindow.addActuator("Drive Subsystem", "Right Talon 2", (Talon) driveSubsystemRightTalon2);
 
-        driveSubsystemLeftEncoder = new Encoder(0, 1, false, EncodingType.k4X);
+        driveSubsystemLeftEncoder = new Encoder(19, 20, false, EncodingType.k4X);
         LiveWindow.addSensor("Drive Subsystem", "Left Encoder", driveSubsystemLeftEncoder);
         driveSubsystemLeftEncoder.setDistancePerPulse(DRIVE_SUBYSTEM_ENCODER_DISTANCE_PER_PULSE);
         driveSubsystemLeftEncoder.setPIDSourceType(PIDSourceType.kRate);
-        driveSubsystemRightEncoder = new Encoder(2, 3, false, EncodingType.k4X);
+        driveSubsystemRightEncoder = new Encoder(22, 23, true, EncodingType.k4X);
         LiveWindow.addSensor("Drive Subsystem", "Right Encoder", driveSubsystemRightEncoder);
         driveSubsystemRightEncoder.setDistancePerPulse(DRIVE_SUBYSTEM_ENCODER_DISTANCE_PER_PULSE);
         driveSubsystemRightEncoder.setPIDSourceType(PIDSourceType.kRate);
@@ -225,13 +225,13 @@ public class RobotMap {
         driveSubsystemAccelerometer = new BuiltInAccelerometer(Range.k8G);
         LiveWindow.addSensor("Drive Subsystem", "Accelerometer", (BuiltInAccelerometer) driveSubsystemAccelerometer);
 
-        driveSubsystemLeftWheels =
-                new DIOEncoderWheelController<>(driveSubsystemLeftEncoder, DRIVE_SUBSYSTEM_WHEEL_SPEED_PID_CONSTANTS, 1,
-                        new int[] { 2, 3 }, driveSubsystemLeftTalon1, driveSubsystemLeftTalon2);
+        driveSubsystemLeftWheels = new DIOEncoderWheelController<>(driveSubsystemLeftEncoder,
+                DRIVE_SUBSYSTEM_WHEEL_SPEED_PID_CONSTANTS, DRIVE_SUBSYSTEM_MAX_WHEEL_SPEED, new int[] { 2, 3 },
+                driveSubsystemLeftTalon1, driveSubsystemLeftTalon2);
         SmartDashboard.putData("Left Wheels", driveSubsystemLeftWheels);
-        driveSubsystemRightWheels =
-                new DIOEncoderWheelController<>(driveSubsystemRightEncoder, DRIVE_SUBSYSTEM_WHEEL_SPEED_PID_CONSTANTS,
-                        1, new int[] { 13, 12 }, driveSubsystemRightTalon1, driveSubsystemRightTalon2);
+        driveSubsystemRightWheels = new DIOEncoderWheelController<>(driveSubsystemRightEncoder,
+                DRIVE_SUBSYSTEM_WHEEL_SPEED_PID_CONSTANTS, DRIVE_SUBSYSTEM_MAX_WHEEL_SPEED, new int[] { 13, 12 },
+                driveSubsystemRightTalon1, driveSubsystemRightTalon2);
         SmartDashboard.putData("Right Wheels", driveSubsystemRightWheels);
 
         driveSubsystemDriveController = new TwoWheelDriveController<EncoderWheelController<SpeedController>>(

@@ -6,6 +6,8 @@
  */
 package org.usfirst.frc.team2084.CMonster2016.drive;
 
+import org.usfirst.frc.team2084.CMonster2016.drive.processors.LinearRamper;
+
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -20,6 +22,8 @@ import edu.wpi.first.wpilibj.SpeedController;
  * @author Ben Wolsieffer
  */
 public class DIOEncoderWheelController<S extends SpeedController> extends EncoderWheelController<SpeedController> {
+
+    private final LinearRamper ramper = new LinearRamper(4.5, LinearRamper.Type.UP);
 
     /**
      * The PIDController the maintains the speed of the wheel.
@@ -88,7 +92,7 @@ public class DIOEncoderWheelController<S extends SpeedController> extends Encode
     public void set(double speed) {
         if (isEncoderEnabled()) {
             speedPIDController.setSetpoint(speed * maxSpeed);
-            super.set(pidOutput);
+            super.set(ramper.process(pidOutput));
         } else {
             super.set(speed);
         }
@@ -127,6 +131,7 @@ public class DIOEncoderWheelController<S extends SpeedController> extends Encode
         if (isEncoderEnabled()) {
             speedPIDController.enable();
         }
+        ramper.reset();
     }
 
     /**
@@ -134,8 +139,9 @@ public class DIOEncoderWheelController<S extends SpeedController> extends Encode
      */
     @Override
     public void setEncoderEnabled(boolean enabled) {
+        boolean old = isEncoderEnabled();
         super.setEncoderEnabled(enabled);
-        if (enabled != isEncoderEnabled()) {
+        if (enabled != old) {
             if (enabled) {
                 reset();
             } else {

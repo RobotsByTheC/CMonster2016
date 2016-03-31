@@ -24,7 +24,7 @@ public class ArcadeDrive extends Command {
 
     private static final String INERTIA_GAIN_KEY = "Inertia Gain";
 
-    private static final double INERTIA_GAIN = 1;
+    private static final double INERTIA_GAIN = 0;
 
     private final InertiaGenerator inertiaGenerator = new InertiaGenerator(INERTIA_GAIN);
 

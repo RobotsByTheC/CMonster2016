@@ -66,6 +66,7 @@ public class RotateToHeading extends ParameterCommand {
     protected void initialize() {
         Robot.driveSubsystem.setEncodersEnabled(true);
         execute();
+        arcadeDrive.resetPID();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -80,8 +81,7 @@ public class RotateToHeading extends ParameterCommand {
      */
     @Override
     protected boolean isFinished() {
-        return arcadeDrive.isHeadingOnTarget() || isTimedOut()
-                || /* If we lose the gyro, stop */!RobotMap.driveSubsystemNavX.isConnected();
+        return arcadeDrive.isHeadingOnTarget() || isTimedOut() || !RobotMap.driveSubsystemNavX.isConnected();
     }
 
     /**

@@ -29,17 +29,18 @@ public class ShooterSubsystem extends Subsystem {
      */
     public static final double[][] CALIBRATION_VALUES = { 
         // { distance (ft), angle (degrees), speed (RPM) }
-        { 8, 46, 2700 },
-        { 8, 43, 2700 },
-        { 9, 42, 2700 },
-        { 10, 41, 2700 },
-        { 11, 40, 2700 },
-        { 12, 39, 2700 },
-        { 13, 38, 2740 }, 
-        { 14, 36.5, 2740 },
-        { 15.1, 35, 2740 }, 
-        { 16, 37, 3000 }, 
-        { 17, 35, 3000 }
+        { 8.25,  45,   2500 },
+        { 9.12,  43,   2700 },
+        { 10.22, 42,   2700 },
+        { 11.13, 39.5, 2700 },
+        { 12.09, 38.5, 2700 },
+        { 13.14, 38,   2700 },
+        { 14.11, 37.5, 2700 }, 
+        { 15.17, 37,   2700 },
+        { 16.14, 36.5, 2700 }, 
+        // stopped
+        //{ 16,    37,   3000 }, 
+        //{ 17,    35,   3000 }
     };
     //@formatter:on
 
@@ -100,10 +101,10 @@ public class ShooterSubsystem extends Subsystem {
 
     public static final double INTAKE_SPEED = -2000;
     public static final double LOW_GOAL_SPEED = 2000;
-    public static final double RIGHT_FIRING_SERVO_EXTEND_POSITION = 0.54;
-    public static final double RIGHT_FIRING_SERVO_RETRACT_POSITION = 0.285;
-    public static final double LEFT_FIRING_SERVO_EXTEND_POSITION = 0.17;
-    public static final double LEFT_FIRING_SERVO_RETRACT_POSITION = 0.44;
+    public static final double RIGHT_FIRING_SERVO_EXTEND_POSITION = 0.555;
+    public static final double RIGHT_FIRING_SERVO_RETRACT_POSITION = 0.29;
+    public static final double LEFT_FIRING_SERVO_EXTEND_POSITION = 0.2;
+    public static final double LEFT_FIRING_SERVO_RETRACT_POSITION = 0.45;
 
     /**
      * Encoder counts per revolution.
