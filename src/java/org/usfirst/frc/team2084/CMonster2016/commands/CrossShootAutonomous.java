@@ -8,7 +8,11 @@ package org.usfirst.frc.team2084.CMonster2016.commands;
 
 import java.util.concurrent.Future;
 
+import org.usfirst.frc.team2084.CMonster2016.subsystems.ArmSubsystem;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import jaci.pathfinder.Trajectory;
 
@@ -27,7 +31,9 @@ public class CrossShootAutonomous extends CommandGroup {
     public CrossShootAutonomous(Future<Trajectory[]> trajectory) {
         // Get the robot and arm into a position where the camera can see the
         // goal
-        addSequential(new CrossAutonomous());
+        addSequential(new ParallelCommandGroup(
+                new SequentialCommandGroup(new WaitCommand(MOVEMENT_WAIT_TIME), new PathFollower(trajectory)),
+                new SetArmAngle(ArmSubsystem.AIM_ANGLE)));
         // Make sure the ball is out of the shooter wheels
         addParallel(new SetShooterSpeed(-1000));
         addSequential(new WaitCommand(0.5));
