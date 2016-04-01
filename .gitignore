@@ -9,7 +9,6 @@
 /dist/
 /.settings/
 
-*.jar
 
 # Java class files
 *.class
