@@ -91,8 +91,6 @@ public class Robot extends IterativeRobot {
         loggingCommand = new LoggingCommand();
         loggingCommand.start();
 
-        new SetCameraAutoExposure(false).start();
-
         // Add autonomous modes to the chooser
         autonomousChooser.addObject("Do nothing", null);
         autonomousChooser.addObject("Cross Defense", new CrossAutonomous());
