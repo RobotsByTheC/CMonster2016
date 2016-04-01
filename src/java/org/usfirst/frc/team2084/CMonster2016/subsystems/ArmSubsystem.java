@@ -251,7 +251,7 @@ public class ArmSubsystem extends Subsystem {
     private final ITable sdTable = NetworkTable.getTable("SmartDashboard");
 
     public double getSavedArmAngle() {
-        return SmartDashboard.getNumber(ARM_ANGLE_KEY, 0);
+        return Math.toDegrees(SmartDashboard.getNumber(ARM_ANGLE_KEY, 0));
     }
 
     /**

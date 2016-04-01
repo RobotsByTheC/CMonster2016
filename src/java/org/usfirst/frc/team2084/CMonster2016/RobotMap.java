@@ -96,9 +96,9 @@ public class RobotMap {
 
     // Trajectories
     public static final Trajectory.Config AUTONOMOUS_TRAJECTORY_CONFIG = new Config(Trajectory.FitMethod.HERMITE_CUBIC,
-            Trajectory.Config.SAMPLES_HIGH, DRIVE_SUBSYSTEM_TRAJECTORY_PERIOD, 2, 2, 60);
+            Trajectory.Config.SAMPLES_HIGH, DRIVE_SUBSYSTEM_TRAJECTORY_PERIOD, 0.2, 0.5, 40);
     public static final Waypoint[] LOW_BAR_AUTONOMOUS_WAYPOINTS =
-            { new Waypoint(1.5, 0, 0), new Waypoint(2.7, 1.22, Math.toRadians(45)) };
+            { new Waypoint(0.5, 0.5, 0), new Waypoint(1, 0.5, Math.toRadians(45)) };
     public static final Waypoint[] POSITION_2_AUTONOMOUS_WAYPOINTS =
             { new Waypoint(1.5, 0, 0), new Waypoint(3, 0, Math.toRadians(45)) };
     public static final Waypoint[] POSITION_3_AUTONOMOUS_WAYPOINTS =

@@ -27,7 +27,7 @@ public class ArcadeDrive extends Command {
 
     private static final double INERTIA_GAIN = 0;
     private static final double DEADBAND = 0.07;
-    private static final double MAX_ROTATION = 0.6;
+    private static final double MAX_ROTATION = 0.4;
 
     private final InertiaGenerator inertiaGenerator = new InertiaGenerator(INERTIA_GAIN);
     private final RescalingDeadband deadband = new RescalingDeadband(DEADBAND);
@@ -57,8 +57,8 @@ public class ArcadeDrive extends Command {
         // Process the inputs
         double x = deadband.process(j.getX());
         double y = deadband.process(j.getY());
-        x *= x * x * x * MAX_ROTATION;
-        y *= y * y < 0 ? -1 : 1;
+        x *= x * x * MAX_ROTATION;
+        y *= y * (y < 0 ? -1 : 1);
 
         inertiaGenerator.setInertiaGain(SmartDashboard.getNumber(INERTIA_GAIN_KEY, INERTIA_GAIN));
 

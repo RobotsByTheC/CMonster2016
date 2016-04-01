@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj.SpeedController;
  */
 public class DIOEncoderWheelController<S extends SpeedController> extends EncoderWheelController<SpeedController> {
 
-    private final LinearRamper ramper = new LinearRamper(4.5, LinearRamper.Type.UP);
+    private final LinearRamper ramper = new LinearRamper(3, LinearRamper.Type.UP);
 
     /**
      * The PIDController the maintains the speed of the wheel.

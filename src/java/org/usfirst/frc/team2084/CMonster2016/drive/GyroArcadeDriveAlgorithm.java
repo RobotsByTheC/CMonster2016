@@ -222,7 +222,7 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
 
     public void resetPID() {
         headingPIDController.reset();
-        averageError.reset(getHeadingError());
+        averageError.reset(-getHeadingError());
         headingPID = 0;
     }
 
