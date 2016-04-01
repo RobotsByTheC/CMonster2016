@@ -16,8 +16,8 @@ import org.usfirst.frc.team2084.CMonster2016.drive.PIDConstants;
 
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.followers.DistanceFollower;
-import jaci.pathfinder.modifiers.TankModifier;
 
 /**
  * Follows the specified trajectory, which is read from a file.
@@ -51,7 +51,7 @@ public class PathFollower extends ParameterCommand {
     private final DistanceFollower leftFollower = new DistanceFollower();
     private final DistanceFollower rightFollower = new DistanceFollower();
 
-    private final Future<TankModifier> trajectory;
+    private final Future<Trajectory[]> trajectory;
 
     private boolean finished = false;
 
@@ -84,7 +84,7 @@ public class PathFollower extends ParameterCommand {
         }
     }
 
-    public PathFollower(Future<TankModifier> trajectory) {
+    public PathFollower(Future<Trajectory[]> trajectory) {
         this.trajectory = trajectory;
     }
 
@@ -93,10 +93,10 @@ public class PathFollower extends ParameterCommand {
         try {
             trajectoryTimer.stop();
 
-            TankModifier tMod = trajectory.get();
+            Trajectory[] tMod = trajectory.get();
 
-            leftFollower.setTrajectory(tMod.getLeftTrajectory());
-            rightFollower.setTrajectory(tMod.getRightTrajectory());
+            leftFollower.setTrajectory(tMod[0]);
+            rightFollower.setTrajectory(tMod[1]);
 
             PIDConstants pid = RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_PID_CONSTANTS;
 

@@ -10,7 +10,7 @@ import java.util.concurrent.Future;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
-import jaci.pathfinder.modifiers.TankModifier;
+import jaci.pathfinder.Trajectory;
 
 /**
  * Autonomous mode that drives under the low bar and shoots using the vision
@@ -24,7 +24,7 @@ public class CrossShootAutonomous extends CommandGroup {
 
     public static final String ROTATION_KEY = "Auto rotation angle";
 
-    public CrossShootAutonomous(Future<TankModifier> trajectory) {
+    public CrossShootAutonomous(Future<Trajectory[]> trajectory) {
         // Get the robot and arm into a position where the camera can see the
         // goal
         addSequential(new CrossAutonomous());

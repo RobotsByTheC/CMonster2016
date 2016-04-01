@@ -36,7 +36,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Trajectory.Config;
 import jaci.pathfinder.Waypoint;
-import jaci.pathfinder.modifiers.TankModifier;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -108,15 +107,15 @@ public class RobotMap {
     public static final Waypoint[] POSITION_5_AUTONOMOUS_WAYPOINTS =
             { new Waypoint(1.25, 0, 0), new Waypoint(2.25, -1.67, 0) };
 
-    public static final Future<TankModifier> LOW_BAR_AUTONOMOUS_TRAJECTORY =
+    public static final Future<Trajectory[]> LOW_BAR_AUTONOMOUS_TRAJECTORY =
             TrajectoryGenerator.generate(LOW_BAR_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
-    public static final Future<TankModifier> POSITION_2_AUTONOMOUS_TRAJECTORY =
+    public static final Future<Trajectory[]> POSITION_2_AUTONOMOUS_TRAJECTORY =
             TrajectoryGenerator.generate(POSITION_2_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
-    public static final Future<TankModifier> POSITION_3_AUTONOMOUS_TRAJECTORY =
+    public static final Future<Trajectory[]> POSITION_3_AUTONOMOUS_TRAJECTORY =
             TrajectoryGenerator.generate(POSITION_3_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
-    public static final Future<TankModifier> POSITION_4_AUTONOMOUS_TRAJECTORY =
+    public static final Future<Trajectory[]> POSITION_4_AUTONOMOUS_TRAJECTORY =
             TrajectoryGenerator.generate(POSITION_4_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
-    public static final Future<TankModifier> POSITION_5_AUTONOMOUS_TRAJECTORY =
+    public static final Future<Trajectory[]> POSITION_5_AUTONOMOUS_TRAJECTORY =
             TrajectoryGenerator.generate(POSITION_5_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
 
     public static SpeedController driveSubsystemLeftTalon1;
