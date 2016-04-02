@@ -11,7 +11,7 @@
 </listAttribute>
 <booleanAttribute key="org.eclipse.jdt.launching.ALLOW_TERMINATE" value="false"/>
 <mapAttribute key="org.eclipse.jdt.launching.CONNECT_MAP">
-<mapEntry key="hostname" value="roborio-2084-frc.local"/>
+<mapEntry key="hostname" value="10.20.84.2"/>
 <mapEntry key="port" value="5910"/>
 </mapAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="CMonster2016"/>

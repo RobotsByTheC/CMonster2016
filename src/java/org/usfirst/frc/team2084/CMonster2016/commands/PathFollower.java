@@ -6,6 +6,8 @@
  */
 package org.usfirst.frc.team2084.CMonster2016.commands;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -14,7 +16,6 @@ import org.usfirst.frc.team2084.CMonster2016.RobotMap;
 import org.usfirst.frc.team2084.CMonster2016.drive.DriveUtils;
 import org.usfirst.frc.team2084.CMonster2016.drive.PIDConstants;
 
-import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.followers.DistanceFollower;
@@ -46,20 +47,19 @@ public class PathFollower extends ParameterCommand {
         SmartDashboard.putBoolean(TRAJECTORY_DEBUG_KEY, false);
     }
 
-    private final Notifier trajectoryTimer = new Notifier(new TrajectoryTask());
+    private final Timer trajectoryTimer = new Timer();
 
     private final DistanceFollower leftFollower = new DistanceFollower();
     private final DistanceFollower rightFollower = new DistanceFollower();
 
     private final Future<Trajectory[]> trajectory;
 
-    private boolean finished = false;
+    private volatile boolean finished = false;
 
-    private class TrajectoryTask implements Runnable {
+    private class TrajectoryTask extends TimerTask {
 
         @Override
         public void run() {
-
             double leftSpeed = leftFollower.calculate((int) (Robot.driveSubsystem.getLeftWheels().getDistance()));
             double rightSpeed = rightFollower.calculate((int) (Robot.driveSubsystem.getRightWheels().getDistance()));
 
@@ -75,12 +75,14 @@ public class PathFollower extends ParameterCommand {
                 SmartDashboard.putNumber("Traj. Right Vel.", leftFollower.getSegment().velocity);
             }
 
-            double turn = SmartDashboard.getNumber(TRAJECTORY_TURN_KEY, RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_TURN)
-                    * angleDiffRads;
+            double turn = SmartDashboard.getNumber(TRAJECTORY_TURN_KEY, RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_TURN) * angleDiffRads;
 
             RobotMap.driveSubsystemDriveController.drive(leftSpeed + turn, rightSpeed - turn);
 
             finished = leftFollower.isFinished() && rightFollower.isFinished();
+            if(finished) {
+                cancel();
+            }
         }
     }
 
@@ -91,10 +93,12 @@ public class PathFollower extends ParameterCommand {
     @Override
     protected void initialize() {
         try {
-            trajectoryTimer.stop();
+            finished = false;
 
             Trajectory[] tMod = trajectory.get();
 
+            leftFollower.reset();
+            rightFollower.reset();
             leftFollower.setTrajectory(tMod[0]);
             rightFollower.setTrajectory(tMod[1]);
 
@@ -113,7 +117,7 @@ public class PathFollower extends ParameterCommand {
 
             Robot.driveSubsystem.setEncodersEnabled(false);
 
-            trajectoryTimer.startPeriodic(RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_PERIOD);
+            trajectoryTimer.scheduleAtFixedRate(new TrajectoryTask(), 0, (long)(RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_PERIOD * 1000));
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
@@ -130,8 +134,6 @@ public class PathFollower extends ParameterCommand {
 
     @Override
     protected void end() {
-        trajectoryTimer.stop();
-
     }
 
     @Override

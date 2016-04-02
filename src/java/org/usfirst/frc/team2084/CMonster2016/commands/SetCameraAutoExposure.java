@@ -18,7 +18,7 @@ public class SetCameraAutoExposure extends ParameterCommand {
 
     public static final String ENABLED_KEY = "Enabled";
 
-    public static final double ENABLE_TIME = 0.3;
+    public static final double ENABLE_TIME = 0.5;
 
     /**
      * Updates the SmartDashboard indicator based on whether the robot is ready
@@ -35,7 +35,7 @@ public class SetCameraAutoExposure extends ParameterCommand {
     protected void initialize() {
         boolean enable = getBooleanParameter(ENABLED_KEY);
 
-        if (enable) {
+        if (!enable) {
             setTimeout(ENABLE_TIME);
         } else {
             setTimeout(0);

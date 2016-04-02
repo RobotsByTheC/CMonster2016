@@ -29,6 +29,7 @@ public class CrossShootAutonomous extends CommandGroup {
     public static final String ROTATION_KEY = "Auto rotation angle";
 
     public CrossShootAutonomous(Future<Trajectory[]> trajectory) {
+        addSequential(new AutonomousSetup());
         // Get the robot and arm into a position where the camera can see the
         // goal
         addSequential(new ParallelCommandGroup(

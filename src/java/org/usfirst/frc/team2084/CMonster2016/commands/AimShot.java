@@ -33,7 +33,7 @@ public class AimShot extends ConditionalCommandGroup {
 
     @Override
     protected boolean shouldRun() {
-        return !VisionResults.isStale();
+        return true;
     }
 
     @Override

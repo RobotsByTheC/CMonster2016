@@ -54,11 +54,11 @@ public class RobotMap {
      * controller.
      */
     public static final PIDConstants DRIVE_SUBSYSTEM_WHEEL_SPEED_PID_CONSTANTS =
-            new PIDConstants(0.1, 0, 0, 1.0 / DRIVE_SUBSYSTEM_MAX_WHEEL_SPEED);
+            new PIDConstants(0.07, 0, 0.5, 1.0 / DRIVE_SUBSYSTEM_MAX_WHEEL_SPEED);
     /**
      * Parameters that are used for the gyro heading PID controller.
      */
-    public static final PIDConstants DRIVE_SUBSYSTEM_HEADING_PID_CONSTANTS = new PIDConstants(0.2, 0, 2);
+    public static final PIDConstants DRIVE_SUBSYSTEM_HEADING_PID_CONSTANTS = new PIDConstants(0.6, 0, 1);
 
     /**
      * Maximum allowed tolerance (in radians) that is considered on target for
@@ -83,11 +83,11 @@ public class RobotMap {
             (Math.PI * DRIVE_SUBSYSTEM_WHEEL_DIAMETER) / 2048 / DRIVE_SUBSYSTEM_BELT_RATIO;
 
     public static final PIDConstants DRIVE_SUBSYSTEM_TRAJECTORY_PID_CONSTANTS =
-            new PIDConstants(1.5, 0, 0, 1.0 / DRIVE_SUBSYSTEM_MAX_WHEEL_SPEED);
+            new PIDConstants(0.2, 0, 0.1, 1.0 / DRIVE_SUBSYSTEM_MAX_WHEEL_SPEED);
 
-    public static final double DRIVE_SUBSYSTEM_TRAJECTORY_ACC_F = 1.0 / 34.0;
+    public static final double DRIVE_SUBSYSTEM_TRAJECTORY_ACC_F = 0.06;
 
-    public static final double DRIVE_SUBSYSTEM_TRAJECTORY_TURN = 2.14;
+    public static final double DRIVE_SUBSYSTEM_TRAJECTORY_TURN = -0.4;
 
     public static final double DRIVE_SUBSYSTEM_TRAJECTORY_PERIOD = 0.01;
 
@@ -95,9 +95,9 @@ public class RobotMap {
 
     // Trajectories
     public static final Trajectory.Config AUTONOMOUS_TRAJECTORY_CONFIG = new Config(Trajectory.FitMethod.HERMITE_CUBIC,
-            Trajectory.Config.SAMPLES_HIGH, DRIVE_SUBSYSTEM_TRAJECTORY_PERIOD, 0.2, 0.5, 40);
+            Trajectory.Config.SAMPLES_HIGH, DRIVE_SUBSYSTEM_TRAJECTORY_PERIOD, 1, 3, 60);
     public static final Waypoint[] LOW_BAR_AUTONOMOUS_WAYPOINTS =
-            { new Waypoint(0.5, 0.5, 0), new Waypoint(1, 0.5, Math.toRadians(45)) };
+            { new Waypoint(0, 0, 0), new Waypoint(1, 0, 0), new Waypoint(2, 0.5, Math.toRadians(45)) };
     public static final Waypoint[] POSITION_2_AUTONOMOUS_WAYPOINTS =
             { new Waypoint(1.5, 0, 0), new Waypoint(3, 0, Math.toRadians(45)) };
     public static final Waypoint[] POSITION_3_AUTONOMOUS_WAYPOINTS =
