@@ -6,8 +6,6 @@
  */
 package org.usfirst.frc.team2084.CMonster2016.commands;
 
-import org.usfirst.frc.team2084.CMonster2016.subsystems.ArmSubsystem;
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -17,9 +15,17 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class CrossAutonomous extends CommandGroup {
 
+    
+    /**
+     * 
+     */
     public CrossAutonomous() {
+        this(3.3);
+    }
+    
+    public CrossAutonomous(double time) {
         addSequential(new AutonomousSetup());
-        addSequential(new SetArmAngle(ArmSubsystem.AIM_ANGLE));
-        addSequential(new DriveHeading(0, 0.8, 3.3));
+        addSequential(new SetArmAngle(Math.toRadians(15)));
+        addSequential(new DriveHeading(0, 0.8, time));
     }
 }

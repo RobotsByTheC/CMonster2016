@@ -42,7 +42,7 @@ public class LoggingCommand extends Command {
     @Override
     protected void initialize() {
         SmartDashboard.putNumber("Heading I Zone", Math.toDegrees(RobotMap.DRIVE_SUBSYSTEM_HEADING_I_ZONE));
-        SmartDashboard.putNumber("Heading Tolerance", Math.toDegrees(RobotMap.DRIVE_SUBSYSTEM_HEADING_TOLERANCE));
+//        SmartDashboard.putNumber("Heading Tolerance", Math.toDegrees(RobotMap.DRIVE_SUBSYSTEM_HEADING_TOLERANCE));
         SmartDashboard.putNumber("Heading PID Min Output", RobotMap.DRIVE_SUBSYSTEM_HEADING_PID_MIN_OUTPUT);
 
         // SmartDashboard.putNumber(LowBarShootAutonomous.ROTATION_KEY,
@@ -84,8 +84,8 @@ public class LoggingCommand extends Command {
         // Update drive subsystem parameters
         RobotMap.driveSubsystemArcadeDriveAlgorithm.setIZone(
                 SmartDashboard.getNumber("Heading I Zone", Math.toRadians(RobotMap.DRIVE_SUBSYSTEM_HEADING_I_ZONE)));
-        RobotMap.driveSubsystemArcadeDriveAlgorithm.setTolerance(Math
-                .toRadians(SmartDashboard.getNumber("Heading Tolerance", RobotMap.DRIVE_SUBSYSTEM_HEADING_TOLERANCE)));
+//        RobotMap.driveSubsystemArcadeDriveAlgorithm.setTolerance(Math
+//                .toRadians(SmartDashboard.getNumber("Heading Tolerance", RobotMap.DRIVE_SUBSYSTEM_HEADING_TOLERANCE)));
         RobotMap.driveSubsystemArcadeDriveAlgorithm.setMinPIDOutput(
                 SmartDashboard.getNumber("Heading PID Min Output", RobotMap.DRIVE_SUBSYSTEM_HEADING_PID_MIN_OUTPUT));
     }
