@@ -10,7 +10,6 @@ import org.usfirst.frc.team2084.CMonster2016.commands.CrossAutonomous;
 import org.usfirst.frc.team2084.CMonster2016.commands.CrossShootAutonomous;
 import org.usfirst.frc.team2084.CMonster2016.commands.HomeArm;
 import org.usfirst.frc.team2084.CMonster2016.commands.LoggingCommand;
-import org.usfirst.frc.team2084.CMonster2016.commands.SetCameraAutoExposure;
 import org.usfirst.frc.team2084.CMonster2016.subsystems.ArmSubsystem;
 import org.usfirst.frc.team2084.CMonster2016.subsystems.DriveSubsystem;
 import org.usfirst.frc.team2084.CMonster2016.subsystems.IntakeSubsystem;

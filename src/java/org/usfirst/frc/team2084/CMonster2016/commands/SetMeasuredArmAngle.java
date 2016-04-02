@@ -6,8 +6,6 @@
  */
 package org.usfirst.frc.team2084.CMonster2016.commands;
 
-import java.util.function.DoubleSupplier;
-
 import org.usfirst.frc.team2084.CMonster2016.Robot;
 
 /**
