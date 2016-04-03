@@ -128,6 +128,7 @@ public class DIOEncoderWheelController<S extends SpeedController> extends Encode
     @Override
     public void reset() {
         speedPIDController.reset();
+        pidOutput = 0;
         if (isEncoderEnabled()) {
             speedPIDController.enable();
         }
