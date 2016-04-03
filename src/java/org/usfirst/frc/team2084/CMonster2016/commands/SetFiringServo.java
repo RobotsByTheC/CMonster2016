@@ -9,6 +9,8 @@ package org.usfirst.frc.team2084.CMonster2016.commands;
 import org.usfirst.frc.team2084.CMonster2016.Robot;
 import org.usfirst.frc.team2084.CMonster2016.subsystems.ShooterSubsystem;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * Sets the shooter firing servo. Even though the firing servo is part of the
  * shooter, this command does not require the {@link ShooterSubsystem}, because
@@ -16,9 +18,18 @@ import org.usfirst.frc.team2084.CMonster2016.subsystems.ShooterSubsystem;
  */
 public class SetFiringServo extends ParameterCommand {
 
+    public static final String FIRING_SERVO_ACTUATION_KEY = "Firing Servo Actuations";
+
     public static final String FIRE_KEY = "Fire";
 
     private boolean m_fire;
+
+    private static int actuations = 0;
+    private static boolean lastPosition = false;
+
+    static {
+        SmartDashboard.putNumber(FIRING_SERVO_ACTUATION_KEY, actuations);
+    }
 
     /**
      * Sets the firing servo position.
@@ -34,6 +45,10 @@ public class SetFiringServo extends ParameterCommand {
     @Override
     protected void initialize() {
         m_fire = getBooleanParameter(FIRE_KEY);
+        if (m_fire != lastPosition) {
+            SmartDashboard.putNumber(FIRING_SERVO_ACTUATION_KEY, ++actuations);
+            lastPosition = m_fire;
+        }
     }
 
     @Override
