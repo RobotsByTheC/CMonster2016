@@ -94,15 +94,15 @@ public class Robot extends IterativeRobot {
         autonomousChooser.addObject("Do nothing", null);
         autonomousChooser.addObject("Cross Defense", new CrossAutonomous());
         autonomousChooser.addObject("Low Bar and Shoot",
-                new CrossShootAutonomous(4, Math.toRadians(45)));
+                new CrossShootAutonomous(3.3, Math.toRadians(45)));
         autonomousChooser.addObject("Cross and Shoot - 2",
-                new CrossShootAutonomous(3.3, Math.toRadians(30)));
+                new CrossShootAutonomous(3, Math.toRadians(30)));
         autonomousChooser.addObject("Cross and Shoot - 3",
-                new CrossShootAutonomous(3.3, Math.toRadians(0)));
+                new CrossShootAutonomous(2.75, Math.toRadians(5)));
         autonomousChooser.addObject("Cross and Shoot - 4",
-                new CrossShootAutonomous(3.3, Math.toRadians(-15)));
+                new CrossShootAutonomous(2.75, Math.toRadians(-10)));
         autonomousChooser.addObject("Cross and Shoot - 5",
-                new CrossShootAutonomous(3.3, Math.toRadians(-30)));
+                new CrossShootAutonomous(2.8, Math.toRadians(-30)));
         autonomousChooser.addDefault("Home Arm", new HomeArm());
         SmartDashboard.putData("Autonomous Mode", autonomousChooser);
 

@@ -18,6 +18,6 @@ public class AutonomousSetup extends CommandGroup {
 
     public AutonomousSetup() {
         addSequential(new ResetGyro());
-        addSequential(new HomeArm());
+//        addSequential(new HomeArm());
     }
 }

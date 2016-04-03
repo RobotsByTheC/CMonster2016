@@ -6,11 +6,7 @@
  */
 package org.usfirst.frc.team2084.CMonster2016.commands;
 
-import org.usfirst.frc.team2084.CMonster2016.subsystems.ArmSubsystem;
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
@@ -21,17 +17,11 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
  */
 public class CrossShootAutonomous extends CommandGroup {
 
-    public static final double MOVEMENT_WAIT_TIME = 2;
-
-    public static final String ROTATION_KEY = "Auto rotation angle";
-
     public CrossShootAutonomous(double time, double heading) {
         addSequential(new CrossAutonomous(time));
         // Get the robot and arm into a position where the camera can see the
         // goal
-        addSequential(new ParallelCommandGroup(
-                new SequentialCommandGroup(new RotateToHeading(heading, true, 5)),
-                new SetArmAngle(ArmSubsystem.AIM_ANGLE)));
+        addSequential(new RotateToHeading(heading, true, 5));
         // Make sure the ball is out of the shooter wheels
         addParallel(new SetShooterSpeed(-1000));
         addSequential(new WaitCommand(0.5));

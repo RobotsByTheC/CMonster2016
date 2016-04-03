@@ -6,7 +6,11 @@
  */
 package org.usfirst.frc.team2084.CMonster2016.commands;
 
+import org.usfirst.frc.team2084.CMonster2016.subsystems.ArmSubsystem;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
  * Autonomous mode that drives over a defense.
@@ -25,7 +29,7 @@ public class CrossAutonomous extends CommandGroup {
     
     public CrossAutonomous(double time) {
         addSequential(new AutonomousSetup());
-        addSequential(new SetArmAngle(Math.toRadians(15)));
-        addSequential(new DriveHeading(0, 0.8, time));
+        addParallel(new SetArmAngle(ArmSubsystem.AIM_ANGLE));
+        addParallel(new SequentialCommandGroup(new WaitCommand(0.75), new DriveHeading(0, 0.8, time)));
     }
 }

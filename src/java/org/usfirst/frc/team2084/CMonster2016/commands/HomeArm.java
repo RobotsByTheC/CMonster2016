@@ -18,7 +18,16 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class HomeArm extends Command {
 
-    public static final double HOMING_SPEED = -1;
+    private enum State {
+        HIGH_SPEED, REVERSE, LOW_SPEED, DONE
+    }
+
+    private State state = State.HIGH_SPEED;
+
+    public static final double HOMING_HIGH_SPEED = -1;
+    public static final double HOMING_REVERSE_SPEED = 0.3;
+    public static final double HOMING_LOW_SPEED = -0.2;
+
     /**
      * In case our crappy limit switches fail, this makes sure that the command
      * still ends and doesn't kill the motors.
@@ -38,18 +47,57 @@ public class HomeArm extends Command {
         // Turn off safety features and the brakes, very dangerous :)
         armSubsystem.setLimitsEnabled(false);
         armSubsystem.setBrakeEnabled(false);
+
+        state = State.HIGH_SPEED;
     }
 
     @Override
     protected void execute() {
-        armSubsystem.setSpeed(HOMING_SPEED);
+        boolean left = RobotMap.armSubsystemLeftTalon.isRevLimitSwitchClosed();
+        boolean right = RobotMap.armSubsystemRightTalon.isRevLimitSwitchClosed();
+        switch (state) {
+        case HIGH_SPEED:
+            if (!left) {
+                armSubsystem.setLeftSpeed(HOMING_HIGH_SPEED);
+            }
+            if (!right) {
+                armSubsystem.setRightSpeed(HOMING_HIGH_SPEED);
+            }
+            if (left && right) {
+                state = State.REVERSE;
+            }
+        break;
+        case REVERSE:
+            if (left) {
+                armSubsystem.setLeftSpeed(HOMING_REVERSE_SPEED);
+            }
+            if (right) {
+                armSubsystem.setRightSpeed(HOMING_REVERSE_SPEED);
+            }
+            if (!left && !right) {
+                state = State.LOW_SPEED;
+            }
+        break;
+        case LOW_SPEED:
+            if (!left) {
+                armSubsystem.setLeftSpeed(HOMING_LOW_SPEED);
+            }
+            if (!right) {
+                armSubsystem.setRightSpeed(HOMING_LOW_SPEED);
+            }
+            if (left && right) {
+                state = State.DONE;
+            }
+        break;
+        case DONE:
+            armSubsystem.stop();
+        }
 
     }
 
     @Override
     protected boolean isFinished() {
-        return (RobotMap.armSubsystemLeftTalon.isRevLimitSwitchClosed()
-                && RobotMap.armSubsystemRightTalon.isRevLimitSwitchClosed()) || isTimedOut();
+        return state == State.DONE || isTimedOut();
     }
 
     /**

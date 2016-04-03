@@ -35,7 +35,7 @@ public class DriveSubsystem extends Subsystem {
     private final Encoder leftEncoder = RobotMap.driveSubsystemLeftEncoder;
     private final Encoder rightEncoder = RobotMap.driveSubsystemRightEncoder;
 
-    private final AnalogGyro gyro = RobotMap.driveSubsystemGyro;
+//    private final AnalogGyro gyro = RobotMap.driveSubsystemGyro;
     private final AHRS navX = RobotMap.driveSubsystemNavX;
     private final Accelerometer accelerometer = RobotMap.driveSubsystemAccelerometer;
     private final EncoderWheelController<SpeedController> leftWheels = RobotMap.driveSubsystemLeftWheels;

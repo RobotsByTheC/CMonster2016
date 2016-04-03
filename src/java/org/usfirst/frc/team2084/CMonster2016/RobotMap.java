@@ -65,7 +65,7 @@ public class RobotMap {
      * heading.
      */
     public static final double DRIVE_SUBSYSTEM_HEADING_TOLERANCE = 0.003;
-    public static final double DRIVE_SUBSYSTEM_LOOSE_HEADING_TOLERANCE = 0.06;
+    public static final double DRIVE_SUBSYSTEM_LOOSE_HEADING_TOLERANCE = Math.toRadians(7);
 
     public static final double DRIVE_SUBSYSTEM_HEADING_I_ZONE = 0.07;
 
@@ -136,7 +136,7 @@ public class RobotMap {
     /**
      * The analog gyro that was replaced by the navX.
      */
-    public static AnalogGyro driveSubsystemGyro;
+//    public static AnalogGyro driveSubsystemGyro;
 
     /**
      * The navX Micro used for autonomous and aiming
@@ -215,8 +215,8 @@ public class RobotMap {
         intakeSubsystemVictor = new Victor(4);
         LiveWindow.addActuator("Intake Subsystem", "Victor", (Victor) intakeSubsystemVictor);
 
-        driveSubsystemGyro = new AnalogGyro(0);
-        LiveWindow.addSensor("Drive Subsystem", "Gyro", driveSubsystemGyro);
+//        driveSubsystemGyro = new AnalogGyro(0);
+//        LiveWindow.addSensor("Drive Subsystem", "Gyro", driveSubsystemGyro);
 
         driveSubsystemNavX = new AHRS(I2C.Port.kMXP);
         LiveWindow.addSensor("Drive Subsystem", "navX", driveSubsystemNavX);
