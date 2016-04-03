@@ -55,6 +55,8 @@ public class OI {
     public POVHatButton lowGoalButton;
     public JoystickButton visionPrepareButton;
     public JoystickButton chevalDeFriseButton;
+    public JoystickButton encoderEnableButton;
+    public JoystickButton encoderDisableButton;
 
     public OI() {
 
@@ -97,6 +99,12 @@ public class OI {
 
         chevalDeFriseButton = new JoystickButton(driveJoystick, 6);
         chevalDeFriseButton.whenPressed(new SetArmAngle(Math.toRadians(20)));
+        
+        encoderEnableButton = new JoystickButton(driveJoystick, 9);
+        encoderEnableButton.whenPressed(new SetEncodersEnabled(true));
+        
+        encoderDisableButton = new JoystickButton(driveJoystick, 10);
+        encoderDisableButton.whenPressed(new SetEncodersEnabled(false));
 
         // SmartDashboard Buttons
         SmartDashboard.putData("Clear Faults", new ClearFaults());
