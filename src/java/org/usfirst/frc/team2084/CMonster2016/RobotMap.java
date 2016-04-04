@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
@@ -53,8 +54,7 @@ public class RobotMap {
      * Parameters that are used for the encoder based wheel speed PID
      * controller.
      */
-    public static final PIDConstants DRIVE_SUBSYSTEM_WHEEL_SPEED_PID_CONSTANTS =
-            new PIDConstants(0.07, 0, 0.5, 1.0 / DRIVE_SUBSYSTEM_MAX_WHEEL_SPEED);
+    public static final PIDConstants DRIVE_SUBSYSTEM_WHEEL_SPEED_PID_CONSTANTS = new PIDConstants(0.07, 0, 0.5, 1.0 / DRIVE_SUBSYSTEM_MAX_WHEEL_SPEED);
     /**
      * Parameters that are used for the gyro heading PID controller.
      */
@@ -79,11 +79,9 @@ public class RobotMap {
 
     public static final double DRIVE_SUBSYSTEM_BELT_RATIO = 42 / 39;
 
-    public static final double DRIVE_SUBYSTEM_ENCODER_DISTANCE_PER_PULSE =
-            (Math.PI * DRIVE_SUBSYSTEM_WHEEL_DIAMETER) / 2048 / DRIVE_SUBSYSTEM_BELT_RATIO;
+    public static final double DRIVE_SUBYSTEM_ENCODER_DISTANCE_PER_PULSE = (Math.PI * DRIVE_SUBSYSTEM_WHEEL_DIAMETER) / 2048 / DRIVE_SUBSYSTEM_BELT_RATIO;
 
-    public static final PIDConstants DRIVE_SUBSYSTEM_TRAJECTORY_PID_CONSTANTS =
-            new PIDConstants(0.2, 0, 0.1, 1.0 / DRIVE_SUBSYSTEM_MAX_WHEEL_SPEED);
+    public static final PIDConstants DRIVE_SUBSYSTEM_TRAJECTORY_PID_CONSTANTS = new PIDConstants(0.2, 0, 0.1, 1.0 / DRIVE_SUBSYSTEM_MAX_WHEEL_SPEED);
 
     public static final double DRIVE_SUBSYSTEM_TRAJECTORY_ACC_F = 0.06;
 
@@ -94,29 +92,18 @@ public class RobotMap {
     public static final double HALF_PI = Math.PI / 2;
 
     // Trajectories
-    public static final Trajectory.Config AUTONOMOUS_TRAJECTORY_CONFIG = new Config(Trajectory.FitMethod.HERMITE_CUBIC,
-            Trajectory.Config.SAMPLES_HIGH, DRIVE_SUBSYSTEM_TRAJECTORY_PERIOD, 1, 3, 60);
-    public static final Waypoint[] LOW_BAR_AUTONOMOUS_WAYPOINTS =
-            { new Waypoint(0, 0, 0), new Waypoint(1, 0, 0), new Waypoint(2, 0.5, Math.toRadians(45)) };
-    public static final Waypoint[] POSITION_2_AUTONOMOUS_WAYPOINTS =
-            { new Waypoint(1.5, 0, 0), new Waypoint(3, 0, Math.toRadians(45)) };
-    public static final Waypoint[] POSITION_3_AUTONOMOUS_WAYPOINTS =
-            { new Waypoint(1.25, 0, 0), new Waypoint(2, 0.76, 0) };
-    public static final Waypoint[] POSITION_4_AUTONOMOUS_WAYPOINTS =
-            { new Waypoint(1.25, 0, 0), new Waypoint(2, -0.76, 0) };
-    public static final Waypoint[] POSITION_5_AUTONOMOUS_WAYPOINTS =
-            { new Waypoint(1.25, 0, 0), new Waypoint(2.25, -1.67, 0) };
+    public static final Trajectory.Config AUTONOMOUS_TRAJECTORY_CONFIG = new Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, DRIVE_SUBSYSTEM_TRAJECTORY_PERIOD, 1, 3, 60);
+    public static final Waypoint[] LOW_BAR_AUTONOMOUS_WAYPOINTS = { new Waypoint(0, 0, 0), new Waypoint(1, 0, 0), new Waypoint(2, 0.5, Math.toRadians(45)) };
+    public static final Waypoint[] POSITION_2_AUTONOMOUS_WAYPOINTS = { new Waypoint(1.5, 0, 0), new Waypoint(3, 0, Math.toRadians(45)) };
+    public static final Waypoint[] POSITION_3_AUTONOMOUS_WAYPOINTS = { new Waypoint(1.25, 0, 0), new Waypoint(2, 0.76, 0) };
+    public static final Waypoint[] POSITION_4_AUTONOMOUS_WAYPOINTS = { new Waypoint(1.25, 0, 0), new Waypoint(2, -0.76, 0) };
+    public static final Waypoint[] POSITION_5_AUTONOMOUS_WAYPOINTS = { new Waypoint(1.25, 0, 0), new Waypoint(2.25, -1.67, 0) };
 
-    public static final Future<Trajectory[]> LOW_BAR_AUTONOMOUS_TRAJECTORY =
-            TrajectoryGenerator.generate(LOW_BAR_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
-    public static final Future<Trajectory[]> POSITION_2_AUTONOMOUS_TRAJECTORY =
-            TrajectoryGenerator.generate(POSITION_2_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
-    public static final Future<Trajectory[]> POSITION_3_AUTONOMOUS_TRAJECTORY =
-            TrajectoryGenerator.generate(POSITION_3_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
-    public static final Future<Trajectory[]> POSITION_4_AUTONOMOUS_TRAJECTORY =
-            TrajectoryGenerator.generate(POSITION_4_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
-    public static final Future<Trajectory[]> POSITION_5_AUTONOMOUS_TRAJECTORY =
-            TrajectoryGenerator.generate(POSITION_5_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
+    public static final Future<Trajectory[]> LOW_BAR_AUTONOMOUS_TRAJECTORY = TrajectoryGenerator.generate(LOW_BAR_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
+    public static final Future<Trajectory[]> POSITION_2_AUTONOMOUS_TRAJECTORY = TrajectoryGenerator.generate(POSITION_2_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
+    public static final Future<Trajectory[]> POSITION_3_AUTONOMOUS_TRAJECTORY = TrajectoryGenerator.generate(POSITION_3_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
+    public static final Future<Trajectory[]> POSITION_4_AUTONOMOUS_TRAJECTORY = TrajectoryGenerator.generate(POSITION_4_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
+    public static final Future<Trajectory[]> POSITION_5_AUTONOMOUS_TRAJECTORY = TrajectoryGenerator.generate(POSITION_5_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
 
     public static SpeedController driveSubsystemLeftTalon1;
     public static SpeedController driveSubsystemLeftTalon2;
@@ -136,7 +123,7 @@ public class RobotMap {
     /**
      * The analog gyro that was replaced by the navX.
      */
-//    public static AnalogGyro driveSubsystemGyro;
+    // public static AnalogGyro driveSubsystemGyro;
 
     /**
      * The navX Micro used for autonomous and aiming
@@ -212,11 +199,11 @@ public class RobotMap {
         shooterSubsystemJetsonPower = new DigitalOutput(11);
         LiveWindow.addActuator("Shooter Subsystem", "Jetson Power", shooterSubsystemJetsonPower);
 
-        intakeSubsystemVictor = new Victor(4);
-        LiveWindow.addActuator("Intake Subsystem", "Victor", (Victor) intakeSubsystemVictor);
+        intakeSubsystemVictor = new Spark(4);
+        LiveWindow.addActuator("Intake Subsystem", "Spark", (Spark) intakeSubsystemVictor);
 
-//        driveSubsystemGyro = new AnalogGyro(0);
-//        LiveWindow.addSensor("Drive Subsystem", "Gyro", driveSubsystemGyro);
+        // driveSubsystemGyro = new AnalogGyro(0);
+        // LiveWindow.addSensor("Drive Subsystem", "Gyro", driveSubsystemGyro);
 
         driveSubsystemNavX = new AHRS(I2C.Port.kMXP);
         LiveWindow.addSensor("Drive Subsystem", "navX", driveSubsystemNavX);
@@ -224,20 +211,14 @@ public class RobotMap {
         driveSubsystemAccelerometer = new BuiltInAccelerometer(Range.k8G);
         LiveWindow.addSensor("Drive Subsystem", "Accelerometer", (BuiltInAccelerometer) driveSubsystemAccelerometer);
 
-        driveSubsystemLeftWheels = new DIOEncoderWheelController<>(driveSubsystemLeftEncoder,
-                DRIVE_SUBSYSTEM_WHEEL_SPEED_PID_CONSTANTS, DRIVE_SUBSYSTEM_MAX_WHEEL_SPEED, new int[] { 2, 3 },
-                driveSubsystemLeftTalon1, driveSubsystemLeftTalon2);
+        driveSubsystemLeftWheels = new DIOEncoderWheelController<>(driveSubsystemLeftEncoder, DRIVE_SUBSYSTEM_WHEEL_SPEED_PID_CONSTANTS, DRIVE_SUBSYSTEM_MAX_WHEEL_SPEED, new int[] { 2, 3 }, driveSubsystemLeftTalon1, driveSubsystemLeftTalon2);
         SmartDashboard.putData("Left Wheels", driveSubsystemLeftWheels);
-        driveSubsystemRightWheels = new DIOEncoderWheelController<>(driveSubsystemRightEncoder,
-                DRIVE_SUBSYSTEM_WHEEL_SPEED_PID_CONSTANTS, DRIVE_SUBSYSTEM_MAX_WHEEL_SPEED, new int[] { 13, 12 },
-                driveSubsystemRightTalon1, driveSubsystemRightTalon2);
+        driveSubsystemRightWheels = new DIOEncoderWheelController<>(driveSubsystemRightEncoder, DRIVE_SUBSYSTEM_WHEEL_SPEED_PID_CONSTANTS, DRIVE_SUBSYSTEM_MAX_WHEEL_SPEED, new int[] { 13, 12 }, driveSubsystemRightTalon1, driveSubsystemRightTalon2);
         SmartDashboard.putData("Right Wheels", driveSubsystemRightWheels);
 
-        driveSubsystemDriveController = new TwoWheelDriveController<EncoderWheelController<SpeedController>>(
-                driveSubsystemLeftWheels, driveSubsystemRightWheels);
+        driveSubsystemDriveController = new TwoWheelDriveController<EncoderWheelController<SpeedController>>(driveSubsystemLeftWheels, driveSubsystemRightWheels);
 
-        driveSubsystemArcadeDriveAlgorithm = new GyroArcadeDriveAlgorithm(driveSubsystemDriveController,
-                driveSubsystemNavX, DRIVE_SUBSYSTEM_HEADING_PID_CONSTANTS);
+        driveSubsystemArcadeDriveAlgorithm = new GyroArcadeDriveAlgorithm(driveSubsystemDriveController, driveSubsystemNavX, DRIVE_SUBSYSTEM_HEADING_PID_CONSTANTS);
         driveSubsystemArcadeDriveAlgorithm.setTolerance(DRIVE_SUBSYSTEM_LOOSE_HEADING_TOLERANCE);
         driveSubsystemArcadeDriveAlgorithm.setIZone(DRIVE_SUBSYSTEM_HEADING_I_ZONE);
 

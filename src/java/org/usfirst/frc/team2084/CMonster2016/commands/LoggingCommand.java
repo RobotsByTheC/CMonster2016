@@ -88,6 +88,8 @@ public class LoggingCommand extends Command {
 //                .toRadians(SmartDashboard.getNumber("Heading Tolerance", RobotMap.DRIVE_SUBSYSTEM_HEADING_TOLERANCE)));
         RobotMap.driveSubsystemArcadeDriveAlgorithm.setMinPIDOutput(
                 SmartDashboard.getNumber("Heading PID Min Output", RobotMap.DRIVE_SUBSYSTEM_HEADING_PID_MIN_OUTPUT));
+        
+        SmartDashboard.putBoolean("Encoders Enabled", Robot.driveSubsystem.getEncodersEnabled());
     }
 
     /**

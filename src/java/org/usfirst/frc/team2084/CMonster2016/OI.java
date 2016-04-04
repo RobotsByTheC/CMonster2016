@@ -86,6 +86,7 @@ public class OI {
 
         lowGoalButton = new POVHatButton(driveJoystick, 0);
         lowGoalButton.whileHeld(new LowGoalScore());
+        lowGoalButton.whenReleased(new SetFiringServo(false));
 
         portcullisButton = new JoystickButton(driveJoystick, 11);
         portcullisButton.whenPressed(new SetArmAngle(Math.toRadians(40)));
@@ -100,10 +101,10 @@ public class OI {
         chevalDeFriseButton = new JoystickButton(driveJoystick, 6);
         chevalDeFriseButton.whenPressed(new SetArmAngle(Math.toRadians(20)));
         
-        encoderEnableButton = new JoystickButton(driveJoystick, 9);
+        encoderEnableButton = new JoystickButton(driveJoystick, 10);
         encoderEnableButton.whenPressed(new SetEncodersEnabled(true));
         
-        encoderDisableButton = new JoystickButton(driveJoystick, 10);
+        encoderDisableButton = new JoystickButton(driveJoystick, 9);
         encoderDisableButton.whenPressed(new SetEncodersEnabled(false));
 
         // SmartDashboard Buttons

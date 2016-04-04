@@ -44,6 +44,8 @@ public class ArcadeDrive extends Command {
     @Override
     protected void initialize() {
         Robot.driveSubsystem.setEncodersEnabled(true);
+        RobotMap.driveSubsystemLeftWheels.reset();
+        RobotMap.driveSubsystemRightWheels.reset();
     }
 
     /**

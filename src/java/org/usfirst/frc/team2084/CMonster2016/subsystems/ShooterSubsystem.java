@@ -102,7 +102,7 @@ public class ShooterSubsystem extends Subsystem {
     public static final double INTAKE_SPEED = -2000;
     public static final double LOW_GOAL_SPEED = 2000;
     public static final double RIGHT_FIRING_SERVO_EXTEND_POSITION = 0.66;
-    public static final double RIGHT_FIRING_SERVO_RETRACT_POSITION = 0.29;
+    public static final double RIGHT_FIRING_SERVO_RETRACT_POSITION = 0.23;
     public static final double LEFT_FIRING_SERVO_EXTEND_POSITION = 0.075;
     public static final double LEFT_FIRING_SERVO_RETRACT_POSITION = 0.45;
 
