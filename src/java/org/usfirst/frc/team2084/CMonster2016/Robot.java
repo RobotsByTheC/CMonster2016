@@ -93,16 +93,11 @@ public class Robot extends IterativeRobot {
         // Add autonomous modes to the chooser
         autonomousChooser.addObject("Do nothing", null);
         autonomousChooser.addObject("Cross Defense", new CrossAutonomous());
-        autonomousChooser.addObject("Low Bar and Shoot",
-                new CrossShootAutonomous(3.3, Math.toRadians(45)));
-        autonomousChooser.addObject("Cross and Shoot - 2",
-                new CrossShootAutonomous(Math.toRadians(30)));
-        autonomousChooser.addObject("Cross and Shoot - 3",
-                new CrossShootAutonomous(Math.toRadians(5)));
-        autonomousChooser.addObject("Cross and Shoot - 4",
-                new CrossShootAutonomous(Math.toRadians(-10)));
-        autonomousChooser.addObject("Cross and Shoot - 5",
-                new CrossShootAutonomous(Math.toRadians(-30)));
+        autonomousChooser.addObject("Low Bar and Shoot", new CrossShootAutonomous(3.3, Math.toRadians(45)));
+        autonomousChooser.addObject("Cross and Shoot - 2", new CrossShootAutonomous(Math.toRadians(30)));
+        autonomousChooser.addObject("Cross and Shoot - 3", new CrossShootAutonomous(Math.toRadians(5)));
+        autonomousChooser.addObject("Cross and Shoot - 4", new CrossShootAutonomous(Math.toRadians(-10)));
+        autonomousChooser.addObject("Cross and Shoot - 5", new CrossShootAutonomous(Math.toRadians(-30)));
         autonomousChooser.addDefault("Home Arm", new HomeArm());
         SmartDashboard.putData("Autonomous Mode", autonomousChooser);
     }
@@ -140,6 +135,8 @@ public class Robot extends IterativeRobot {
         if (autonomousCommand != null) {
             autonomousCommand.cancel();
         }
+
+        Robot.shooterSubsystem.setFiringServo(false);
     }
 
     /**
