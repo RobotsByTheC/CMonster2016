@@ -164,7 +164,7 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
      */
     public double getRotationRate() {
         synchronized (this) {
-            return gyro.getRate() * headingInverted;
+            return Math.toRadians(gyro.getRate() * headingInverted);
         }
     }
 
