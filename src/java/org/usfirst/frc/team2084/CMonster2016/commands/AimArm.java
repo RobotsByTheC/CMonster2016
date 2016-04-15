@@ -22,9 +22,13 @@ public class AimArm extends SetArmAngle {
      */
     public static final double TIMEOUT = 5;
     private boolean stale = false;
-    
+
     public AimArm() {
-        super(() -> ShooterSubsystem.getCalibrationAngle(VisionResults.getGoalDistance()));
+        this(0);
+    }
+
+    public AimArm(double angleOffset) {
+        super(() -> ShooterSubsystem.getCalibrationAngle(VisionResults.getGoalDistance()) + angleOffset);
         setTimeout(TIMEOUT);
     }
 

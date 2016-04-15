@@ -6,6 +6,7 @@
  */
 package org.usfirst.frc.team2084.CMonster2016;
 
+import org.usfirst.frc.team2084.CMonster2016.RobotMap.AutonomousDefense;
 import org.usfirst.frc.team2084.CMonster2016.commands.CrossAutonomous;
 import org.usfirst.frc.team2084.CMonster2016.commands.CrossShootAutonomous;
 import org.usfirst.frc.team2084.CMonster2016.commands.HomeArm;
@@ -37,6 +38,8 @@ public class Robot extends IterativeRobot {
      * mode.
      */
     private final SendableChooser autonomousChooser = new SendableChooser();
+
+    private final SendableChooser autonomousDefenseChooser = new SendableChooser();
 
     /**
      * The currently selected autonomous {@link Command}, updated when
@@ -93,13 +96,17 @@ public class Robot extends IterativeRobot {
         // Add autonomous modes to the chooser
         autonomousChooser.addObject("Do nothing", null);
         autonomousChooser.addObject("Cross Defense", new CrossAutonomous());
-        autonomousChooser.addObject("Low Bar and Shoot", new CrossShootAutonomous(3.3, Math.toRadians(45)));
-        autonomousChooser.addObject("Cross and Shoot - 2", new CrossShootAutonomous(Math.toRadians(30)));
-        autonomousChooser.addObject("Cross and Shoot - 3", new CrossShootAutonomous(Math.toRadians(5)));
-        autonomousChooser.addObject("Cross and Shoot - 4", new CrossShootAutonomous(Math.toRadians(-10)));
-        autonomousChooser.addObject("Cross and Shoot - 5", new CrossShootAutonomous(Math.toRadians(-30)));
+        autonomousChooser.addObject("Low Bar and Shoot", RobotMap.AutonomousPosition.LOW_BAR);
+        autonomousChooser.addObject("Cross and Shoot - 2", RobotMap.AutonomousPosition.POSITION_2);
+        autonomousChooser.addObject("Cross and Shoot - 3", RobotMap.AutonomousPosition.POSITION_3);
+        autonomousChooser.addObject("Cross and Shoot - 4", RobotMap.AutonomousPosition.POSITION_4);
+        autonomousChooser.addObject("Cross and Shoot - 5", RobotMap.AutonomousPosition.POSITION_5);
         autonomousChooser.addDefault("Home Arm", new HomeArm());
         SmartDashboard.putData("Autonomous Mode", autonomousChooser);
+
+        autonomousDefenseChooser.addDefault("Rock Wall", AutonomousDefense.ROCK_WALL);
+        autonomousDefenseChooser.addObject("Rough Terrain", AutonomousDefense.ROUGH_TERRAIN);
+        SmartDashboard.putData("Defense", autonomousDefenseChooser);
     }
 
     /**
@@ -111,6 +118,12 @@ public class Robot extends IterativeRobot {
         if (autoMode instanceof Command) {
             autonomousCommand = (Command) autoMode;
             autonomousCommand.start();
+        } else if (autoMode instanceof RobotMap.AutonomousPosition) {
+            RobotMap.AutonomousPosition autonomousPosition = (RobotMap.AutonomousPosition) autoMode;
+            RobotMap.AutonomousDefense autonomousDefense =
+                    (RobotMap.AutonomousDefense) autonomousDefenseChooser.getSelected();
+            autonomousCommand =
+                    new CrossShootAutonomous(RobotMap.AutonomousMode.get(autonomousPosition, autonomousDefense));
         }
     }
 
