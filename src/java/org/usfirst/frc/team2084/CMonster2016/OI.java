@@ -9,6 +9,7 @@ package org.usfirst.frc.team2084.CMonster2016;
 import org.usfirst.frc.team2084.CMonster2016.commands.AimArm;
 import org.usfirst.frc.team2084.CMonster2016.commands.AimRobot;
 import org.usfirst.frc.team2084.CMonster2016.commands.AimShot;
+import org.usfirst.frc.team2084.CMonster2016.commands.BatterShot;
 import org.usfirst.frc.team2084.CMonster2016.commands.ClearFaults;
 import org.usfirst.frc.team2084.CMonster2016.commands.DriveHeading;
 import org.usfirst.frc.team2084.CMonster2016.commands.HomeArm;
@@ -27,6 +28,7 @@ import org.usfirst.frc.team2084.CMonster2016.commands.SetIntakeSpeed;
 import org.usfirst.frc.team2084.CMonster2016.commands.SetMeasuredArmAngle;
 import org.usfirst.frc.team2084.CMonster2016.commands.SetShooterSpeed;
 import org.usfirst.frc.team2084.CMonster2016.commands.TakeSnapshot;
+import org.usfirst.frc.team2084.CMonster2016.commands.ToggleCamera;
 import org.usfirst.frc.team2084.CMonster2016.subsystems.ArmSubsystem;
 import org.usfirst.frc.team2084.CMonster2016.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team2084.CMonster2016.subsystems.ShooterSubsystem;
@@ -58,6 +60,8 @@ public class OI {
     public JoystickButton chevalDeFriseButton;
     public JoystickButton encoderEnableButton;
     public JoystickButton encoderDisableButton;
+    public JoystickButton batterShotButton;
+    public JoystickButton toggleCameraButton;
 
     public OI() {
 
@@ -98,7 +102,7 @@ public class OI {
 
         visionPrepareButton = new JoystickButton(secondaryJoystick, 1);
         visionPrepareButton.whenPressed(new ParallelCommandGroup(new SetArmAngle(ArmSubsystem.AIM_ANGLE),
-                new SetShooterSpeed(ShooterSubsystem.INTAKE_SPEED), new SetIntakeCamera(false)));
+                new SetShooterSpeed(ShooterSubsystem.INTAKE_SPEED)));
 
         chevalDeFriseButton = new JoystickButton(driveJoystick, 6);
         chevalDeFriseButton.whenPressed(new SetArmAngle(Math.toRadians(20)));
@@ -108,6 +112,12 @@ public class OI {
 
         encoderDisableButton = new JoystickButton(driveJoystick, 9);
         encoderDisableButton.whenPressed(new SetEncodersEnabled(false));
+        
+        batterShotButton = new JoystickButton(secondaryJoystick, 7);
+        batterShotButton.whileHeld(new BatterShot());
+        
+        toggleCameraButton = new JoystickButton(secondaryJoystick, 2);
+        toggleCameraButton.whenPressed(new ToggleCamera());
 
         // SmartDashboard Buttons
         SmartDashboard.putData("Clear Faults", new ClearFaults());

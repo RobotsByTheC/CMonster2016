@@ -6,7 +6,6 @@
  */
 package org.usfirst.frc.team2084.CMonster2016.subsystems;
 
-import org.usfirst.frc.team2084.CMonster2016.AnalogGyro;
 import org.usfirst.frc.team2084.CMonster2016.RobotMap;
 import org.usfirst.frc.team2084.CMonster2016.commands.ArcadeDrive;
 import org.usfirst.frc.team2084.CMonster2016.drive.EncoderWheelController;

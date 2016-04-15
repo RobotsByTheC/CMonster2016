@@ -29,7 +29,6 @@ import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -58,7 +57,7 @@ public class RobotMap {
     /**
      * Parameters that are used for the gyro heading PID controller.
      */
-    public static final PIDConstants DRIVE_SUBSYSTEM_HEADING_PID_CONSTANTS = new PIDConstants(0.6, 0, 1);
+    public static final PIDConstants DRIVE_SUBSYSTEM_HEADING_PID_CONSTANTS = new PIDConstants(0.8, 0.3, 4);
 
     /**
      * Maximum allowed tolerance (in radians) that is considered on target for
@@ -67,7 +66,7 @@ public class RobotMap {
     public static final double DRIVE_SUBSYSTEM_HEADING_TOLERANCE = 0.003;
     public static final double DRIVE_SUBSYSTEM_LOOSE_HEADING_TOLERANCE = Math.toRadians(7);
 
-    public static final double DRIVE_SUBSYSTEM_HEADING_I_ZONE = 0.07;
+    public static final double DRIVE_SUBSYSTEM_HEADING_I_ZONE = Math.toRadians(0.5);
 
     public static final double DRIVE_SUBSYSTEM_HEADING_PID_MIN_OUTPUT = 0.0;
 
