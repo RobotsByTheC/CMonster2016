@@ -1,0 +1,7 @@
+p = 0.8
+i = 0.3
+d = 4.0
+# degrees
+i_zone = 0.5
+min_pid = 0
+max_pid = 0.6

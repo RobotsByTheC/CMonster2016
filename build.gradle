@@ -12,6 +12,7 @@ buildscript {
 }
 
 repositories {
+    jcenter()
 	flatDir {
 		dirs 'lib/navx'
 	}
@@ -33,17 +34,8 @@ dependencies {
   compile project(':VisionProcessor2016')
   compile ':navx_frc'
   compile ':Pathfinder'
-}
-sourceSets {
-    main {
-        java {
-            srcDir 'src/java'
-            exclude '*~'
-        }
-        resources {
-        	srcDir 'src/resources'
-        }
-	}
+  testCompile 'junit:junit:4.+'
+  testCompile 'org.mockito:mockito-core:1.+'
 }
 
 javadoc {

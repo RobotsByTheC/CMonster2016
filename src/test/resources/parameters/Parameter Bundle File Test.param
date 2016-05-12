@@ -1,0 +1,4 @@
+String = a string
+# test comment
+Number = 0.43
+Boolean = true
