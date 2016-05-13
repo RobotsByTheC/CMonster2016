@@ -266,7 +266,7 @@ public class RobotMap {
         // driveSubsystemGyro = new AnalogGyro(0);
         // LiveWindow.addSensor("Drive Subsystem", "Gyro", driveSubsystemGyro);
 
-        driveSubsystemNavX = new AHRS(I2C.Port.kMXP);
+        driveSubsystemNavX = new AHRS(I2C.Port.kMXP, (byte) 100);
         LiveWindow.addSensor("Drive Subsystem", "navX", driveSubsystemNavX);
 
         driveSubsystemAccelerometer = new BuiltInAccelerometer(Range.k8G);
