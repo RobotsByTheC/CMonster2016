@@ -98,61 +98,35 @@ public class RobotMap {
             TrajectoryGenerator.generate(POSITION_5_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
 
     public enum AutonomousPosition {
-        LOW_BAR(Math.toRadians(45)),
-        POSITION_2(Math.toRadians(30)),
-        POSITION_3(Math.toRadians(5)),
-        POSITION_4(Math.toRadians(-10)),
-        POSITION_5(Math.toRadians(-30));
-
-        public final double heading;
-
-        private AutonomousPosition(double heading) {
-            this.heading = heading;
-        }
+        LOW_BAR,
+        POSITION_2,
+        POSITION_3,
+        POSITION_4,
+        POSITION_5
     }
 
     public enum AutonomousDefense {
-        ROCK_WALL(3),
-        ROUGH_TERRAIN(2.5);
-
-        public final double time;
-
-        private AutonomousDefense(double time) {
-            this.time = time;
-        }
+        ROCK_WALL,
+        ROUGH_TERRAIN;
     }
 
     public enum AutonomousMode {
 
-        POSITION_1_ROCK_WALL(AutonomousPosition.LOW_BAR, AutonomousDefense.ROCK_WALL.time, 1),
-        POSITION_1_ROUGH_TERRAIN(AutonomousPosition.LOW_BAR, AutonomousDefense.ROUGH_TERRAIN.time, 1),
-        POSITION_2_ROCK_WALL(AutonomousPosition.POSITION_2, AutonomousDefense.ROCK_WALL),
-        POSITION_2_ROUGH_TERRAIN(AutonomousPosition.POSITION_2, AutonomousDefense.ROUGH_TERRAIN),
-        POSITION_3_ROCK_WALL(AutonomousPosition.POSITION_3, AutonomousDefense.ROCK_WALL),
-        POSITION_3_ROUGH_TERRAIN(AutonomousPosition.POSITION_3, AutonomousDefense.ROUGH_TERRAIN),
-        POSITION_4_ROCK_WALL(AutonomousPosition.POSITION_4, AutonomousDefense.ROCK_WALL),
-        POSITION_4_ROUGH_TERRAIN(AutonomousPosition.POSITION_4, AutonomousDefense.ROUGH_TERRAIN),
-        POSITION_5_ROCK_WALL(AutonomousPosition.POSITION_5, 3.1, Math.toRadians(1)),
-        POSITION_5_ROUGH_TERRAIN(AutonomousPosition.POSITION_5, AutonomousDefense.ROUGH_TERRAIN.time, Math
-                .toRadians(1));
+        POSITION_1_ROCK_WALL(LOW_BAR_AUTONOMOUS_TRAJECTORY),
+        POSITION_1_ROUGH_TERRAIN(LOW_BAR_AUTONOMOUS_TRAJECTORY),
+        POSITION_2_ROCK_WALL(POSITION_2_AUTONOMOUS_TRAJECTORY),
+        POSITION_2_ROUGH_TERRAIN(POSITION_2_AUTONOMOUS_TRAJECTORY),
+        POSITION_3_ROCK_WALL(POSITION_3_AUTONOMOUS_TRAJECTORY),
+        POSITION_3_ROUGH_TERRAIN(POSITION_3_AUTONOMOUS_TRAJECTORY),
+        POSITION_4_ROCK_WALL(POSITION_4_AUTONOMOUS_TRAJECTORY),
+        POSITION_4_ROUGH_TERRAIN(POSITION_4_AUTONOMOUS_TRAJECTORY),
+        POSITION_5_ROCK_WALL(POSITION_5_AUTONOMOUS_TRAJECTORY),
+        POSITION_5_ROUGH_TERRAIN(POSITION_5_AUTONOMOUS_TRAJECTORY);
 
-        public final double time;
-        public final double heading;
-        public final double angleOffset;
+        public final Future<Trajectory[]> trajectory;
 
-        /**
-         * 
-         */
-        private AutonomousMode(AutonomousPosition position, AutonomousDefense defense) {
-            this.heading = position.heading;
-            this.time = defense.time;
-            angleOffset = 0;
-        }
-
-        private AutonomousMode(AutonomousPosition position, double time, double angleOffset) {
-            this.heading = position.heading;
-            this.time = time;
-            this.angleOffset = angleOffset;
+        private AutonomousMode(Future<Trajectory[]> trajectory) {
+            this.trajectory = trajectory;
         }
 
         public static AutonomousMode get(AutonomousPosition position, AutonomousDefense defense) {

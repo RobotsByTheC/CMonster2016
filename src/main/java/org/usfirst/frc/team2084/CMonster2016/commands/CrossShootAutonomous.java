@@ -7,7 +7,6 @@
 package org.usfirst.frc.team2084.CMonster2016.commands;
 
 import org.usfirst.frc.team2084.CMonster2016.RobotMap;
-import org.usfirst.frc.team2084.CMonster2016.subsystems.DriveSubsystem.HeadingTolerance;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
@@ -21,10 +20,8 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 public class CrossShootAutonomous extends CommandGroup {
 
     public CrossShootAutonomous(RobotMap.AutonomousMode mode) {
-        addSequential(new CrossAutonomous(mode.time));
-        // Get the robot and arm into a position where the camera can see the
-        // goal
-        addSequential(new RotateToHeading(mode.heading, HeadingTolerance.TURNING, 5));
+        // Drive the trajectory
+        addSequential(new PathFollower(mode.trajectory));
         // Make sure the ball is out of the shooter wheels
         addParallel(new SetShooterSpeed(-1000));
         addSequential(new WaitCommand(0.5));
