@@ -55,7 +55,7 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
     public static final double DEFAULT_I_ZONE = 0.05;
     public static final double DEFAULT_HEADING_TOLERANCE = 0.01;
     public static final int TOLERANCE_BUFFER_LENGTH = 20;
-    public static final int PID_PERIOD = 10;
+    public static final double PID_PERIOD = 0.01;
     public static final double DEFAULT_MIN_PID_OUTPUT = 0;
     public static final double DEFAULT_MAX_PID_OUTPUT = 0.6;
     public static final double DEFAULT_RAMP_RATE = 2.7;
@@ -150,7 +150,6 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
         }
     }
 
-    private double debugStartTime = 0;
     private double[] debugPID = new double[3];
 
     public void driveHeading(double speed, double heading) {
@@ -158,7 +157,6 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
             resetPID();
             headingPIDController.enable();
             pidRamper.reset();
-            debugStartTime = Timer.getFPGATimestamp();
         }
         if (Math.abs(headingPIDController.getError()) > getIZone()) {
             try {
@@ -169,7 +167,7 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
         }
 
         if (parameters.getBoolean(DEBUG_KEY)) {
-            debugPID[0] = Timer.getFPGATimestamp() - debugStartTime;
+            debugPID[0] = Timer.getFPGATimestamp();
             debugPID[1] = Math.toDegrees(DriveUtils.normalizeHeading(heading));
             debugPID[2] = Math.toDegrees(DriveUtils.normalizeHeading(getHeading()));
             parameters.getTable().putNumberArray("debug_pid", debugPID);

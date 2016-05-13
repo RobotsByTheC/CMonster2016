@@ -47,8 +47,8 @@ public class RotateToHeading extends ParameterCommand {
     }
 
     public RotateToHeading(double heading, HeadingTolerance tolerance, double timeout) {
-        addNumberParameter(HEADING_KEY, heading);
-        headingSupplier = () -> getNumberParameter(HEADING_KEY);
+        addNumberParameter(HEADING_KEY, Math.toDegrees(heading));
+        headingSupplier = () -> Math.toRadians(getNumberParameter(HEADING_KEY));
 
         this.tolerance = tolerance;
         setTimeout(timeout);

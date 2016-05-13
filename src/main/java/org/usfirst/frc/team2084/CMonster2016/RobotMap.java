@@ -276,11 +276,11 @@ public class RobotMap {
                 new ParameterBundle<DIOEncoderWheelController>("Wheel Controller", DIOEncoderWheelController.class);
 
         driveSubsystemLeftWheels = new DIOEncoderWheelController<>(driveSubsystemLeftEncoder,
-                driveSubsystemWheelParameters, "/Parameters/left_wheel_pid_debug", DRIVE_SUBSYSTEM_MAX_WHEEL_SPEED,
+                driveSubsystemWheelParameters, "Parameters/left_wheel_pid_debug", DRIVE_SUBSYSTEM_MAX_WHEEL_SPEED,
                 new int[] { 2, 3 }, driveSubsystemLeftTalon1, driveSubsystemLeftTalon2);
         SmartDashboard.putData("Left Wheels", driveSubsystemLeftWheels);
         driveSubsystemRightWheels = new DIOEncoderWheelController<>(driveSubsystemRightEncoder,
-                driveSubsystemWheelParameters, "/Parameters/right_wheel_pid_debug", DRIVE_SUBSYSTEM_MAX_WHEEL_SPEED,
+                driveSubsystemWheelParameters, "Parameters/right_wheel_pid_debug", DRIVE_SUBSYSTEM_MAX_WHEEL_SPEED,
                 new int[] { 13, 12 }, driveSubsystemRightTalon1, driveSubsystemRightTalon2);
         SmartDashboard.putData("Right Wheels", driveSubsystemRightWheels);
 
