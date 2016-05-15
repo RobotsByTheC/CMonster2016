@@ -22,7 +22,6 @@ import edu.wpi.first.wpilibj.command.Command;
 public class TankDrive extends Command {
 
     private static final double DEADBAND = 0.05;
-    private static final double MAX_ROTATION = 0.5;
 
     private final RescalingDeadband deadband = new RescalingDeadband(DEADBAND);
 
@@ -50,7 +49,7 @@ public class TankDrive extends Command {
         // Process the inputs
         double l = deadband.process(-left.getY());
         double r = deadband.process(-right.getY());
-        l *= l * (l < 0 ? -1 : 1) * MAX_ROTATION;
+        l *= l * (l < 0 ? -1 : 1);
         r *= r * (r < 0 ? -1 : 1);
 
         RobotMap.driveSubsystemDriveController.drive(l, r);
