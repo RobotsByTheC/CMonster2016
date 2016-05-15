@@ -68,7 +68,7 @@ public class RobotMap {
     // Trajectories
     // Must be initialized outside of init() for unit tests to work
     public static final Trajectory.Config AUTONOMOUS_TRAJECTORY_CONFIG = new Config(Trajectory.FitMethod.HERMITE_CUBIC,
-            Trajectory.Config.SAMPLES_HIGH, DRIVE_SUBSYSTEM_TRAJECTORY_PERIOD, 1.8, 2, 40);
+            Trajectory.Config.SAMPLES_HIGH, DRIVE_SUBSYSTEM_TRAJECTORY_PERIOD, 1, 2, 30);
     public static final Waypoint[] LOW_BAR_AUTONOMOUS_WAYPOINTS =
             { new Waypoint(0, 0, 0), new Waypoint(1, 0, 0), new Waypoint(2, -0.5, Math.toRadians(-45)) };
     public static final Waypoint[] POSITION_2_AUTONOMOUS_WAYPOINTS =
