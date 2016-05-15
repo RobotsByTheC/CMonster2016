@@ -8,12 +8,10 @@ package org.usfirst.frc.team2084.CMonster2016.commands;
 
 import org.usfirst.frc.team2084.CMonster2016.Robot;
 import org.usfirst.frc.team2084.CMonster2016.RobotMap;
-import org.usfirst.frc.team2084.CMonster2016.drive.processors.InertiaGenerator;
 import org.usfirst.frc.team2084.CMonster2016.drive.processors.RescalingDeadband;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Command that drives in arcade drive mode. This is the drive mode used by our
@@ -21,22 +19,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  * @author Ben Wolsieffer
  */
-public class ArcadeDrive extends Command {
+public class TankDrive extends Command {
 
-    private static final String INERTIA_GAIN_KEY = "Inertia Gain";
-
-    private static final double INERTIA_GAIN = 0;
     private static final double DEADBAND = 0.05;
     private static final double MAX_ROTATION = 0.5;
 
-    private final InertiaGenerator inertiaGenerator = new InertiaGenerator(INERTIA_GAIN);
     private final RescalingDeadband deadband = new RescalingDeadband(DEADBAND);
 
-    static {
-        SmartDashboard.putNumber(INERTIA_GAIN_KEY, INERTIA_GAIN);
-    }
-
-    public ArcadeDrive() {
+    public TankDrive() {
         // This command drives, so it requires the drive subsystem.
         requires(Robot.driveSubsystem);
     }
@@ -54,19 +44,16 @@ public class ArcadeDrive extends Command {
      */
     @Override
     protected void execute() {
-        Joystick j = Robot.oi.getLeftDriveJoystick();
+        Joystick left = Robot.oi.getLeftDriveJoystick();
+        Joystick right = Robot.oi.getRightDriveJoystick();
 
         // Process the inputs
-        double x = deadband.process(j.getX());
-        double y = deadband.process(j.getY());
-        x *= x * (x < 0 ? -1 : 1) * MAX_ROTATION;
-        y *= y * (y < 0 ? -1 : 1);
+        double l = deadband.process(-left.getY());
+        double r = deadband.process(-right.getY());
+        l *= l * (l < 0 ? -1 : 1) * MAX_ROTATION;
+        r *= r * (r < 0 ? -1 : 1);
 
-        inertiaGenerator.setInertiaGain(SmartDashboard.getNumber(INERTIA_GAIN_KEY, INERTIA_GAIN));
-
-        SmartDashboard.putNumber("Joystick X", x);
-        SmartDashboard.putNumber("Joystick Y", y);
-        RobotMap.driveSubsystemArcadeDriveAlgorithm.arcadeDrive(-y, inertiaGenerator.process(x));
+        RobotMap.driveSubsystemDriveController.drive(l, r);
     }
 
     /**
