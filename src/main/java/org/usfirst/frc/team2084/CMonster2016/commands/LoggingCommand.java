@@ -8,7 +8,6 @@ package org.usfirst.frc.team2084.CMonster2016.commands;
 
 import org.usfirst.frc.team2084.CMonster2016.Robot;
 import org.usfirst.frc.team2084.CMonster2016.RobotMap;
-import org.usfirst.frc.team2084.CMonster2016.subsystems.ArmSubsystem;
 import org.usfirst.frc.team2084.CMonster2016.vision.VisionResults;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -71,7 +70,8 @@ public class LoggingCommand extends Command {
         SmartDashboard.putNumber("Time Remaining", matchTime < 0 ? 0 : matchTime);
 
         // Report arm angle
-        SmartDashboard.putNumber(ArmSubsystem.ARM_ANGLE_KEY, Math.toDegrees(Robot.armSubsystem.getAngle()));
+        double armAngle = Robot.armSubsystem.getAngle();
+        SmartDashboard.putNumber("Arm Angle", Math.toDegrees(armAngle));
 
         // Report shooter wheel speeds
         SmartDashboard.putNumber("Shooter Left Speed", Robot.shooterSubsystem.getLeftSpeed());
@@ -79,6 +79,7 @@ public class LoggingCommand extends Command {
 
         // Update the current robot heading for the vision system
         VisionResults.setCurrentHeading(RobotMap.driveSubsystemArcadeDriveAlgorithm.getHeading());
+        VisionResults.setArmAngle(armAngle);
 
         SmartDashboard.putBoolean("Encoders Enabled", Robot.driveSubsystem.getEncodersEnabled());
     }

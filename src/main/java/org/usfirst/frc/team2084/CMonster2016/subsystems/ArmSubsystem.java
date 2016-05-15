@@ -31,11 +31,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * 
  * @author Ben Wolsieffer
  */
-@Parameter(key = ArmSubsystem.P_KEY, type = Type.NUMBER, numberValue = 0.02)
-@Parameter(key = ArmSubsystem.I_KEY, type = Type.NUMBER, numberValue = 0.0001)
-@Parameter(key = ArmSubsystem.D_KEY, type = Type.NUMBER, numberValue = 0)
-@Parameter(key = ArmSubsystem.I_ZONE_KEY, type = Type.NUMBER, numberValue = 20000)
-@Parameter(key = ArmSubsystem.ANGLE_TOLERANCE_KEY, type = Type.NUMBER, numberValue = 0.6) // degrees
+@Parameter(key = ArmSubsystem.P_KEY, type = Type.NUMBER, numberValue = ArmSubsystem.DEFAULT_P)
+@Parameter(key = ArmSubsystem.I_KEY, type = Type.NUMBER, numberValue = ArmSubsystem.DEFAULT_I)
+@Parameter(key = ArmSubsystem.D_KEY, type = Type.NUMBER, numberValue = ArmSubsystem.DEFAULT_D)
+@Parameter(key = ArmSubsystem.I_ZONE_KEY, type = Type.NUMBER, numberValue = ArmSubsystem.DEFAULT_I_ZONE)
+@Parameter(key = ArmSubsystem.ANGLE_TOLERANCE_KEY, type = Type.NUMBER,
+        numberValue = ArmSubsystem.DEFAULT_ANGLE_TOLERANCE) // degrees
 public class ArmSubsystem extends Subsystem {
 
     public static final String P_KEY = "p";
@@ -43,6 +44,12 @@ public class ArmSubsystem extends Subsystem {
     public static final String D_KEY = "d";
     public static final String I_ZONE_KEY = "i_zone";
     public static final String ANGLE_TOLERANCE_KEY = "angle_tolerance";
+
+    public static final double DEFAULT_P = 0.02;
+    public static final double DEFAULT_I = 0.0001;
+    public static final double DEFAULT_D = 0.0;
+    public static final double DEFAULT_I_ZONE = 20000;
+    public static final double DEFAULT_ANGLE_TOLERANCE = 0.6;
 
     public static final File ARM_ANGLE_PROPERTIES_FILE = new File("arm-angle.properties");
     public static final String ARM_ANGLE_KEY = "arm_angle";

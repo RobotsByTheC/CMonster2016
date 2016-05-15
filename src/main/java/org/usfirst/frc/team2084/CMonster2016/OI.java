@@ -112,10 +112,10 @@ public class OI {
 
         encoderDisableButton = new JoystickButton(driveJoystick, 9);
         encoderDisableButton.whenPressed(new SetEncodersEnabled(false));
-        
+
         batterShotButton = new JoystickButton(secondaryJoystick, 7);
         batterShotButton.whileHeld(new BatterShot());
-        
+
         toggleCameraButton = new JoystickButton(secondaryJoystick, 2);
         toggleCameraButton.whenPressed(new ToggleCamera());
 

@@ -6,19 +6,28 @@
  */
 package org.usfirst.frc.team2084.CMonster2016.commands;
 
+import org.usfirst.frc.team2084.CMonster2016.parameters.Parameter;
+import org.usfirst.frc.team2084.CMonster2016.parameters.Parameter.Type;
+import org.usfirst.frc.team2084.CMonster2016.parameters.ParameterBundle;
 import org.usfirst.frc.team2084.CMonster2016.vision.VisionParameters;
 
 /**
- * Notifies the driver about whether the robot is ready to take a shot. This
- * prints a value on the SmartDashboard.
+ * Enables or disables the autoexposure function of the camera.
  * 
  * @author Ben Wolsieffer
  */
+@Parameter(key = SetCameraAutoExposure.ENABLE_TIME_KEY, type = Type.NUMBER,
+        numberValue = SetCameraAutoExposure.DEFAULT_ENABLE_TIME)
 public class SetCameraAutoExposure extends ParameterCommand {
+
+    public static final String ENABLE_TIME_KEY = "enable_time";
 
     public static final String ENABLED_KEY = "Enabled";
 
-    public static final double ENABLE_TIME = 0.5;
+    public static final double DEFAULT_ENABLE_TIME = 0.75;
+
+    private static final ParameterBundle<SetCameraAutoExposure> parameters =
+            new ParameterBundle<>("Set Camera Auto Exposure", SetCameraAutoExposure.class);
 
     /**
      * Updates the SmartDashboard indicator based on whether the robot is ready
@@ -36,7 +45,7 @@ public class SetCameraAutoExposure extends ParameterCommand {
         boolean enable = getBooleanParameter(ENABLED_KEY);
 
         if (!enable) {
-            setTimeout(ENABLE_TIME);
+            setTimeout(parameters.getNumber(ENABLE_TIME_KEY));
         } else {
             setTimeout(0);
         }

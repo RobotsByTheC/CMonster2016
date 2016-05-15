@@ -26,9 +26,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * @author Ben Wolsieffer
  */
-@Parameter(key = GyroArcadeDriveAlgorithm.P_KEY, type = Type.NUMBER, numberValue = 0)
-@Parameter(key = GyroArcadeDriveAlgorithm.I_KEY, type = Type.NUMBER, numberValue = 0)
-@Parameter(key = GyroArcadeDriveAlgorithm.D_KEY, type = Type.NUMBER, numberValue = 0)
+@Parameter(key = GyroArcadeDriveAlgorithm.P_KEY, type = Type.NUMBER, numberValue = GyroArcadeDriveAlgorithm.DEFAULT_P)
+@Parameter(key = GyroArcadeDriveAlgorithm.I_KEY, type = Type.NUMBER, numberValue = GyroArcadeDriveAlgorithm.DEFAULT_I)
+@Parameter(key = GyroArcadeDriveAlgorithm.D_KEY, type = Type.NUMBER, numberValue = GyroArcadeDriveAlgorithm.DEFAULT_D)
 @Parameter(key = GyroArcadeDriveAlgorithm.I_ZONE_KEY, type = Type.NUMBER,
         numberValue = GyroArcadeDriveAlgorithm.DEFAULT_I_ZONE)
 @Parameter(key = GyroArcadeDriveAlgorithm.RAMP_RATE_KEY, type = Type.NUMBER,
@@ -52,6 +52,9 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
     public static final String MIN_PID_OUTPUT_KEY = "min_pid";
     public static final String DEBUG_KEY = "debug";
 
+    public static final double DEFAULT_P = 0;
+    public static final double DEFAULT_I = 0;
+    public static final double DEFAULT_D = 0;
     public static final double DEFAULT_I_ZONE = 0.05;
     public static final double DEFAULT_HEADING_TOLERANCE = 0.01;
     public static final int TOLERANCE_BUFFER_LENGTH = 20;

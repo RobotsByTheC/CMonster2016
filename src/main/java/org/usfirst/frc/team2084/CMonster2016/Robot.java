@@ -117,13 +117,15 @@ public class Robot extends IterativeRobot {
         Object autoMode = autonomousChooser.getSelected();
         if (autoMode instanceof Command) {
             autonomousCommand = (Command) autoMode;
-            autonomousCommand.start();
         } else if (autoMode instanceof RobotMap.AutonomousPosition) {
             RobotMap.AutonomousPosition autonomousPosition = (RobotMap.AutonomousPosition) autoMode;
             RobotMap.AutonomousDefense autonomousDefense =
                     (RobotMap.AutonomousDefense) autonomousDefenseChooser.getSelected();
             autonomousCommand =
                     new CrossShootAutonomous(RobotMap.AutonomousMode.get(autonomousPosition, autonomousDefense));
+        }
+        if (autonomousCommand != null) {
+            autonomousCommand.start();
         }
     }
 

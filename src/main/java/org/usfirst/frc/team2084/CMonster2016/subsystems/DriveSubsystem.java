@@ -28,9 +28,9 @@ import edu.wpi.first.wpilibj.interfaces.Accelerometer;
  * @author Ben Wolsieffer
  */
 @Parameter(key = DriveSubsystem.HEADING_TURNING_TOLERANCE_KEY, type = Type.NUMBER,
-        numberValue = RobotMap.DRIVE_SUBSYSTEM_TURNING_HEADING_TOLERANCE)
+        numberValue = DriveSubsystem.DEFAULT_HEADING_TURNING_TOLERANCE)
 @Parameter(key = DriveSubsystem.HEADING_AIMING_TOLERANCE_KEY, type = Type.NUMBER,
-        numberValue = RobotMap.DRIVE_SUBSYSTEM_AIMING_HEADING_TOLERANCE)
+        numberValue = DriveSubsystem.DEFAULT_HEADING_AIMING_TOLERANCE)
 @SuppressWarnings("unused")
 public class DriveSubsystem extends Subsystem {
 
@@ -41,6 +41,9 @@ public class DriveSubsystem extends Subsystem {
 
     public static final String HEADING_TURNING_TOLERANCE_KEY = "turning_tolerance";
     public static final String HEADING_AIMING_TOLERANCE_KEY = "aiming_tolerance";
+
+    public static final double DEFAULT_HEADING_TURNING_TOLERANCE = 0.1;
+    public static final double DEFAULT_HEADING_AIMING_TOLERANCE = 0.1;
 
     private final SpeedController leftTalon1 = RobotMap.driveSubsystemLeftTalon1;
     private final SpeedController leftTalon2 = RobotMap.driveSubsystemLeftTalon2;

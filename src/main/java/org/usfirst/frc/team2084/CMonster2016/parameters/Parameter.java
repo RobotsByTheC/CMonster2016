@@ -45,4 +45,6 @@ public @interface Parameter {
     double numberValue() default 0;
 
     boolean booleanValue() default false;
+
+    boolean save() default true;
 }

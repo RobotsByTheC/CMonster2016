@@ -23,16 +23,20 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * 
  * @author Ben Wolsieffer
  */
-@Parameter(key = ShooterSubsystem.P_KEY, type = Type.NUMBER, numberValue = 1.3)
-@Parameter(key = ShooterSubsystem.I_KEY, type = Type.NUMBER, numberValue = 0)
-@Parameter(key = ShooterSubsystem.D_KEY, type = Type.NUMBER, numberValue = 0)
-@Parameter(key = ShooterSubsystem.F_KEY, type = Type.NUMBER, numberValue = 0.69)
-@Parameter(key = ShooterSubsystem.I_ZONE_KEY, type = Type.NUMBER, numberValue = 0)
-@Parameter(key = ShooterSubsystem.RAMP_RATE_KEY, type = Type.NUMBER, numberValue = 3)
-@Parameter(key = ShooterSubsystem.LEFT_FIRING_SERVO_EXTEND_POSITION_KEY, type = Type.NUMBER, numberValue = 0)
-@Parameter(key = ShooterSubsystem.LEFT_FIRING_SERVO_RETRACT_POSITION_KEY, type = Type.NUMBER, numberValue = 0.45)
-@Parameter(key = ShooterSubsystem.RIGHT_FIRING_SERVO_EXTEND_POSITION_KEY, type = Type.NUMBER, numberValue = 0.62)
-@Parameter(key = ShooterSubsystem.RIGHT_FIRING_SERVO_RETRACT_POSITION_KEY, type = Type.NUMBER, numberValue = 0.185)
+@Parameter(key = ShooterSubsystem.P_KEY, type = Type.NUMBER, numberValue = ShooterSubsystem.DEFAULT_P)
+@Parameter(key = ShooterSubsystem.I_KEY, type = Type.NUMBER, numberValue = ShooterSubsystem.DEFAULT_I)
+@Parameter(key = ShooterSubsystem.D_KEY, type = Type.NUMBER, numberValue = ShooterSubsystem.DEFAULT_D)
+@Parameter(key = ShooterSubsystem.F_KEY, type = Type.NUMBER, numberValue = ShooterSubsystem.DEFAULT_F)
+@Parameter(key = ShooterSubsystem.I_ZONE_KEY, type = Type.NUMBER, numberValue = ShooterSubsystem.DEFAULT_I_ZONE)
+@Parameter(key = ShooterSubsystem.RAMP_RATE_KEY, type = Type.NUMBER, numberValue = ShooterSubsystem.DEFAULT_RAMP_RATE)
+@Parameter(key = ShooterSubsystem.LEFT_FIRING_SERVO_EXTEND_POSITION_KEY, type = Type.NUMBER,
+        numberValue = ShooterSubsystem.DEFAULT_LEFT_FIRING_SERVO_EXTEND_POSITION)
+@Parameter(key = ShooterSubsystem.LEFT_FIRING_SERVO_RETRACT_POSITION_KEY, type = Type.NUMBER,
+        numberValue = ShooterSubsystem.DEFAULT_LEFT_FIRING_SERVO_RETRACT_POSITION)
+@Parameter(key = ShooterSubsystem.RIGHT_FIRING_SERVO_EXTEND_POSITION_KEY, type = Type.NUMBER,
+        numberValue = ShooterSubsystem.DEFAULT_RIGHT_FIRING_SERVO_EXTEND_POSITION)
+@Parameter(key = ShooterSubsystem.RIGHT_FIRING_SERVO_RETRACT_POSITION_KEY, type = Type.NUMBER,
+        numberValue = ShooterSubsystem.DEFAULT_RIGHT_FIRING_SERVO_RETRACT_POSITION)
 public class ShooterSubsystem extends Subsystem {
 
     public static final String P_KEY = "p";
@@ -45,6 +49,17 @@ public class ShooterSubsystem extends Subsystem {
     public static final String LEFT_FIRING_SERVO_RETRACT_POSITION_KEY = "lfs_retract";
     public static final String RIGHT_FIRING_SERVO_EXTEND_POSITION_KEY = "rfs_extend";
     public static final String RIGHT_FIRING_SERVO_RETRACT_POSITION_KEY = "rfs_retract";
+
+    public static final double DEFAULT_P = 1.3;
+    public static final double DEFAULT_I = 0.0;
+    public static final double DEFAULT_D = 0.0;
+    public static final double DEFAULT_F = 0.69;
+    public static final double DEFAULT_I_ZONE = 0.0;
+    public static final double DEFAULT_RAMP_RATE = 3.0;
+    public static final double DEFAULT_LEFT_FIRING_SERVO_EXTEND_POSITION = 0;
+    public static final double DEFAULT_LEFT_FIRING_SERVO_RETRACT_POSITION = 0.45;
+    public static final double DEFAULT_RIGHT_FIRING_SERVO_EXTEND_POSITION = 0.62;
+    public static final double DEFAULT_RIGHT_FIRING_SERVO_RETRACT_POSITION = 0.185;
 
    // @formatter:off
     /**

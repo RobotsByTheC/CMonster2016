@@ -40,7 +40,7 @@ public class ParameterBundle<T> {
         void parameterChanged(String p, Type type, Object value);
     }
 
-    private static final HashMap<Class<?>, Parameters> parameterCache = new HashMap<>();
+    private static final HashMap<Class<?>, Parameter[]> parameterCache = new HashMap<>();
 
     private static final ITable PARAMETER_TABLE = NetworkTable.getTable("Parameters");
 
@@ -86,16 +86,16 @@ public class ParameterBundle<T> {
         table = PARAMETER_TABLE.getSubTable(name);
 
         // Load parameter list (possibly from cache)
-        Parameters parameters = parameterCache.get(clazz);
+        Parameter[] parameters = parameterCache.get(clazz);
 
         if (parameters == null) {
-            parameters = clazz.getAnnotation(Parameters.class);
+            parameters = clazz.getAnnotationsByType(Parameter.class);
             parameterCache.put(clazz, parameters);
         }
         this.parameters = new HashMap<>(
-                Arrays.stream(parameters.value()).collect(Collectors.toMap(Parameter::key, parameter -> parameter)));
+                Arrays.stream(parameters).collect(Collectors.toMap(Parameter::key, parameter -> parameter)));
         // Loop through all parameters
-        for (Parameter p : parameters.value()) {
+        for (Parameter p : parameters) {
             String key = p.key();
 
             // Try to load the value from the table
@@ -107,8 +107,7 @@ public class ParameterBundle<T> {
                 } else {
                     // WARNING: THIS LINE IS TRICKY
                     // If the parameter already exists in the table, break out
-                    // of
-                    // this iteration of the loop
+                    // of this iteration of the loop
                     continue;
                 }
             }

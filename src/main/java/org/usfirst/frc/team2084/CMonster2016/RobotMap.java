@@ -51,13 +51,6 @@ public class RobotMap {
     public static final double DRIVE_SUBSYSTEM_MAX_WHEEL_SPEED = 3.35;
 
     /**
-     * Maximum allowed tolerance (in radians) that is considered on target for
-     * heading.
-     */
-    public static final double DRIVE_SUBSYSTEM_AIMING_HEADING_TOLERANCE = 0.003;
-    public static final double DRIVE_SUBSYSTEM_TURNING_HEADING_TOLERANCE = 0.122;
-
-    /**
      * Wheel diameter in meters.
      */
     public static final double DRIVE_SUBSYSTEM_WHEEL_DIAMETER = 0.184;
@@ -73,18 +66,19 @@ public class RobotMap {
     public static final double HALF_PI = Math.PI / 2;
 
     // Trajectories
+    // Must be initialized outside of init() for unit tests to work
     public static final Trajectory.Config AUTONOMOUS_TRAJECTORY_CONFIG = new Config(Trajectory.FitMethod.HERMITE_CUBIC,
-            Trajectory.Config.SAMPLES_HIGH, DRIVE_SUBSYSTEM_TRAJECTORY_PERIOD, 1, 3, 60);
+            Trajectory.Config.SAMPLES_HIGH, DRIVE_SUBSYSTEM_TRAJECTORY_PERIOD, 1.8, 2, 40);
     public static final Waypoint[] LOW_BAR_AUTONOMOUS_WAYPOINTS =
-            { new Waypoint(0, 0, 0), new Waypoint(1, 0, 0), new Waypoint(2, 0.5, Math.toRadians(45)) };
+            { new Waypoint(0, 0, 0), new Waypoint(1, 0, 0), new Waypoint(2, -0.5, Math.toRadians(-45)) };
     public static final Waypoint[] POSITION_2_AUTONOMOUS_WAYPOINTS =
-            { new Waypoint(1.5, 0, 0), new Waypoint(3, 0, Math.toRadians(45)) };
+            { new Waypoint(0, 0, 0), new Waypoint(1.5, 0, 0), new Waypoint(3, 0, Math.toRadians(-45)) };
     public static final Waypoint[] POSITION_3_AUTONOMOUS_WAYPOINTS =
-            { new Waypoint(1.25, 0, 0), new Waypoint(2, 0.76, 0) };
+            { new Waypoint(0, 0, 0), new Waypoint(2, 0, 0), new Waypoint(3, -0.76, 0) };
     public static final Waypoint[] POSITION_4_AUTONOMOUS_WAYPOINTS =
-            { new Waypoint(1.25, 0, 0), new Waypoint(2, -0.76, 0) };
+            { new Waypoint(0, 0, 0), new Waypoint(2, 0, 0), new Waypoint(3, 0.76, 0) };
     public static final Waypoint[] POSITION_5_AUTONOMOUS_WAYPOINTS =
-            { new Waypoint(1.25, 0, 0), new Waypoint(2.25, -1.67, 0) };
+            { new Waypoint(0, 0, 0), new Waypoint(2, 0, 0), new Waypoint(3, 1.67, 0) };
 
     public static final Future<Trajectory[]> LOW_BAR_AUTONOMOUS_TRAJECTORY =
             TrajectoryGenerator.generate(LOW_BAR_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);

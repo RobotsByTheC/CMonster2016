@@ -31,11 +31,12 @@ gradlerio.team = "2084" // FRC team number
 gradlerio.rioIP = "10.20.84.2" // Static IP address IP address of the roboRIO
 
 dependencies {
-  compile project(':VisionProcessor2016')
-  compile ':navx_frc'
-  compile ':Pathfinder'
-  testCompile 'junit:junit:4.+'
-  testCompile 'org.mockito:mockito-core:1.+'
+	compile project(':VisionProcessor2016')
+	compile ':navx_frc'
+	compile ':Pathfinder'
+	testCompile 'junit:junit:4.+'
+	testCompile 'org.hamcrest:hamcrest-library:1.+'
+	testCompile 'org.mockito:mockito-core:1.+'
 }
 
 javadoc {

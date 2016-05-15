@@ -1,0 +1,4 @@
+# degrees
+turning_tolerance = 7
+# degrees
+aiming_tolerance = 0.2

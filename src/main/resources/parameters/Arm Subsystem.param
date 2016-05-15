@@ -1,0 +1,6 @@
+p = 0.02
+i = 0.0001
+d = 0
+i_zone = 20000
+# degrees
+angle_tolerance = 0.6

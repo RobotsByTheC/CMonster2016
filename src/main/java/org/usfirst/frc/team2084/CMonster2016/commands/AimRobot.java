@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class AimRobot extends RotateToHeading {
 
-    public static final double GOAL_HEADING_OFFSET = Math.toRadians(6.3);
+    public static final double GOAL_HEADING_OFFSET = Math.toRadians(3.15);
     public static final String GOAL_HEADING_OFFSET_KEY = "Goal Heading Offset";
     public static final double MAX_ROTATION_UPDATE = Math.toRadians(45);
     public static final String MAX_ROTATION_UPDATE_KEY = "Max Rotation Update";
@@ -30,7 +30,7 @@ public class AimRobot extends RotateToHeading {
     static {
         SmartDashboard.putNumber(MAX_ROTATION_UPDATE_KEY, Math.toDegrees(MAX_ROTATION_UPDATE));
     }
-    
+
     // BAD
     private static final RollingAverage headingAverage = new RollingAverage(500);
 
@@ -47,8 +47,10 @@ public class AimRobot extends RotateToHeading {
                 double heading = getAimHeading();
                 // Only update the heading if it has not changed by a huge
                 // amount
-                if (lastHeading < Double.MAX_VALUE && Math.abs(heading - lastHeading) > HEADING_CHANGE_TOLERANCE 
-                        || (Math.abs(RobotMap.driveSubsystemArcadeDriveAlgorithm.getRotationRate()) > Math.toRadians(SmartDashboard.getNumber(MAX_ROTATION_UPDATE_KEY, Math.toDegrees(MAX_ROTATION_UPDATE))))) {
+                if (lastHeading < Double.MAX_VALUE && Math.abs(heading - lastHeading) > HEADING_CHANGE_TOLERANCE
+                        || (Math.abs(RobotMap.driveSubsystemArcadeDriveAlgorithm.getRotationRate()) > Math
+                                .toRadians(SmartDashboard.getNumber(MAX_ROTATION_UPDATE_KEY,
+                                        Math.toDegrees(MAX_ROTATION_UPDATE))))) {
                     heading = lastHeading;
                 } else {
                     System.out.println("update");
@@ -71,7 +73,8 @@ public class AimRobot extends RotateToHeading {
     }
 
     private static double getAimHeading() {
-        return VisionResults.getGoalHeading() + Math.toRadians(SmartDashboard.getNumber(GOAL_HEADING_OFFSET_KEY, Math.toDegrees(GOAL_HEADING_OFFSET)));
+        return VisionResults.getGoalHeading() + Math
+                .toRadians(SmartDashboard.getNumber(GOAL_HEADING_OFFSET_KEY, Math.toDegrees(GOAL_HEADING_OFFSET)));
     }
 
     @Override
