@@ -14,12 +14,16 @@ import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * Homes the arm, lowering it until both sides hit the limit switches. Then it
- * resets the arm angle.
+ * backs off and slowly moves forward to precisely home (like a 3D printer).
+ * Once homing is complete it resets the arm angle.
  */
 public class HomeArm extends Command {
 
     private enum State {
-        HIGH_SPEED, REVERSE, LOW_SPEED, DONE
+        HIGH_SPEED,
+        REVERSE,
+        LOW_SPEED,
+        DONE
     }
 
     private State state = State.HIGH_SPEED;
