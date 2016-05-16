@@ -1,0 +1,4 @@
+# degrees/sec
+max_rotation_update = 45
+# degrees
+heading_offset = 3.15

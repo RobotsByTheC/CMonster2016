@@ -40,15 +40,6 @@ public class LoggingCommand extends Command {
      */
     @Override
     protected void initialize() {
-        // SmartDashboard.putNumber("Heading Tolerance",
-        // Math.toDegrees(RobotMap.DRIVE_SUBSYSTEM_HEADING_TOLERANCE));
-
-        // SmartDashboard.putNumber(LowBarShootAutonomous.ROTATION_KEY,
-        // Preferences.getInstance().getDouble(LowBarShootAutonomous.ROTATION_KEY,
-        // 0));
-
-        SmartDashboard.putNumber(AimRobot.GOAL_HEADING_OFFSET_KEY, Math.toDegrees(AimRobot.GOAL_HEADING_OFFSET));
-
     }
 
     /**

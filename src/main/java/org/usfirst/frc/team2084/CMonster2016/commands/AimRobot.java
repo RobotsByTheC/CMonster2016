@@ -10,29 +10,37 @@ import java.util.function.DoubleSupplier;
 
 import org.usfirst.frc.team2084.CMonster2016.RobotMap;
 import org.usfirst.frc.team2084.CMonster2016.RollingAverage;
+import org.usfirst.frc.team2084.CMonster2016.parameters.Parameter;
+import org.usfirst.frc.team2084.CMonster2016.parameters.Parameter.Type;
+import org.usfirst.frc.team2084.CMonster2016.parameters.ParameterBundle;
 import org.usfirst.frc.team2084.CMonster2016.vision.VisionResults;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Aims the robot to the heading given by the vision system. If the vision data
  * is stale, it immediately ends without doing anything.
  */
+@Parameter(key = AimRobot.MAX_ROTATION_UPDATE_KEY, type = Type.NUMBER,
+        numberValue = AimRobot.DEFAULT_MAX_ROTATION_UPDATE)
+@Parameter(key = AimRobot.HEADING_OFFSET_KEY, type = Type.NUMBER, numberValue = AimRobot.DEFAULT_HEADING_OFFSET)
 public class AimRobot extends RotateToHeading {
 
-    public static final double GOAL_HEADING_OFFSET = Math.toRadians(3.15);
-    public static final String GOAL_HEADING_OFFSET_KEY = "Goal Heading Offset";
-    public static final double MAX_ROTATION_UPDATE = Math.toRadians(45);
-    public static final String MAX_ROTATION_UPDATE_KEY = "Max Rotation Update";
+    public static final String MAX_ROTATION_UPDATE_KEY = "max_rotation_update";
+    public static final String HEADING_OFFSET_KEY = "heading_offset";
 
-    public static final double HEADING_CHANGE_TOLERANCE = Math.toDegrees(7);
+    /**
+     * Default maximum rotation rate (deg/sec) under which to update the target
+     * heading.
+     */
+    public static final double DEFAULT_MAX_ROTATION_UPDATE = 45;
+    /**
+     * Default amount to add to the calculated desired heading when aiming
+     */
+    public static final double DEFAULT_HEADING_OFFSET = 3.15;
 
-    static {
-        SmartDashboard.putNumber(MAX_ROTATION_UPDATE_KEY, Math.toDegrees(MAX_ROTATION_UPDATE));
-    }
-
-    // BAD
+    // BAD - must be static to work
     private static final RollingAverage headingAverage = new RollingAverage(500);
+
+    private static final ParameterBundle<AimRobot> parameters = new ParameterBundle<>("Aim Robot", AimRobot.class);
 
     public static final double TIMEOUT = 5;
     private boolean stale = false;
@@ -47,13 +55,9 @@ public class AimRobot extends RotateToHeading {
                 double heading = getAimHeading();
                 // Only update the heading if it has not changed by a huge
                 // amount
-                if (lastHeading < Double.MAX_VALUE && Math.abs(heading - lastHeading) > HEADING_CHANGE_TOLERANCE
-                        || (Math.abs(RobotMap.driveSubsystemArcadeDriveAlgorithm.getRotationRate()) > Math
-                                .toRadians(SmartDashboard.getNumber(MAX_ROTATION_UPDATE_KEY,
-                                        Math.toDegrees(MAX_ROTATION_UPDATE))))) {
+                if (Math.abs(RobotMap.driveSubsystemArcadeDriveAlgorithm.getRotationRate()) > Math
+                        .toRadians(parameters.getNumber(MAX_ROTATION_UPDATE_KEY))) {
                     heading = lastHeading;
-                } else {
-                    System.out.println("update");
                 }
 
                 lastHeading = heading;
@@ -73,8 +77,7 @@ public class AimRobot extends RotateToHeading {
     }
 
     private static double getAimHeading() {
-        return VisionResults.getGoalHeading() + Math
-                .toRadians(SmartDashboard.getNumber(GOAL_HEADING_OFFSET_KEY, Math.toDegrees(GOAL_HEADING_OFFSET)));
+        return VisionResults.getGoalHeading() + Math.toRadians(parameters.getNumber(HEADING_OFFSET_KEY));
     }
 
     @Override
