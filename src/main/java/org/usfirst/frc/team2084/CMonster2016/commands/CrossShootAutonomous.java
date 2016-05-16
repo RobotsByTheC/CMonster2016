@@ -20,9 +20,7 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 public class CrossShootAutonomous extends CommandGroup {
 
     public CrossShootAutonomous(RobotMap.AutonomousMode mode) {
-        addSequential(new AutonomousSetup());
-        // Drive the trajectory
-        addSequential(new PathFollower(mode.trajectory));
+        addSequential(new CrossAutonomous(mode.trajectory));
         // Make sure the ball is out of the shooter wheels
         addParallel(new SetShooterSpeed(-1000));
         addSequential(new WaitCommand(0.5));

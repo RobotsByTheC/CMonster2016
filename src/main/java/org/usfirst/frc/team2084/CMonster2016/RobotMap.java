@@ -69,6 +69,7 @@ public class RobotMap {
     // Must be initialized outside of init() for unit tests to work
     public static final Trajectory.Config AUTONOMOUS_TRAJECTORY_CONFIG = new Config(Trajectory.FitMethod.HERMITE_CUBIC,
             Trajectory.Config.SAMPLES_HIGH, DRIVE_SUBSYSTEM_TRAJECTORY_PERIOD, 1, 2, 30);
+    public static final Waypoint[] CROSS_DEFENSE_WAYPOINTS = { new Waypoint(0, 0, 0), new Waypoint(4, 0, 0) };
     public static final Waypoint[] LOW_BAR_AUTONOMOUS_WAYPOINTS =
             { new Waypoint(0, 0, 0), new Waypoint(1, 0, 0), new Waypoint(2, -0.5, Math.toRadians(-45)) };
     public static final Waypoint[] POSITION_2_AUTONOMOUS_WAYPOINTS =
@@ -80,6 +81,8 @@ public class RobotMap {
     public static final Waypoint[] POSITION_5_AUTONOMOUS_WAYPOINTS =
             { new Waypoint(0, 0, 0), new Waypoint(2, 0, 0), new Waypoint(3, 1.67, 0) };
 
+    public static final Future<Trajectory[]> CROSS_DEFENSE_TRAJECTORY =
+            TrajectoryGenerator.generate(CROSS_DEFENSE_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
     public static final Future<Trajectory[]> LOW_BAR_AUTONOMOUS_TRAJECTORY =
             TrajectoryGenerator.generate(LOW_BAR_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
     public static final Future<Trajectory[]> POSITION_2_AUTONOMOUS_TRAJECTORY =

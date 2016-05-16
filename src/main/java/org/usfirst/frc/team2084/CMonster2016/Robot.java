@@ -95,7 +95,7 @@ public class Robot extends IterativeRobot {
 
         // Add autonomous modes to the chooser
         autonomousChooser.addObject("Do nothing", null);
-        autonomousChooser.addObject("Cross Defense", new CrossAutonomous());
+        autonomousChooser.addObject("Cross Defense", new CrossAutonomous(RobotMap.CROSS_DEFENSE_TRAJECTORY));
         autonomousChooser.addObject("Low Bar and Shoot", RobotMap.AutonomousPosition.LOW_BAR);
         autonomousChooser.addObject("Cross and Shoot - 2", RobotMap.AutonomousPosition.POSITION_2);
         autonomousChooser.addObject("Cross and Shoot - 3", RobotMap.AutonomousPosition.POSITION_3);
