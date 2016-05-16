@@ -24,14 +24,14 @@ import org.usfirst.frc.team2084.CMonster2016.commands.SetCameraAutoExposure;
 import org.usfirst.frc.team2084.CMonster2016.commands.SetEncodersEnabled;
 import org.usfirst.frc.team2084.CMonster2016.commands.SetFiringServo;
 import org.usfirst.frc.team2084.CMonster2016.commands.SetIntakeCamera;
-import org.usfirst.frc.team2084.CMonster2016.commands.SetIntakeSpeed;
+import org.usfirst.frc.team2084.CMonster2016.commands.SetIntakeState;
 import org.usfirst.frc.team2084.CMonster2016.commands.SetMeasuredArmAngle;
 import org.usfirst.frc.team2084.CMonster2016.commands.SetShooterSpeed;
 import org.usfirst.frc.team2084.CMonster2016.commands.TakeSnapshot;
 import org.usfirst.frc.team2084.CMonster2016.commands.TankDrive;
 import org.usfirst.frc.team2084.CMonster2016.commands.ToggleCamera;
 import org.usfirst.frc.team2084.CMonster2016.subsystems.ArmSubsystem;
-import org.usfirst.frc.team2084.CMonster2016.subsystems.IntakeSubsystem;
+import org.usfirst.frc.team2084.CMonster2016.subsystems.IntakeSubsystem.State;
 import org.usfirst.frc.team2084.CMonster2016.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -91,7 +91,7 @@ public class OI {
         intakeButton.whileHeld(new Intake());
 
         expelButton = new JoystickButton(leftDriveJoystick, 5);
-        expelButton.whileHeld(new SetIntakeSpeed(IntakeSubsystem.OUT_SPEED));
+        expelButton.whileHeld(new SetIntakeState(State.OUT));
 
         lowGoalButton = new POVHatButton(leftDriveJoystick, 0);
         lowGoalButton.whileHeld(new LowGoalScore());

@@ -6,7 +6,7 @@
  */
 package org.usfirst.frc.team2084.CMonster2016.commands;
 
-import org.usfirst.frc.team2084.CMonster2016.subsystems.IntakeSubsystem;
+import org.usfirst.frc.team2084.CMonster2016.subsystems.IntakeSubsystem.State;
 import org.usfirst.frc.team2084.CMonster2016.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -20,7 +20,7 @@ public class Intake extends CommandGroup {
 
     public Intake() {
         addParallel(new SetFiringServo(false));
-        addParallel(new SetIntakeSpeed(IntakeSubsystem.IN_SPEED));
+        addParallel(new SetIntakeState(State.IN));
         addParallel(new SetShooterSpeed(ShooterSubsystem.INTAKE_SPEED));
     }
 }
