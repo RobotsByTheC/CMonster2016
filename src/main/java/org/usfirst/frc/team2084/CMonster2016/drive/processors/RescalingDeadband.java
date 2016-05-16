@@ -33,7 +33,7 @@ public class RescalingDeadband implements Processor {
     /**
      * The deadband value.
      */
-    private final double deadband;
+    private double deadband;
 
     /**
      * Creates a {@link RescalingDeadband} with the specified deadband value.
@@ -62,6 +62,17 @@ public class RescalingDeadband implements Processor {
             value /= 1 - deadband;
         }
         return value;
+    }
+
+    public void setDeadband(double deadband) {
+        this.deadband = deadband;
+    }
+
+    /**
+     * @return the deadband
+     */
+    public double getDeadband() {
+        return deadband;
     }
 
 }

@@ -9,25 +9,37 @@ package org.usfirst.frc.team2084.CMonster2016.commands;
 import org.usfirst.frc.team2084.CMonster2016.Robot;
 import org.usfirst.frc.team2084.CMonster2016.RobotMap;
 import org.usfirst.frc.team2084.CMonster2016.drive.processors.RescalingDeadband;
+import org.usfirst.frc.team2084.CMonster2016.parameters.Parameter;
+import org.usfirst.frc.team2084.CMonster2016.parameters.Parameter.Type;
+import org.usfirst.frc.team2084.CMonster2016.parameters.ParameterBundle;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Command that drives in arcade drive mode. This is the drive mode used by our
- * robot.
+ * Command that drives in tank drive mode.
  *
  * @author Ben Wolsieffer
  */
+@Parameter(key = TankDrive.DEADBAND_KEY, type = Type.NUMBER, numberValue = TankDrive.DEFAULT_DEADBAND)
 public class TankDrive extends Command {
 
-    private static final double DEADBAND = 0.05;
+    public static final String DEADBAND_KEY = "deadband";
 
-    private final RescalingDeadband deadband = new RescalingDeadband(DEADBAND);
+    public static final double DEFAULT_DEADBAND = 0.05;
+
+    private final RescalingDeadband deadband = new RescalingDeadband(DEFAULT_DEADBAND);
+
+    private static final ParameterBundle<TankDrive> parameters =
+            new ParameterBundle<>("Tank Drive Control", TankDrive.class);
 
     public TankDrive() {
         // This command drives, so it requires the drive subsystem.
         requires(Robot.driveSubsystem);
+
+        parameters.addListener(DEADBAND_KEY, (key, type, value) -> {
+            deadband.setDeadband((Double) value);
+        });
     }
 
     @Override

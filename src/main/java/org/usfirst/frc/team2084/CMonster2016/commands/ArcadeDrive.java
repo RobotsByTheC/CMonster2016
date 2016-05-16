@@ -10,6 +10,9 @@ import org.usfirst.frc.team2084.CMonster2016.Robot;
 import org.usfirst.frc.team2084.CMonster2016.RobotMap;
 import org.usfirst.frc.team2084.CMonster2016.drive.processors.InertiaGenerator;
 import org.usfirst.frc.team2084.CMonster2016.drive.processors.RescalingDeadband;
+import org.usfirst.frc.team2084.CMonster2016.parameters.Parameter;
+import org.usfirst.frc.team2084.CMonster2016.parameters.Parameter.Type;
+import org.usfirst.frc.team2084.CMonster2016.parameters.ParameterBundle;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
@@ -21,24 +24,31 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  * @author Ben Wolsieffer
  */
+@Parameter(key = ArcadeDrive.DEADBAND_KEY, type = Type.NUMBER, numberValue = ArcadeDrive.DEFAULT_DEADBAND)
+@Parameter(key = ArcadeDrive.MAX_ROTATION_KEY, type = Type.NUMBER, numberValue = ArcadeDrive.DEFAULT_MAX_ROTATION)
 public class ArcadeDrive extends Command {
 
-    private static final String INERTIA_GAIN_KEY = "Inertia Gain";
+    public static final String INERTIA_GAIN_KEY = "inertia_gain";
+    public static final String DEADBAND_KEY = "deadband";
+    public static final String MAX_ROTATION_KEY = "max_rotation";
 
-    private static final double INERTIA_GAIN = 0;
-    private static final double DEADBAND = 0.05;
-    private static final double MAX_ROTATION = 0.5;
+    public static final double DEFAULT_INERTIA_GAIN = 0;
+    public static final double DEFAULT_DEADBAND = 0.05;
+    public static final double DEFAULT_MAX_ROTATION = 0.5;
 
-    private final InertiaGenerator inertiaGenerator = new InertiaGenerator(INERTIA_GAIN);
-    private final RescalingDeadband deadband = new RescalingDeadband(DEADBAND);
+    private final InertiaGenerator inertiaGenerator = new InertiaGenerator(DEFAULT_INERTIA_GAIN);
+    private final RescalingDeadband deadband = new RescalingDeadband(DEFAULT_DEADBAND);
 
-    static {
-        SmartDashboard.putNumber(INERTIA_GAIN_KEY, INERTIA_GAIN);
-    }
+    private static final ParameterBundle<ArcadeDrive> parameters =
+            new ParameterBundle<>("Arcade Drive Control", ArcadeDrive.class);
 
     public ArcadeDrive() {
         // This command drives, so it requires the drive subsystem.
         requires(Robot.driveSubsystem);
+
+        parameters.addListener(DEADBAND_KEY, (key, type, value) -> {
+            deadband.setDeadband((Double) value);
+        });
     }
 
     @Override
@@ -59,10 +69,8 @@ public class ArcadeDrive extends Command {
         // Process the inputs
         double x = deadband.process(j.getX());
         double y = deadband.process(j.getY());
-        x *= x * (x < 0 ? -1 : 1) * MAX_ROTATION;
+        x *= x * (x < 0 ? -1 : 1) * parameters.getNumber(MAX_ROTATION_KEY);
         y *= y * (y < 0 ? -1 : 1);
-
-        inertiaGenerator.setInertiaGain(SmartDashboard.getNumber(INERTIA_GAIN_KEY, INERTIA_GAIN));
 
         SmartDashboard.putNumber("Joystick X", x);
         SmartDashboard.putNumber("Joystick Y", y);
