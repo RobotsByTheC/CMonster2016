@@ -1,7 +1,7 @@
-p = 0.7
+p = 0.9
 i = 0
 d = 3.0
 # degrees
 i_zone = 0.5
-min_pid = 0.05
+min_pid = 0.03
 max_pid = 0.6

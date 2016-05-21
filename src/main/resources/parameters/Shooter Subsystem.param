@@ -1,7 +1,7 @@
-p = 1.3
+p = 3.5
 i = 0
 d = 0
-f = 0.69
+f = 0.65
 i_zone = 0
 ramp_rate = 3
 lfs_extend = 0

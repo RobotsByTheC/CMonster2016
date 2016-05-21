@@ -73,7 +73,7 @@ public class SetShooterSpeed extends ParameterCommand {
             leftVelocity[0] = time;
             rightVelocity[0] = time;
 
-            leftVelocity[1] = speed;
+            leftVelocity[1] = -speed;
             rightVelocity[1] = speed;
 
             leftVelocity[2] = Robot.shooterSubsystem.getLeftSpeed();

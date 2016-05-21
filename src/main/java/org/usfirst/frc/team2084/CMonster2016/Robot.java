@@ -7,6 +7,7 @@
 package org.usfirst.frc.team2084.CMonster2016;
 
 import org.usfirst.frc.team2084.CMonster2016.RobotMap.AutonomousDefense;
+import org.usfirst.frc.team2084.CMonster2016.commands.ChevalDeFriseCrossAutonomous;
 import org.usfirst.frc.team2084.CMonster2016.commands.CrossAutonomous;
 import org.usfirst.frc.team2084.CMonster2016.commands.CrossShootAutonomous;
 import org.usfirst.frc.team2084.CMonster2016.commands.HomeArm;
@@ -96,7 +97,7 @@ public class Robot extends IterativeRobot {
         // Add autonomous modes to the chooser
         autonomousChooser.addObject("Do nothing", null);
         autonomousChooser.addObject("Cross Defense", new CrossAutonomous(RobotMap.CROSS_DEFENSE_TRAJECTORY));
-        autonomousChooser.addObject("Low Bar and Shoot", RobotMap.AutonomousPosition.LOW_BAR);
+        autonomousChooser.addObject("Cheval De Frise", new ChevalDeFriseCrossAutonomous());
         autonomousChooser.addObject("Cross and Shoot - 2", RobotMap.AutonomousPosition.POSITION_2);
         autonomousChooser.addObject("Cross and Shoot - 3", RobotMap.AutonomousPosition.POSITION_3);
         autonomousChooser.addObject("Cross and Shoot - 4", RobotMap.AutonomousPosition.POSITION_4);

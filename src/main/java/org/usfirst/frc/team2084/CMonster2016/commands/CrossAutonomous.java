@@ -12,7 +12,6 @@ import org.usfirst.frc.team2084.CMonster2016.subsystems.ArmSubsystem;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj.command.WaitCommand;
 import jaci.pathfinder.Trajectory;
 
 /**
@@ -25,6 +24,6 @@ public class CrossAutonomous extends CommandGroup {
     public CrossAutonomous(Future<Trajectory[]> trajectory) {
         addSequential(new AutonomousSetup());
         addParallel(new SetArmAngle(ArmSubsystem.AIM_ANGLE));
-        addParallel(new SequentialCommandGroup(new WaitCommand(0.75), new PathFollower(trajectory)));
+        addParallel(new SequentialCommandGroup(/* new WaitCommand(0.75), */ new PathFollower(trajectory)));
     }
 }

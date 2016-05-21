@@ -69,6 +69,8 @@ public class PathFollower extends ParameterCommand {
 
     private volatile boolean finished = false;
 
+    private TrajectoryTask task;
+
     private class TrajectoryTask extends TimerTask {
 
         private final double[] debuggingValues = new double[6];
@@ -183,7 +185,7 @@ public class PathFollower extends ParameterCommand {
 
             Robot.driveSubsystem.setEncodersEnabled(false);
 
-            trajectoryTimer.scheduleAtFixedRate(new TrajectoryTask(), 0,
+            trajectoryTimer.scheduleAtFixedRate(task = new TrajectoryTask(), 0,
                     (long) (RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_PERIOD * 1000));
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
@@ -201,6 +203,8 @@ public class PathFollower extends ParameterCommand {
 
     @Override
     protected void end() {
+        task.cancel();
+        RobotMap.driveSubsystemArcadeDriveAlgorithm.stop();
     }
 
     @Override

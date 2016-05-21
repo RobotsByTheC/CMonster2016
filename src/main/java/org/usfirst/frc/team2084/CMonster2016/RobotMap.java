@@ -68,34 +68,38 @@ public class RobotMap {
     // Trajectories
     // Must be initialized outside of init() for unit tests to work
     public static final Trajectory.Config AUTONOMOUS_TRAJECTORY_CONFIG = new Config(Trajectory.FitMethod.HERMITE_CUBIC,
-            Trajectory.Config.SAMPLES_HIGH, DRIVE_SUBSYSTEM_TRAJECTORY_PERIOD, 1, 2, 30);
-    public static final Waypoint[] CROSS_DEFENSE_WAYPOINTS = { new Waypoint(0, 0, 0), new Waypoint(4, 0, 0) };
-    public static final Waypoint[] LOW_BAR_AUTONOMOUS_WAYPOINTS =
-            { new Waypoint(0, 0, 0), new Waypoint(1, 0, 0), new Waypoint(2, -0.5, Math.toRadians(-45)) };
+            Trajectory.Config.SAMPLES_FAST, DRIVE_SUBSYSTEM_TRAJECTORY_PERIOD, 1, 1, 20);
+    public static final Waypoint[] CROSS_DEFENSE_WAYPOINTS = { new Waypoint(0, 0, 0), new Waypoint(5, 0, 0) };
+    public static final Waypoint[] CHEVAL_APPROACH_WAYPOINTS = { new Waypoint(0, 0, 0), new Waypoint(1.75, 0, 0) };
+    public static final Waypoint[] CHEVAL_CROSS_WAYPOINTS = { new Waypoint(0, 0, 0), new Waypoint(3, 0, 0) };
     public static final Waypoint[] POSITION_2_AUTONOMOUS_WAYPOINTS =
-            { new Waypoint(0, 0, 0), new Waypoint(1.5, 0, 0), new Waypoint(3, 0, Math.toRadians(-45)) };
+            { new Waypoint(0, 0, 0), new Waypoint(4.1, 0, 0), new Waypoint(4.4, -0.3, Math.toRadians(-45)) };
     public static final Waypoint[] POSITION_3_AUTONOMOUS_WAYPOINTS =
-            { new Waypoint(0, 0, 0), new Waypoint(2, 0, 0), new Waypoint(3, -0.76, 0) };
-    public static final Waypoint[] POSITION_4_AUTONOMOUS_WAYPOINTS =
-            { new Waypoint(0, 0, 0), new Waypoint(2, 0, 0), new Waypoint(3, 0.76, 0) };
-    public static final Waypoint[] POSITION_5_AUTONOMOUS_WAYPOINTS =
-            { new Waypoint(0, 0, 0), new Waypoint(2, 0, 0), new Waypoint(3, 1.67, 0) };
+            { new Waypoint(0, 0, 0), new Waypoint(4.1, 0, 0), new Waypoint(4.25, -0.2, Math.toRadians(-15)) };
+    public static final Waypoint[] POSITION_4_AUTONOMOUS_WAYPOINTS = { new Waypoint(0, 0, 0), new Waypoint(4.1, 0, 0) };
+    public static final Waypoint[] POSITION_5_ROUGH_TERRAIN_WAYPOINTS =
+            { new Waypoint(0, 0, 0), new Waypoint(3.8, 0, 0), new Waypoint(4.1, 1.4, Math.toRadians(15)) };
+    public static final Waypoint[] POSITION_5_ROCK_WALL_WAYPOINTS =
+            { new Waypoint(0, 0, 0), new Waypoint(4.3, 0, 0), new Waypoint(4.6, 1.4, Math.toRadians(15)) };
 
     public static final Future<Trajectory[]> CROSS_DEFENSE_TRAJECTORY =
             TrajectoryGenerator.generate(CROSS_DEFENSE_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
-    public static final Future<Trajectory[]> LOW_BAR_AUTONOMOUS_TRAJECTORY =
-            TrajectoryGenerator.generate(LOW_BAR_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
+    public static final Future<Trajectory[]> CHEVAL_APPROACH_TRAJECTORY =
+            TrajectoryGenerator.generate(CHEVAL_APPROACH_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
+    public static final Future<Trajectory[]> CHEVAL_CROSS_TRAJECTORY =
+            TrajectoryGenerator.generate(CHEVAL_CROSS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
     public static final Future<Trajectory[]> POSITION_2_AUTONOMOUS_TRAJECTORY =
             TrajectoryGenerator.generate(POSITION_2_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
     public static final Future<Trajectory[]> POSITION_3_AUTONOMOUS_TRAJECTORY =
             TrajectoryGenerator.generate(POSITION_3_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
     public static final Future<Trajectory[]> POSITION_4_AUTONOMOUS_TRAJECTORY =
             TrajectoryGenerator.generate(POSITION_4_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
-    public static final Future<Trajectory[]> POSITION_5_AUTONOMOUS_TRAJECTORY =
-            TrajectoryGenerator.generate(POSITION_5_AUTONOMOUS_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
+    public static final Future<Trajectory[]> POSITION_5_ROUGH_TERRAIN_TRAJECTORY =
+            TrajectoryGenerator.generate(POSITION_5_ROUGH_TERRAIN_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
+    public static final Future<Trajectory[]> POSITION_5_ROCK_WALL_TRAJECTORY =
+            TrajectoryGenerator.generate(POSITION_5_ROCK_WALL_WAYPOINTS, AUTONOMOUS_TRAJECTORY_CONFIG);
 
     public enum AutonomousPosition {
-        LOW_BAR,
         POSITION_2,
         POSITION_3,
         POSITION_4,
@@ -108,17 +112,14 @@ public class RobotMap {
     }
 
     public enum AutonomousMode {
-
-        POSITION_1_ROCK_WALL(LOW_BAR_AUTONOMOUS_TRAJECTORY),
-        POSITION_1_ROUGH_TERRAIN(LOW_BAR_AUTONOMOUS_TRAJECTORY),
         POSITION_2_ROCK_WALL(POSITION_2_AUTONOMOUS_TRAJECTORY),
         POSITION_2_ROUGH_TERRAIN(POSITION_2_AUTONOMOUS_TRAJECTORY),
         POSITION_3_ROCK_WALL(POSITION_3_AUTONOMOUS_TRAJECTORY),
         POSITION_3_ROUGH_TERRAIN(POSITION_3_AUTONOMOUS_TRAJECTORY),
         POSITION_4_ROCK_WALL(POSITION_4_AUTONOMOUS_TRAJECTORY),
         POSITION_4_ROUGH_TERRAIN(POSITION_4_AUTONOMOUS_TRAJECTORY),
-        POSITION_5_ROCK_WALL(POSITION_5_AUTONOMOUS_TRAJECTORY),
-        POSITION_5_ROUGH_TERRAIN(POSITION_5_AUTONOMOUS_TRAJECTORY);
+        POSITION_5_ROCK_WALL(POSITION_5_ROCK_WALL_TRAJECTORY),
+        POSITION_5_ROUGH_TERRAIN(POSITION_5_ROUGH_TERRAIN_TRAJECTORY);
 
         public final Future<Trajectory[]> trajectory;
 

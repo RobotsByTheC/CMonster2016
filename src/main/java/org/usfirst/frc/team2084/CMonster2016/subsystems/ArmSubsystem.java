@@ -111,8 +111,10 @@ public class ArmSubsystem extends Subsystem {
 
     private final RollingAverage averageError = new RollingAverage(10);
 
+    private static ParameterBundle<ArmSubsystem> parameters =
+            new ParameterBundle<>("Arm Subsystem", ArmSubsystem.class);
+
     public ArmSubsystem() {
-        ParameterBundle<ArmSubsystem> parameters = new ParameterBundle<>("Arm Subsystem", ArmSubsystem.class);
         leftTalon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
         rightTalon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 
@@ -365,6 +367,10 @@ public class ArmSubsystem extends Subsystem {
         leftTalon.enableReverseSoftLimit(enabled);
         rightTalon.enableForwardSoftLimit(enabled);
         rightTalon.enableReverseSoftLimit(enabled);
+    }
+
+    public double getTolerance() {
+        return parameters.getNumber(ANGLE_TOLERANCE_KEY);
     }
 
     @Override

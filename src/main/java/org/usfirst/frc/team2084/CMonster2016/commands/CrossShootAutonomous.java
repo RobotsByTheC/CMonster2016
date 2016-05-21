@@ -19,12 +19,16 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
  */
 public class CrossShootAutonomous extends CommandGroup {
 
+    public static final double SETTLING_TIME = 0.75;
+
     public CrossShootAutonomous(RobotMap.AutonomousMode mode) {
+        addParallel(new SetCameraAutoExposure(false));
         addSequential(new CrossAutonomous(mode.trajectory));
         // Make sure the ball is out of the shooter wheels
         addParallel(new SetShooterSpeed(-1000));
-        addSequential(new WaitCommand(0.5));
-        addSequential(new AimAndFire());
+        addSequential(new SetArmAngle(Math.toRadians(40)));
+        addSequential(new WaitCommand(SETTLING_TIME));
+        addSequential(new AimAndFire(mode));
         addSequential(new StopShooter());
     }
 

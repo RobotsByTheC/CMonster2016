@@ -6,14 +6,18 @@
  */
 package org.usfirst.frc.team2084.CMonster2016.commands;
 
+import java.util.concurrent.ExecutionException;
 import java.util.function.DoubleSupplier;
 
 import org.usfirst.frc.team2084.CMonster2016.RobotMap;
 import org.usfirst.frc.team2084.CMonster2016.RollingAverage;
+import org.usfirst.frc.team2084.CMonster2016.drive.DriveUtils;
 import org.usfirst.frc.team2084.CMonster2016.parameters.Parameter;
 import org.usfirst.frc.team2084.CMonster2016.parameters.Parameter.Type;
 import org.usfirst.frc.team2084.CMonster2016.parameters.ParameterBundle;
 import org.usfirst.frc.team2084.CMonster2016.vision.VisionResults;
+
+import jaci.pathfinder.Trajectory.Segment;
 
 /**
  * Aims the robot to the heading given by the vision system. If the vision data
@@ -38,26 +42,34 @@ public class AimRobot extends RotateToHeading {
     public static final double DEFAULT_HEADING_OFFSET = 3.15;
 
     // BAD - must be static to work
-    private static final RollingAverage headingAverage = new RollingAverage(500);
+    private static final RollingAverage headingAverage = new RollingAverage(40);
 
     private static final ParameterBundle<AimRobot> parameters = new ParameterBundle<>("Aim Robot", AimRobot.class);
 
-    public static final double TIMEOUT = 5;
+    public static final double DEFAULT_TIMEOUT = 5;
     private boolean stale = false;
 
-    public AimRobot(boolean shouldTimeout) {
+    private final RobotMap.AutonomousMode mode;
+
+    public AimRobot() {
+        this(null);
+    }
+
+    public AimRobot(RobotMap.AutonomousMode mode) {
         super(new DoubleSupplier() {
 
             private double lastHeading = Double.MAX_VALUE;
 
             @Override
             public double getAsDouble() {
-                double heading = getAimHeading();
+                double heading = DriveUtils.normalizeHeading(getAimHeading());
                 // Only update the heading if it has not changed by a huge
                 // amount
                 if (Math.abs(RobotMap.driveSubsystemArcadeDriveAlgorithm.getRotationRate()) > Math
                         .toRadians(parameters.getNumber(MAX_ROTATION_UPDATE_KEY))) {
                     heading = lastHeading;
+                } else {
+                    System.out.println("update");
                 }
 
                 lastHeading = heading;
@@ -67,13 +79,7 @@ public class AimRobot extends RotateToHeading {
                 return headingAverage.getAverage();
             }
         });
-        if (shouldTimeout) {
-            setTimeout(TIMEOUT);
-        }
-    }
-
-    public AimRobot() {
-        this(true);
+        this.mode = mode;
     }
 
     private static double getAimHeading() {
@@ -83,6 +89,14 @@ public class AimRobot extends RotateToHeading {
     @Override
     protected void initialize() {
         super.initialize();
+        if (mode != null) {
+            try {
+                Segment[] leftSegments = mode.trajectory.get()[0].segments;
+                double driveTime = leftSegments[0].dt * leftSegments.length;
+                setTimeout(14.25 - CrossShootAutonomous.SETTLING_TIME - driveTime);
+            } catch (InterruptedException | ExecutionException e) {
+            }
+        }
         stale = VisionResults.isStale();
         headingAverage.reset(getAimHeading());
     }

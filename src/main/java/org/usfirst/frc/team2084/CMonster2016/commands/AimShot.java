@@ -27,7 +27,7 @@ public class AimShot extends ConditionalCommandGroup {
         addSequential(new TakeSnapshot());
         addSequential(new ShotReadyNotify(false));
         addParallel(new SetShooterSpeed(() -> ShooterSubsystem.getCalibrationSpeed(VisionResults.getGoalDistance())));
-        addSequential(new ParallelCommandGroup(new AimArm(), new AimRobot(false), new WaitCommand(0.75)));
+        addSequential(new ParallelCommandGroup(new AimArm(), new AimRobot(), new WaitCommand(0.75)));
         addSequential(new ShotReadyNotify(true));
     }
 

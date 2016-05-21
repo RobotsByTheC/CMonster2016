@@ -9,6 +9,7 @@ package org.usfirst.frc.team2084.CMonster2016.commands;
 import java.util.function.DoubleSupplier;
 
 import org.usfirst.frc.team2084.CMonster2016.Robot;
+import org.usfirst.frc.team2084.CMonster2016.RobotMap;
 
 /**
  * Sets the angle of the arm to the specified value. The parameter on the
@@ -68,7 +69,9 @@ public class SetArmAngle extends ParameterCommand {
      */
     @Override
     protected boolean isFinished() {
-        return Robot.armSubsystem.onTarget();
+        boolean left = RobotMap.armSubsystemLeftTalon.isRevLimitSwitchClosed();
+        boolean right = RobotMap.armSubsystemRightTalon.isRevLimitSwitchClosed();
+        return Robot.armSubsystem.onTarget() || (angle < Robot.armSubsystem.getTolerance() && left && right);
     }
 
     @Override

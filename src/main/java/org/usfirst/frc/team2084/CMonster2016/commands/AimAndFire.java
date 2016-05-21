@@ -6,6 +6,7 @@
  */
 package org.usfirst.frc.team2084.CMonster2016.commands;
 
+import org.usfirst.frc.team2084.CMonster2016.RobotMap;
 import org.usfirst.frc.team2084.CMonster2016.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team2084.CMonster2016.vision.VisionParameters;
 import org.usfirst.frc.team2084.CMonster2016.vision.VisionResults;
@@ -29,16 +30,15 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 public class AimAndFire extends ConditionalCommandGroup {
 
     public AimAndFire() {
-        this(0);
+        this(null);
     }
 
-    public AimAndFire(double angleOffset) {
-        addSequential(new SetCameraAutoExposure(false));
+    public AimAndFire(RobotMap.AutonomousMode mode) {
         addSequential(new TakeSnapshot());
         addParallel(new SetShooterSpeed(() -> ShooterSubsystem.getCalibrationSpeed(VisionResults.getGoalDistance())));
         // Aim the robot and the arm, but make sure that it takes at least a
         // second to allow the shooter to spin up
-        addSequential(new ParallelCommandGroup(new AimArm(angleOffset), new AimRobot(), new WaitCommand(1)));
+        addSequential(new ParallelCommandGroup(new AimArm(), new AimRobot(mode), new WaitCommand(1)));
         addSequential(new SetFiringServo(true));
     }
 
