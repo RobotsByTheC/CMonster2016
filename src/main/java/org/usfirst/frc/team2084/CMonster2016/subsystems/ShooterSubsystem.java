@@ -76,7 +76,7 @@ public class ShooterSubsystem extends Subsystem {
         { 10.5,  41.3, 2700 },
         { 11.5,  40,   2700 },
         { 12.5,  40,   2800 },
-        { 13.5,  40, 2800 }
+        { 13.5,  40,   2800 }
     };
     //@formatter:on
 
