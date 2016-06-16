@@ -75,7 +75,7 @@ public class RobotMap {
     public static final Waypoint[] POSITION_2_AUTONOMOUS_WAYPOINTS =
             { new Waypoint(0, 0, 0), new Waypoint(4.1, 0, 0), new Waypoint(4.4, -0.3, Math.toRadians(-45)) };
     public static final Waypoint[] POSITION_3_AUTONOMOUS_WAYPOINTS =
-            { new Waypoint(0, 0, 0), new Waypoint(4.1, 0, 0), new Waypoint(4.25, -0.2, Math.toRadians(-15)) };
+            { new Waypoint(0, 0, 0), new Waypoint(3.85, 0, 0), new Waypoint(4, -0.2, Math.toRadians(-15)) };
     public static final Waypoint[] POSITION_4_AUTONOMOUS_WAYPOINTS = { new Waypoint(0, 0, 0), new Waypoint(4.1, 0, 0) };
     public static final Waypoint[] POSITION_5_ROUGH_TERRAIN_WAYPOINTS =
             { new Waypoint(0, 0, 0), new Waypoint(3.8, 0, 0), new Waypoint(4.1, 1.4, Math.toRadians(15)) };
