@@ -17,7 +17,9 @@ import org.usfirst.frc.team2084.CMonster2016.util.NetworkTablesLargeArrays;
 import edu.wpi.first.wpilibj.tables.ITable;
 
 /**
- * @author ben
+ * Tests the Base64 encoded array functionality.
+ * 
+ * @author Ben Wolsieffer
  */
 @RunWith(MockitoJUnitRunner.class)
 public class NetworkTablesLargeArraysTest {

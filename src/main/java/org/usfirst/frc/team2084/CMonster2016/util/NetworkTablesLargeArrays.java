@@ -12,6 +12,13 @@ import java.util.Base64;
 import edu.wpi.first.wpilibj.tables.ITable;
 
 /**
+ * Helper class that allows large arrays to be sent over NetworkTables. Strings
+ * have a much larger length limit than arrays (for some reason), so this works
+ * by encoding the array as Base64 and sending it as a string. This only support
+ * sending number arrays currently, but could be extended to support reading,
+ * and sending other types. There is a Javascript implementation of the decoding
+ * code in the web dashboard.
+ * 
  * @author Ben Wolsieffer
  */
 public class NetworkTablesLargeArrays {

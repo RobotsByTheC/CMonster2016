@@ -37,6 +37,15 @@ public class TrajectoryGenerator {
         });
     }
 
+    /**
+     * This is supposed to generate a motion profile that allows the robot to
+     * rotate in place. I never tested, so YMMV.
+     * 
+     * @param heading the heading to rotate to
+     * @param initialHeading the starting heading
+     * @param config trajectory configuration
+     * @return the generated trajectory
+     */
     public static Trajectory[] generateRotation(double heading, double initialHeading, Trajectory.Config config) {
         // Time to reach the maximum velocity (if not restricted)
         double accelTime = config.max_velocity / config.max_acceleration;

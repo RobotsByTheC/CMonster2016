@@ -69,6 +69,7 @@ public class ArcadeDrive extends Command {
         // Process the inputs
         double x = deadband.process(j.getX());
         double y = deadband.process(j.getY());
+        // Scale the rotation down
         x *= x * (x < 0 ? -1 : 1) * parameters.getNumber(MAX_ROTATION_KEY);
         y *= y * (y < 0 ? -1 : 1);
 

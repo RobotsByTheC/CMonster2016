@@ -14,6 +14,8 @@ import org.usfirst.frc.team2084.CMonster2016.parameters.Parameter.Type;
 import org.usfirst.frc.team2084.CMonster2016.parameters.ParameterBundle;
 
 /**
+ * Tests {@link ParameterBundle} file loading functionality.
+ * 
  * @author Ben Wolsieffer
  */
 @Parameter(key = ParameterBundleTest.STRING_KEY, type = Type.STRING, stringValue = ParameterBundleTest.DEFAULT_STRING)

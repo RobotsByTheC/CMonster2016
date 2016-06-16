@@ -18,7 +18,9 @@ import edu.wpi.first.wpilibj.tables.ITable;
 
 /**
  * An analog gyro that is attached to the analog input on the roboRIO. It has a
- * modifiable sensitivity to be able to support different gyros.
+ * modifiable sensitivity to be able to support different gyros. It differs from
+ * the normal {@link edu.wpi.first.wpilibj.AnalogGyro} class because it uses
+ * radians rather than degrees.
  * 
  * @author Ben Wolsieffer
  */

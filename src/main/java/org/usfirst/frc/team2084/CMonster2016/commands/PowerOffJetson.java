@@ -11,7 +11,7 @@ import org.usfirst.frc.team2084.CMonster2016.vision.VisionParameters;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Command that turns off the NVidia Jetson TK1.
+ * Command that turns off the NVIDIA Jetson TK1.
  *
  * @author Ben Wolsieffer
  */

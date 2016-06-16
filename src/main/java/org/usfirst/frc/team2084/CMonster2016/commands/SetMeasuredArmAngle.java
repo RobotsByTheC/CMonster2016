@@ -9,8 +9,8 @@ package org.usfirst.frc.team2084.CMonster2016.commands;
 import org.usfirst.frc.team2084.CMonster2016.Robot;
 
 /**
- * Sets the angle of the arm to the specified value. The parameter on the
- * SmartDashboard is specified in degrees because I don't think in radians.
+ * Sets the measured angle of the arm to the specified value. The parameter on
+ * the SmartDashboard is specified in degrees because I don't think in radians.
  * 
  * @author Ben Wolsieffer
  */
@@ -28,7 +28,6 @@ public class SetMeasuredArmAngle extends ParameterCommand {
     public SetMeasuredArmAngle(double angle) {
         addNumberParameter(ANGLE_KEY, Math.toDegrees(angle));
 
-        
         init();
     }
 

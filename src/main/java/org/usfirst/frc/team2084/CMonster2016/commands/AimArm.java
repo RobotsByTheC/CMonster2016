@@ -32,9 +32,6 @@ public class AimArm extends SetArmAngle {
         setTimeout(TIMEOUT);
     }
 
-    /**
-     * 
-     */
     @Override
     protected void initialize() {
         super.initialize();

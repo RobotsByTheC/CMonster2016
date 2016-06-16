@@ -14,7 +14,10 @@ import edu.wpi.first.wpilibj.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
- * @author ben
+ * Experimental autonomous mode the crosses the cheval de frise. It kind of
+ * worked in testing, but was never used in competition.
+ * 
+ * @author Ben Wolsieffer
  */
 public class ChevalDeFriseCrossAutonomous extends CommandGroup {
 

@@ -15,8 +15,7 @@ import org.usfirst.frc.team2084.CMonster2016.subsystems.DriveSubsystem.HeadingTo
 
 /**
  * Rotates the robot to the specified heading. This command ends when the
- * rotation has been completed. Sometimes, the end condition is not triggered,
- * because PID controllers are hard to tune effectively.
+ * rotation has been completed. It allows for two different possible tolerances.
  */
 public class RotateToHeading extends ParameterCommand {
 

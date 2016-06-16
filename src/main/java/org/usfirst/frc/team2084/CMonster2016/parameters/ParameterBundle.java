@@ -23,10 +23,17 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.tables.ITable;
 
 /**
+ * Class for interacting with parameters on the web interface. These objects are
+ * often created on a per class basis, but may be shared between multiple
+ * classes that need to share the same parameter values.
+ * 
  * @author Ben Wolsieffer
  */
 public class ParameterBundle<T> {
 
+    /**
+     * Exception thrown when a parameter is accessed that does not exist.
+     */
     @SuppressWarnings("serial")
     public static class ParameterNotFoundException extends RuntimeException {
 
@@ -35,11 +42,19 @@ public class ParameterBundle<T> {
         }
     }
 
+    /**
+     * Interface for subscribing to parameter changes.
+     */
     public static interface Listener {
 
         void parameterChanged(String p, Type type, Object value);
     }
 
+    /**
+     * Cache of parameter list for loaded classes. This prevents having to call
+     * reflection more than necessary, but I don't know if it is actually
+     * faster.
+     */
     private static final HashMap<Class<?>, Parameter[]> parameterCache = new HashMap<>();
 
     private static final ITable PARAMETER_TABLE = NetworkTable.getTable("Parameters");
@@ -47,10 +62,27 @@ public class ParameterBundle<T> {
     private final ITable table;
     private final HashMap<String, Parameter> parameters;
 
+    /**
+     * Creates a parameter bundle for the specified class with the specified
+     * name. This is the most commonly used constructor. This looks for defaults
+     * in the "parameters" folder of the JAR.
+     * 
+     * @param name the name of the parameter bundle in network tables
+     * @param clazz the class to use to get parameters
+     */
     public ParameterBundle(String name, Class<T> clazz) {
         this(name, ParameterBundle.class.getResourceAsStream("/parameters/" + name + ".param"), clazz);
     }
 
+    /**
+     * Creates a parameter bundle that loads its defaults from the specified
+     * file.
+     * 
+     * @param name the name of the bundle
+     * @param file the file to load defaults from
+     * @param clazz the class to use to get parameters
+     * @throws FileNotFoundException
+     */
     public ParameterBundle(String name, File file, Class<T> clazz) throws FileNotFoundException {
         this(name, ((Function<File, FileInputStream>) (t) -> {
             try {
@@ -62,6 +94,14 @@ public class ParameterBundle<T> {
         }).apply(file), clazz);
     }
 
+    /**
+     * Creates a parameter bundle that loads its defaults from the input stream.
+     * 
+     * @param name the name of the bundle
+     * @param storedParameters the input stream to load defaults from
+     * @param clazz the class to use to get parameters
+     * @throws FileNotFoundException
+     */
     public ParameterBundle(String name, InputStream storedParameters, Class<T> clazz) {
         this(name, ((Function<InputStream, Properties>) (t) -> {
             Properties p = new Properties();
@@ -81,6 +121,15 @@ public class ParameterBundle<T> {
         }).apply(storedParameters), clazz);
     }
 
+    /**
+     * Creates a parameter bundle that loads its defaults from an already
+     * initialized {@link Properties} object.
+     * 
+     * @param name the name of the bundle
+     * @param storedParameters the {@link Properties} to load defaults from
+     * @param clazz the class to use to get parameters
+     * @throws FileNotFoundException
+     */
     public ParameterBundle(String name, Properties storedParameters, Class<T> clazz) {
         // Initialize parameter subtable
         table = PARAMETER_TABLE.getSubTable(name);
@@ -158,6 +207,12 @@ public class ParameterBundle<T> {
         }
     }
 
+    /**
+     * Set a string parameter.
+     * 
+     * @param key the parameter name
+     * @param value the parameter value
+     */
     public void setString(String key, String value) {
         Parameter p = parameters.get(key);
         if (p != null) {
@@ -167,6 +222,12 @@ public class ParameterBundle<T> {
         }
     }
 
+    /**
+     * Set a number parameter.
+     * 
+     * @param key the parameter name
+     * @param value the parameter value
+     */
     public void setNumber(String key, double value) {
         Parameter p = parameters.get(key);
         if (p != null) {
@@ -176,6 +237,12 @@ public class ParameterBundle<T> {
         }
     }
 
+    /**
+     * Set a boolean parameter.
+     * 
+     * @param key the parameter name
+     * @param value the parameter value
+     */
     public void setBoolean(String key, boolean value) {
         Parameter p = parameters.get(key);
         if (p != null) {
@@ -185,6 +252,11 @@ public class ParameterBundle<T> {
         }
     }
 
+    /**
+     * Set a string parameter.
+     * 
+     * @return the parameter value
+     */
     public String getString(String key) {
         Parameter p = parameters.get(key);
         if (p != null) {
@@ -194,6 +266,11 @@ public class ParameterBundle<T> {
         }
     }
 
+    /**
+     * Set a number parameter.
+     * 
+     * @return the parameter value
+     */
     public double getNumber(String key) {
         Parameter p = parameters.get(key);
         if (p != null) {
@@ -203,6 +280,11 @@ public class ParameterBundle<T> {
         }
     }
 
+    /**
+     * Set a boolean parameter.
+     * 
+     * @return the parameter value
+     */
     public boolean getBoolean(String key) {
         Parameter p = parameters.get(key);
         if (p != null) {
@@ -212,6 +294,12 @@ public class ParameterBundle<T> {
         }
     }
 
+    /**
+     * Adds a listener that is notified when any parameter is changed. It is
+     * also immediately called with the current values of all the parameters.
+     * 
+     * @param listener the listener to add
+     */
     public void addListener(Listener listener) {
         table.addTableListener((table, key, val, isNew) -> {
             Parameter p = parameters.get(key);
@@ -221,6 +309,13 @@ public class ParameterBundle<T> {
         }, true);
     }
 
+    /**
+     * Adds a listener that is notified when the specified parameter is changed.
+     * It is also immediately called with the current value of the parameter.
+     * 
+     * @param listener the listener to add
+     * @param key the name of the parameter
+     */
     public void addListener(String key, Listener listener) {
         Parameter p = parameters.get(key);
         if (p != null) {

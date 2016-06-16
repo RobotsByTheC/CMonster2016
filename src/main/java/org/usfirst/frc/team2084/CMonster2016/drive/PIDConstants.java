@@ -9,8 +9,10 @@ package org.usfirst.frc.team2084.CMonster2016.drive;
 /**
  * Represents the constants of a PID controller.
  * 
+ * @deprecated
  * @author Ben Wolsieffer
  */
+@Deprecated
 public class PIDConstants {
 
     public final double p;

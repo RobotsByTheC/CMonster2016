@@ -11,7 +11,7 @@ import org.usfirst.frc.team2084.CMonster2016.RobotMap;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Command that turns on the NVidia Jetson TK1 using a DIO pin. This never
+ * Command that turns on the NVIDIA Jetson TK1 using a DIO pin. This never
  * seemed to work right and has been replaced by a physical power button on the
  * Jetson.
  *

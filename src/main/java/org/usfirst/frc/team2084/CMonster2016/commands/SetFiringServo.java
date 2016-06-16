@@ -46,6 +46,9 @@ public class SetFiringServo extends ParameterCommand {
     protected void initialize() {
         m_fire = getBooleanParameter(FIRE_KEY);
         if (m_fire != lastPosition) {
+            // Send the number of actuations to the SmartDashboard. This was
+            // used to see if we could switch to pneumatics without a
+            // compressor.
             SmartDashboard.putNumber(FIRING_SERVO_ACTUATION_KEY, ++actuations);
             lastPosition = m_fire;
         }

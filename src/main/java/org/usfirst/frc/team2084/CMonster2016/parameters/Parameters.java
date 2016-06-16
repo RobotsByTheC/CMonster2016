@@ -14,6 +14,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Not usually used directly, but necessary to support repeated annotations.
+ * 
  * @author Ben Wolsieffer
  */
 @Documented

@@ -25,6 +25,9 @@ import org.usfirst.frc.team2084.CMonster2016.RobotMap;
 import jaci.pathfinder.Trajectory;
 
 /**
+ * Test that checks to make sure the maximum velocity of the trajectory does not
+ * exceed physically allowable limits.
+ * 
  * @author Ben Wolsieffer
  */
 @RunWith(Parameterized.class)

@@ -14,9 +14,8 @@ import org.usfirst.frc.team2084.CMonster2016.drive.processors.LinearRamper.Type;
 
 /**
  * Drives the robot in the specified direction for the specified amount of time.
- * We don't have sensors on our drive train, so this is the best we can do for
- * autonomous control. This is generally fine, though, because our vision system
- * takes care of the hard parts of autonomous.
+ * This was used during the regular season, until I got the trajectory code
+ * working for BattleCry.
  * 
  * @author Ben Wolsieffer
  */

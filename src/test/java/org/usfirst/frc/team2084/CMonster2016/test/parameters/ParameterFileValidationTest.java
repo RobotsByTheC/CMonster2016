@@ -33,6 +33,9 @@ import org.junit.runners.Parameterized.Parameters;
 import org.usfirst.frc.team2084.CMonster2016.Robot;
 
 /**
+ * Validates some parts of our parameter files. This does not work when run from
+ * Gradle, so is disabled. It wasn't very useful anyway.
+ * 
  * @author Ben Wolsieffer
  */
 @RunWith(Parameterized.class)
@@ -57,8 +60,8 @@ public class ParameterFileValidationTest {
         parameters.entrySet().stream().forEach((p) -> {
             String key = (String) p.getKey();
             String val = (String) p.getValue();
-            assertThat("Value must not be empty", val, not(isEmptyOrNullString()));
-            assertThat("Key must not be empty", key, not(isEmptyOrNullString()));
+            assertThat("Value must not be empty", val, not(emptyOrNullString()));
+            assertThat("Key must not be empty", key, not(emptyOrNullString()));
         });
     }
 

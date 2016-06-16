@@ -15,7 +15,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * Homes the arm, lowering it until both sides hit the limit switches. Then it
  * backs off and slowly moves forward to precisely home (like a 3D printer).
- * Once homing is complete it resets the arm angle.
+ * Once homing is complete it resets the arm angle. This used to run at the
+ * beginning of every match, but now is only used in the pits, and the arm angle
+ * is saved.
  */
 public class HomeArm extends Command {
 
@@ -33,8 +35,8 @@ public class HomeArm extends Command {
     public static final double HOMING_LOW_SPEED = -0.2;
 
     /**
-     * In case our crappy limit switches fail, this makes sure that the command
-     * still ends and doesn't kill the motors.
+     * In case our limit switches fail, this makes sure that the command still
+     * ends and doesn't kill the motors.
      */
     public static final double MAX_TIME = 10;
 

@@ -63,13 +63,13 @@ public class AimRobot extends RotateToHeading {
             @Override
             public double getAsDouble() {
                 double heading = DriveUtils.normalizeHeading(getAimHeading());
-                // Only update the heading if it has not changed by a huge
-                // amount
+                // Only update the heading if the robot is not rotating very
+                // fast. This helps compensate for lag in the camera.
                 if (Math.abs(RobotMap.driveSubsystemArcadeDriveAlgorithm.getRotationRate()) > Math
                         .toRadians(parameters.getNumber(MAX_ROTATION_UPDATE_KEY))) {
                     heading = lastHeading;
                 } else {
-                    System.out.println("update");
+                    // System.out.println("update");
                 }
 
                 lastHeading = heading;
@@ -89,6 +89,9 @@ public class AimRobot extends RotateToHeading {
     @Override
     protected void initialize() {
         super.initialize();
+        // If this is used during autonomous, dynamically set the timeout to
+        // leave just enough time to fire the ball (because we known exactly how
+        // long the trajectory takes)
         if (mode != null) {
             try {
                 Segment[] leftSegments = mode.trajectory.get()[0].segments;

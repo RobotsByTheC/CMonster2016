@@ -26,7 +26,7 @@ import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.followers.DistanceFollower;
 
 /**
- * Follows the specified trajectory, which is read from a file.
+ * Follows the specified trajectory.
  * 
  * @author Ben Wolsieffer
  */
@@ -99,6 +99,7 @@ public class PathFollower extends ParameterCommand {
                 cancel();
                 RobotMap.driveSubsystemDriveController.stop();
             } else {
+                // Send debug values to web interface
                 if (debug) {
                     debuggingValues[0] = RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_PERIOD * i;
                     System.out.println(i);
@@ -117,6 +118,7 @@ public class PathFollower extends ParameterCommand {
     public PathFollower(Future<Trajectory[]> trajectory) {
         this.trajectory = trajectory;
 
+        // Set up parameters
         parameters.addListener((key, type, val) -> {
             switch (key) {
             case P_KEY:
@@ -148,6 +150,8 @@ public class PathFollower extends ParameterCommand {
 
             finished = false;
 
+            // Get the trajectory (possible needs to wait for it to be
+            // generated)
             Trajectory[] tMod = trajectory.get();
             Trajectory leftTrajectory = tMod[0];
             Trajectory rightTrajectory = tMod[1];
@@ -157,6 +161,7 @@ public class PathFollower extends ParameterCommand {
             leftFollower.setTrajectory(leftTrajectory);
             rightFollower.setTrajectory(rightTrajectory);
 
+            // Publish the trajectory to the web interface
             if (debug) {
                 int length = leftTrajectory.length();
                 double[] headings = new double[length];
@@ -173,6 +178,7 @@ public class PathFollower extends ParameterCommand {
                     rightVelocities[i] = rightTrajectory.segments[i].velocity;
                     times[i] = i * RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_PERIOD;
                 }
+                // These arrays are very large...
                 NetworkTablesLargeArrays.putNumberArray(parameterTable, "times", times);
                 NetworkTablesLargeArrays.putNumberArray(parameterTable, "headings", headings);
                 NetworkTablesLargeArrays.putNumberArray(parameterTable, "left_positions", leftPositions);
@@ -183,8 +189,12 @@ public class PathFollower extends ParameterCommand {
 
             Robot.driveSubsystem.resetEncoders();
 
+            // Disable normal encoder velocity PID
             Robot.driveSubsystem.setEncodersEnabled(false);
 
+            // Start task in another thread
+            // WPILib Notifier cannot be used here because it does not allow
+            // tasks to be cancelled (because it is broken)
             trajectoryTimer.scheduleAtFixedRate(task = new TrajectoryTask(), 0,
                     (long) (RobotMap.DRIVE_SUBSYSTEM_TRAJECTORY_PERIOD * 1000));
         } catch (InterruptedException | ExecutionException e) {

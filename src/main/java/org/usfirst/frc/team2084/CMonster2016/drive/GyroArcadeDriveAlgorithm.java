@@ -239,10 +239,23 @@ public class GyroArcadeDriveAlgorithm extends ArcadeDriveAlgorithm {
         }
     }
 
+    /**
+     * Gets the I zone of the PID controller. This serves as a way to prevent
+     * integral windup.
+     * 
+     * @return
+     */
     public double getIZone() {
         return Math.toRadians(parameters.getNumber(I_ZONE_KEY));
     }
 
+    /**
+     * Gets the minimum output of the PID controller. This serves as an efective
+     * way to improve the response of the PID controller near the setpoint, as
+     * it overcomes friction.
+     * 
+     * @return the minimum PID output
+     */
     public double getMinPIDOutput() {
         return parameters.getNumber(MIN_PID_OUTPUT_KEY);
     }

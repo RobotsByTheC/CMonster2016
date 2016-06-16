@@ -15,6 +15,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Annotation describing a parameter in the web interface.
+ * 
  * @author Ben Wolsieffer
  */
 @Documented
